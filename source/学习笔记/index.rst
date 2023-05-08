@@ -42,6 +42,7 @@ Spinx
    :maxdepth: 1
 
    04Spinx/01GitHub + Spinx + Read the docs实战入门指南（一）
+   04Spinx/01GitHub + Spinx + Read the docs实战入门指南（二）
 
 
 
