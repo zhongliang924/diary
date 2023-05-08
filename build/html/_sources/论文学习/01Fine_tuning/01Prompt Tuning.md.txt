@@ -1,4 +1,8 @@
-### 一、Prompt Tuning
+### Prompt Tuning
+
+论文链接：[[GPT Understands, Too (arxiv.org)]](https://arxiv.org/pdf/2103.10385.pdf)
+
+
 
 巨大的单向语言模型使用手动提示（one-shot, few-shot）有助于自然语言的理解，然而手工寻找最佳性能提升十分困难。提示工程意味着过度拟合测试集，创造对抗性提示容易导致性能大幅下降
 

@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GitHub + Spinx + Read the docs实战入门指南（二） &mdash; SpinxDemo v1.0 文档</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/sphinx_highlight.js"></script>
+        <script src="../../_static/translations.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="../../genindex.html" />
+    <link rel="search" title="搜索" href="../../search.html" />
+    <link rel="next" title="Fastertransformer" href="../05Fastertransformer/01Fastertransformer.html" />
+    <link rel="prev" title="GitHub + Spinx + Read the docs实战入门指南（一）" href="01GitHub%20%2B%20Spinx%20%2B%20Read%20the%20docs%E5%AE%9E%E6%88%98%E5%85%A5%E9%97%A8%E6%8C%87%E5%8D%97%EF%BC%88%E4%B8%80%EF%BC%89.html" />
+    <link href="../../_static/style.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            SpinxDemo
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+              <p class="caption" role="heading"><span class="caption-text">学习笔记:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../index.html">Contents</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../index.html#docker">Docker</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../index.html#kubernetes">Kubernetes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../index.html#git">Git</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html#spinx">Spinx</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="01GitHub%20%2B%20Spinx%20%2B%20Read%20the%20docs%E5%AE%9E%E6%88%98%E5%85%A5%E9%97%A8%E6%8C%87%E5%8D%97%EF%BC%88%E4%B8%80%EF%BC%89.html">GitHub + Spinx + Read the docs实战入门指南（一）</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">GitHub + Spinx + Read the docs实战入门指南（二）</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#sphinxgithub">一、Sphinx渲染文档托管到Github</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#read-the-docs">二、部署到Read the docs网站</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../index.html#fastertransformer">FasterTransformer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../index.html#triton">Triton</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">论文学习:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../%E8%AE%BA%E6%96%87%E5%AD%A6%E4%B9%A0/index.html">Contents</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../%E8%AE%BA%E6%96%87%E5%AD%A6%E4%B9%A0/index.html#fine-tuning">Fine tuning</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">SpinxDemo</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="页面导航">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Contents</a></li>
+      <li class="breadcrumb-item active">GitHub + Spinx + Read the docs实战入门指南（二）</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/学习笔记/04Spinx/02GitHub + Spinx + Read the docs实战入门指南（二）.md.txt" rel="nofollow"> 查看页面源码</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="github-spinx-read-the-docs">
+<h1>GitHub + Spinx + Read the docs实战入门指南（二）<a class="headerlink" href="#github-spinx-read-the-docs" title="此标题的永久链接"></a></h1>
+<p>参考链接：<a class="reference external" href="https://zhuanlan.zhihu.com/p/618886468">知乎博客</a></p>
+<p>这一篇主要讲如何自动将指定的文档内容部署到Read the docs中。</p>
+<p>对于一份文档，一般有如下要求：</p>
+<ul class="simple">
+<li><p>只维护一份，其它地方自动更新</p></li>
+<li><p>可以根据代码注释，动态更新维护相应的API文档</p></li>
+<li><p>支持检索</p></li>
+<li><p>多版本之间的API接口动态查看</p></li>
+</ul>
+<p>以下是主要的技术路线：</p>
+<p><img alt="../../_images/image-20230508205853729.png" src="../../_images/image-20230508205853729.png" /></p>
+<section id="sphinxgithub">
+<h2>一、Sphinx渲染文档托管到Github<a class="headerlink" href="#sphinxgithub" title="此标题的永久链接"></a></h2>
+<ul>
+<li><p>经过上一节，我们可以本地生成Sphinx渲染之后的html文档，但是只能本地查看，现需要将其托管到Github中，便于后续Read the docs部署</p></li>
+<li><p>第一节在执行<code class="docutils literal notranslate"><span class="pre">sphinx-quickstart</span></code>后，我们的代码目录位于<code class="docutils literal notranslate"><span class="pre">D:\ProgramFile\TestProject</span></code>，接下来我们要将其部署到Github中。首先在Github上创建一个diary仓库</p>
+<p><img alt="../../_images/image-20230508210621585.png" src="../../_images/image-20230508210621585.png" /></p>
+</li>
+<li><p>接下来在目标文件夹下，依次执行以下命令：</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">init</span>
+<span class="n">git</span> <span class="n">add</span> <span class="o">.</span>
+<span class="n">git</span> <span class="n">commit</span> <span class="o">-</span><span class="n">m</span> <span class="s2">&quot;first commit&quot;</span>
+<span class="n">git</span> <span class="n">branch</span> <span class="o">-</span><span class="n">M</span> <span class="n">main</span>
+<span class="n">git</span> <span class="n">remote</span> <span class="n">add</span> <span class="n">origin</span> <span class="n">git</span><span class="nd">@github</span><span class="o">.</span><span class="n">com</span><span class="p">:</span><span class="n">ZhongliangLi</span><span class="o">-</span><span class="n">github</span><span class="o">/</span><span class="n">diary</span><span class="o">.</span><span class="n">git</span>
+<span class="n">git</span> <span class="n">push</span> <span class="o">-</span><span class="n">u</span> <span class="n">origin</span> <span class="n">main</span>
+</pre></div>
+</div>
+</li>
+<li><p>去Github界面查看，示例图如下：</p>
+<p><img alt="../../_images/image-20230508210952148.png" src="../../_images/image-20230508210952148.png" /></p>
+</li>
+</ul>
+</section>
+<section id="read-the-docs">
+<h2>二、部署到Read the docs网站<a class="headerlink" href="#read-the-docs" title="此标题的永久链接"></a></h2>
+<p>​	目前Sphinx渲染的文件已经托管到Github的main分支，接下来需要托管到Read the docs网站，便于查看和访问</p>
+<ul>
+<li><p>注册登录 <a class="reference external" href="https://readthedocs.org/dashboard/">Read the docs</a></p></li>
+<li><p>点击导入一个项目</p></li>
+<li><p>选择我们的<strong>diary</strong>项目</p></li>
+<li><p>更改默认分支为main</p></li>
+<li><p>点击<strong>Build version</strong>，即可开始构建文档</p></li>
+<li><p>成功后，点击右上角阅读文档即可查看</p>
+<p><img alt="../../_images/image-20230508212613423.png" src="../../_images/image-20230508212613423.png" /></p>
+</li>
+<li><p>至此，整个Sphinx渲染的内容就已经部署到Read the docs网站了</p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
+        <a href="01GitHub%20%2B%20Spinx%20%2B%20Read%20the%20docs%E5%AE%9E%E6%88%98%E5%85%A5%E9%97%A8%E6%8C%87%E5%8D%97%EF%BC%88%E4%B8%80%EF%BC%89.html" class="btn btn-neutral float-left" title="GitHub + Spinx + Read the docs实战入门指南（一）" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
+        <a href="../05Fastertransformer/01Fastertransformer.html" class="btn btn-neutral float-right" title="Fastertransformer" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; 版权所有 2023, 李仲亮.</p>
+  </div>
+
+  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
+    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

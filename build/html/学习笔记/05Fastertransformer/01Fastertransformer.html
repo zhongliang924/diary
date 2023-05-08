@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fastertransformer &mdash; SpinxDemo v1.0 文档</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/sphinx_highlight.js"></script>
+        <script src="../../_static/translations.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="../../genindex.html" />
+    <link rel="search" title="搜索" href="../../search.html" />
+    <link rel="next" title="Triton Inference Server入门" href="../06Triton/01Triton_Inference_Server%E5%85%A5%E9%97%A8.html" />
+    <link rel="prev" title="GitHub + Spinx + Read the docs实战入门指南（二）" href="../04Spinx/02GitHub%20%2B%20Spinx%20%2B%20Read%20the%20docs%E5%AE%9E%E6%88%98%E5%85%A5%E9%97%A8%E6%8C%87%E5%8D%97%EF%BC%88%E4%BA%8C%EF%BC%89.html" />
+    <link href="../../_static/style.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            SpinxDemo
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+              <p class="caption" role="heading"><span class="caption-text">学习笔记:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../index.html">Contents</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../index.html#docker">Docker</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../index.html#kubernetes">Kubernetes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../index.html#git">Git</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../index.html#spinx">Spinx</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html#fastertransformer">FasterTransformer</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Fastertransformer</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../index.html#triton">Triton</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">论文学习:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../%E8%AE%BA%E6%96%87%E5%AD%A6%E4%B9%A0/index.html">Contents</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../%E8%AE%BA%E6%96%87%E5%AD%A6%E4%B9%A0/index.html#fine-tuning">Fine tuning</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">SpinxDemo</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="页面导航">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Contents</a></li>
+      <li class="breadcrumb-item active">Fastertransformer</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/学习笔记/05Fastertransformer/01Fastertransformer.md.txt" rel="nofollow"> 查看页面源码</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="fastertransformer">
+<h1>Fastertransformer<a class="headerlink" href="#fastertransformer" title="此标题的永久链接"></a></h1>
+<p>​	NVIDIA Faster Transformer是一个库，用于实现基于Transformer的神经网络推理的加速引擎，特别强调大型模型。Faster Transformer包含Transformer块的高度优化版本实现，其中包含编码器和解码器部分。它是由C++/CUDA编写，依赖于高度优化的cuBLAS、cuBLASLt和cuSPARSELt库，可以在GPU上构建最快的Transformer推理流程。</p>
+<p>​	与深度学习训练的通用框架相比，FasterTransformer能够获得更快的推理管道，并且基于Transformer的神经网络具有更低的延迟和更高的吞吐量。</p>
+<p><img alt="../../_images/image-20230216211152721.png" src="../../_images/image-20230216211152721.png" /></p>
+<p>Triton推理服务器，具有多个后端，用于对使用不同框架训练的模型进行推理</p>
+<p>​	带有FasterTransformer后端的Triton支持wenet、T5、swin、GPT等模型推理。</p>
+<p><img alt="../../_images/b4f5ffc8770141538ca906ff29f19cbb.png" src="../../_images/b4f5ffc8770141538ca906ff29f19cbb.png" /></p>
+<p><strong>warmup</strong></p>
+<p>​	当Triton模型加载时，相应的backends会为该模型初始化。对于某些backends，部分初始化会被推迟到模型接收第一个推理请求（或前几个推理请求），因此前几个推理请求可能会明显变慢。</p>
+<p>​	为了避免初始缓慢的推理请求，Triton提供配置项使模型能够“预热”，以便在接收第一个推理请求前完全初始化。在预热完成前，模型不会对外提供服务</p>
+<p><strong>FasterTransformer wenet tensorrt plugins</strong></p>
+<ul>
+<li><p>Encoder</p>
+<p><img alt="../../_images/image-20230216212346060.png" src="../../_images/image-20230216212346060.png" /></p>
+<p><img alt="../../_images/image-20230216212400383.png" src="../../_images/image-20230216212400383.png" /></p>
+</li>
+<li><p>Decoder</p>
+<p><img alt="../../_images/image-20230216212550501.png" src="../../_images/image-20230216212550501.png" /></p>
+<p><img alt="../../_images/image-20230216212607069.png" src="../../_images/image-20230216212607069.png" /></p>
+<p><strong>性能分析</strong></p>
+</li>
+</ul>
+<table border="1" class="docutils">
+<thead>
+<tr>
+<th>tensorrt_fastertransformer</th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>batch size(并发度=2)</strong></td>
+<td><strong>2</strong></td>
+<td><strong>4</strong></td>
+<td><strong>8</strong></td>
+<td><strong>16</strong></td>
+</tr>
+<tr>
+<td>吞吐率(infer/s)</td>
+<td>46.4</td>
+<td>81.6</td>
+<td>91.2</td>
+<td>99.2</td>
+</tr>
+<tr>
+<td>平均时延(ms)</td>
+<td>86.192</td>
+<td>98.015</td>
+<td>174.612</td>
+<td>318.608</td>
+</tr>
+<tr>
+<td><strong>batch size(并发度=8)</strong></td>
+<td><strong>2</strong></td>
+<td><strong>4</strong></td>
+<td><strong>8</strong></td>
+<td><strong>16</strong></td>
+</tr>
+<tr>
+<td>吞吐率(infer/s)</td>
+<td>75.6</td>
+<td>87.2</td>
+<td>89.6</td>
+<td>96</td>
+</tr>
+<tr>
+<td>平均时延(ms)</td>
+<td>212.723</td>
+<td>358.374</td>
+<td>736.458</td>
+<td>1302.786</td>
+</tr>
+<tr>
+<td><strong>ONNX_FP16</strong></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>batch size(并发度=2)</strong></td>
+<td><strong>2</strong></td>
+<td><strong>4</strong></td>
+<td><strong>8</strong></td>
+<td><strong>16</strong></td>
+</tr>
+<tr>
+<td>吞吐率(infer/s)</td>
+<td>33.2</td>
+<td>44.8</td>
+<td>41.6</td>
+<td>/</td>
+</tr>
+<tr>
+<td>平均时延(ms)</td>
+<td>120.744</td>
+<td>183.461</td>
+<td>363.058</td>
+<td>/</td>
+</tr>
+<tr>
+<td><strong>batch size(并发度=8)</strong></td>
+<td><strong>2</strong></td>
+<td><strong>4</strong></td>
+<td><strong>8</strong></td>
+<td><strong>16</strong></td>
+</tr>
+<tr>
+<td>吞吐率(infer/s)</td>
+<td>30.8</td>
+<td>42.4</td>
+<td>/</td>
+<td>/</td>
+</tr>
+<tr>
+<td>平均时延(ms)</td>
+<td>516.526</td>
+<td>767.964</td>
+<td>/</td>
+<td>/</td>
+</tr>
+</tbody>
+</table><p>CER：均为1.1368%</p>
+<table border="1" class="docutils">
+<thead>
+<tr>
+<th>部署在Jetson NX</th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>batch size(并发度=2)</strong></td>
+<td><strong>2</strong></td>
+<td><strong>4</strong></td>
+<td><strong>8</strong></td>
+<td><strong>16</strong></td>
+</tr>
+<tr>
+<td>吞吐率(infer/s)</td>
+<td>46.4</td>
+<td>81.6</td>
+<td>91.2</td>
+<td>99.2</td>
+</tr>
+<tr>
+<td>平均时延(ms)</td>
+<td>86.192</td>
+<td>98.015</td>
+<td>174.612</td>
+<td>318.608</td>
+</tr>
+<tr>
+<td><strong>batch size(并发度=8)</strong></td>
+<td><strong>2</strong></td>
+<td><strong>4</strong></td>
+<td><strong>8</strong></td>
+<td><strong>16</strong></td>
+</tr>
+<tr>
+<td>吞吐率(infer/s)</td>
+<td>75.6</td>
+<td>87.2</td>
+<td>89.6</td>
+<td>96</td>
+</tr>
+<tr>
+<td>平均时延(ms)</td>
+<td>212.723</td>
+<td>358.374</td>
+<td>736.458</td>
+<td>1302.786</td>
+</tr>
+</tbody>
+</table><table border="1" class="docutils">
+<thead>
+<tr>
+<th>部署在台式机</th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>batch size(并发度=2)</strong></td>
+<td><strong>2</strong></td>
+<td><strong>4</strong></td>
+<td><strong>8</strong></td>
+<td><strong>16</strong></td>
+</tr>
+<tr>
+<td>吞吐率(infer/s)</td>
+<td>488</td>
+<td>641.6</td>
+<td>771.2</td>
+<td>851.2</td>
+</tr>
+<tr>
+<td>平均时延(ms)</td>
+<td>8.193</td>
+<td>12.474</td>
+<td>20.712</td>
+<td>37.604</td>
+</tr>
+<tr>
+<td><strong>batch size(并发度=8)</strong></td>
+<td><strong>2</strong></td>
+<td><strong>4</strong></td>
+<td><strong>8</strong></td>
+<td><strong>16</strong></td>
+</tr>
+<tr>
+<td>吞吐率(infer/s)</td>
+<td>698.8</td>
+<td>919.2</td>
+<td>1049.6</td>
+<td>1179.2</td>
+</tr>
+<tr>
+<td>平均时延(ms)</td>
+<td>22.890</td>
+<td>34.808</td>
+<td>53.477</td>
+<td>108.696</td>
+</tr>
+</tbody>
+</table></section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
+        <a href="../04Spinx/02GitHub%20%2B%20Spinx%20%2B%20Read%20the%20docs%E5%AE%9E%E6%88%98%E5%85%A5%E9%97%A8%E6%8C%87%E5%8D%97%EF%BC%88%E4%BA%8C%EF%BC%89.html" class="btn btn-neutral float-left" title="GitHub + Spinx + Read the docs实战入门指南（二）" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
+        <a href="../06Triton/01Triton_Inference_Server%E5%85%A5%E9%97%A8.html" class="btn btn-neutral float-right" title="Triton Inference Server入门" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; 版权所有 2023, 李仲亮.</p>
+  </div>
+
+  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
+    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

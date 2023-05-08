@@ -59,6 +59,7 @@ Triton
    :maxdepth: 1
 
    06Triton/01Triton_Inference_Server入门
+   06Triton/02Triton入门级教程
 
 
 

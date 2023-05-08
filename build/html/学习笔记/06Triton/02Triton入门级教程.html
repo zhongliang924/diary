@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Triton入门级教程 &mdash; SpinxDemo v1.0 文档</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/sphinx_highlight.js"></script>
+        <script src="../../_static/translations.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="../../genindex.html" />
+    <link rel="search" title="搜索" href="../../search.html" />
+    <link rel="next" title="Contents" href="../../%E8%AE%BA%E6%96%87%E5%AD%A6%E4%B9%A0/index.html" />
+    <link rel="prev" title="Triton Inference Server入门" href="01Triton_Inference_Server%E5%85%A5%E9%97%A8.html" />
+    <link href="../../_static/style.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            SpinxDemo
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+              <p class="caption" role="heading"><span class="caption-text">学习笔记:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../index.html">Contents</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../index.html#docker">Docker</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../index.html#kubernetes">Kubernetes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../index.html#git">Git</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../index.html#spinx">Spinx</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../index.html#fastertransformer">FasterTransformer</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html#triton">Triton</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="01Triton_Inference_Server%E5%85%A5%E9%97%A8.html">Triton Inference Server入门</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Triton入门级教程</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#prepare-the-model-repository">1、Prepare the Model Repository</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#model-files">1.1  model files</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#config-file">1.2  Config File</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#label-file">1.3  Label File</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#configure-the-served-model">2、Configure the Served Model</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id1">2.1  必须包含的信息</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#version-policy">2.2  Version Policy</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#instance-groups">2.3  Instance Groups</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id2">2.4  调度策略</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id3">2.5  优化手段</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#model-warmup">2.6  Model Warmup</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#launch-triton-server">3、Launch Triton Server</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id4">3.1  常用选项</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#configure-an-ensemble-model">4、Configure an Ensemble Model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#send-requests-to-triton-server">5、Send Requests to Triton Server</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">论文学习:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../%E8%AE%BA%E6%96%87%E5%AD%A6%E4%B9%A0/index.html">Contents</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../%E8%AE%BA%E6%96%87%E5%AD%A6%E4%B9%A0/index.html#fine-tuning">Fine tuning</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">SpinxDemo</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="页面导航">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Contents</a></li>
+      <li class="breadcrumb-item active">Triton入门级教程</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/学习笔记/06Triton/02Triton入门级教程.md.txt" rel="nofollow"> 查看页面源码</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="triton">
+<h1>Triton入门级教程<a class="headerlink" href="#triton" title="此标题的永久链接"></a></h1>
+<p>整体架构：</p>
+<p><img alt="../../_images/image-20230104193001823.png" src="../../_images/image-20230104193001823.png" /></p>
+<section id="prepare-the-model-repository">
+<h2>1、Prepare the Model Repository<a class="headerlink" href="#prepare-the-model-repository" title="此标题的永久链接"></a></h2>
+<p>​	三级结构：</p>
+<p><img alt="../../_images/image-20230104193420838.png" src="../../_images/image-20230104193420838.png" /></p>
+<ul class="simple">
+<li><p>​	Model Repository目录</p>
+<ul>
+<li><p>具体某一个推理模型目录：装配所有的模型</p>
+<ul>
+<li><p>版本目录：模型文件</p></li>
+<li><p>config文件</p></li>
+<li><p>label files</p></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<section id="model-files">
+<h3>1.1  model files<a class="headerlink" href="#model-files" title="此标题的永久链接"></a></h3>
+<p>模型目录重要的Components：</p>
+<ul class="simple">
+<li><p>TensorRT: model.plan</p></li>
+<li><p>ONNX: model.onnx</p></li>
+<li><p>TorchScriptss: model.pt</p></li>
+<li><p>TensorFlow: model.graphdef, or model.savemodel /</p></li>
+<li><p>Python: model.py</p></li>
+<li><p>DALI: model.dali</p></li>
+<li><p>OpenVINO: model.xml and model.bin</p></li>
+<li><p>Custom: model.so</p></li>
+</ul>
+<p>通过版本号找到正确版本的模型</p>
+</section>
+<section id="config-file">
+<h3>1.2  Config File<a class="headerlink" href="#config-file" title="此标题的永久链接"></a></h3>
+<p>​	定义模型和服务器的配置参数</p>
+</section>
+<section id="label-file">
+<h3>1.3  Label File<a class="headerlink" href="#label-file" title="此标题的永久链接"></a></h3>
+<p>​	对于分类模型，label file自动产生类别名的预测概率，方便我们读取分类模型的输出</p>
+</section>
+</section>
+<section id="configure-the-served-model">
+<h2>2、Configure the Served Model<a class="headerlink" href="#configure-the-served-model" title="此标题的永久链接"></a></h2>
+<section id="id1">
+<h3>2.1  必须包含的信息<a class="headerlink" href="#id1" title="此标题的永久链接"></a></h3>
+<p>​	config.pbtxt文件中必须包含的信息</p>
+<ul class="simple">
+<li><p>指定模型跑在哪个backend上面：platform / backend</p></li>
+<li><p>max_batch_size：定义了模型最大能够执行的推理的batch是多少，用于限制模型推理不超过GPU的显存</p></li>
+<li><p>输入和输出：Tensor</p></li>
+</ul>
+<p>注意：在TensorRT, TensorFlow saved-model, ONNX models中config文件不是必须的，–strict-model-config=false。</p>
+<p><img alt="../../_images/image-20230107154348311.png" src="../../_images/image-20230107154348311.png" /></p>
+<p>绿色的二者选其一，红色是必须指定。</p>
+<p>​	max_batch_size &amp; input &amp; output：（-1代表可变长度），max_batch_size=0表示模型的dims必须是真实的dims。</p>
+<p><img alt="../../_images/image-20230107154618573.png" src="../../_images/image-20230107154618573.png" /></p>
+</section>
+<section id="version-policy">
+<h3>2.2  Version Policy<a class="headerlink" href="#version-policy" title="此标题的永久链接"></a></h3>
+<p>​	三个策略指定版本的信息：</p>
+<p><img alt="../../_images/image-20230107160207748.png" src="../../_images/image-20230107160207748.png" /></p>
+</section>
+<section id="instance-groups">
+<h3>2.3  Instance Groups<a class="headerlink" href="#instance-groups" title="此标题的永久链接"></a></h3>
+<p>​	同时跑多个Instance提高GPU利用率</p>
+<p><img alt="../../_images/image-20230107160654931.png" src="../../_images/image-20230107160654931.png" /></p>
+</section>
+<section id="id2">
+<h3>2.4  调度策略<a class="headerlink" href="#id2" title="此标题的永久链接"></a></h3>
+<p><strong>Default Scheduler</strong>：</p>
+<ul class="simple">
+<li><p>no batching</p></li>
+<li><p>发送请求是多少就是多少batch_size</p></li>
+</ul>
+<p><strong>Dynamic Batcher</strong>：最重要提升吞吐性能，提升GPU利用率</p>
+<ul class="simple">
+<li><p>preferred_batch_size：期望达到的batch_size</p></li>
+<li><p>max_queue_delay_microseconds: 100：打batch的时间限制，越大表示愿意等待更多的请求</p></li>
+</ul>
+<p>使用Dynamic Batcher之后客户端将比较小的请求合并成比较大的请求，可以极大提升模型的吞吐。</p>
+<p><strong>Sequence Batcher：</strong></p>
+<p><img alt="../../_images/image-20230107164009460.png" src="../../_images/image-20230107164009460.png" /></p>
+<p>**Ensemble Scheduler：**组合成pipeline</p>
+</section>
+<section id="id3">
+<h3>2.5  优化手段<a class="headerlink" href="#id3" title="此标题的永久链接"></a></h3>
+<p>针对ONNX模型，可以直接开启TensorRT加速，TRT backend for ONNX</p>
+<p><img alt="../../_images/image-20230107164145247.png" src="../../_images/image-20230107164145247.png" /></p>
+</section>
+</section>
+<section id="model-warmup">
+<h2>2.6  Model Warmup<a class="headerlink" href="#model-warmup" title="此标题的永久链接"></a></h2>
+<p>热身的过程使模型推理稳定，热身完之后模型被加载进来并提供服务，但是模型加载比较漫长</p>
+<p><img alt="../../_images/image-20230107164702954.png" src="../../_images/image-20230107164702954.png" /></p>
+</section>
+<section id="launch-triton-server">
+<h2>3、Launch Triton Server<a class="headerlink" href="#launch-triton-server" title="此标题的永久链接"></a></h2>
+<p>tritonserver –help：查看tritonserver所有的options</p>
+<p>检查Server健康状态：curl -v <Server IP>:8000/v2/health/ready</p>
+<section id="id4">
+<h3>3.1  常用选项<a class="headerlink" href="#id4" title="此标题的永久链接"></a></h3>
+<p>–log-verbose <integer></p>
+<p>–strict-model-config <boolean></p>
+<p>–strict-readiness <boolean>：检查健康状态什么情况下显示ready</p>
+<p>–exit-on-error <boolean>：如果为true，所有模型必须load成功，否则模型开启不起来</p>
+<p>–http(grpc, metrics)-port <integer>：使用端口</p>
+<p>–model-control-mode <string>：以什么模式管理模型库，Options包含”none”, “poll”（动态更新）, “explicit”（在server启动初期是不加载模型的） –load-model resnet_50.onnx，在初期加载模型。curl -X POST http://localhost:8000/v2/repository/models/resnet50_pytorch/load (load换成unload就是卸载模型)</p>
+<p>–pinned-memory-pool-byte-size <integer>：模型推理有效提高CPU/GPU数据传输效率，256M</p>
+<p>–cuda-memory-pool-byte-size <integer>：可以访问的CUDA memory的大小，64M</p>
+<p>–backend-directory：找backend编译的动态库</p>
+<p>–repoagnet-directory：用于预处理模型库的程序（加密）</p>
+</section>
+</section>
+<section id="configure-an-ensemble-model">
+<h2>4、Configure an Ensemble Model<a class="headerlink" href="#configure-an-ensemble-model" title="此标题的永久链接"></a></h2>
+<p>子模块需要准备好，放在model_repository里面，创建ensemble model，在语音识别模型中对应着attention_rescoring</p>
+<p><img alt="../../_images/image-20230109151622685.png" src="../../_images/image-20230109151622685.png" /></p>
+<p>定义模块之间的连接关系</p>
+<p>key：input_tensor和output_tensor在模型文件本身定义的名字</p>
+<p>value：input_tensor和output_tensor在ensemble模型里面定义的名字，用于连接不同的step</p>
+<p>可以服务于Stateful model，不是实际的模型，只是一种调度策略，每一个子模块有各自的调度器，模块之间的数据传输通过CPU memory。每一个子模型model instance是解耦的。</p>
+<p><strong>Feature extractor模块</strong></p>
+<p><img alt="../../_images/image-20230109151721063.png" src="../../_images/image-20230109151721063.png" /></p>
+<p><strong>Encoder模块</strong></p>
+<p><img alt="../../_images/image-20230109151733092.png" src="../../_images/image-20230109151733092.png" /></p>
+<p><strong>scoring模块</strong></p>
+<p><img alt="../../_images/image-20230109151745806.png" src="../../_images/image-20230109151745806.png" /></p>
+</section>
+<section id="send-requests-to-triton-server">
+<h2>5、Send Requests to Triton Server<a class="headerlink" href="#send-requests-to-triton-server" title="此标题的永久链接"></a></h2>
+<p>import tritonclient.grpc as grpcclient</p>
+<ol class="simple">
+<li><p>创建client对象：grpcclient.</p></li>
+<li><p>获取config数据：tritonclient.get_model_metadata</p></li>
+<li><p>准备输入原始数据</p></li>
+<li><p>打包到request里面，准备好inputs对象和outputs对象</p></li>
+<li><p>发送请求执行推理：异步、同步、streaming</p></li>
+</ol>
+<p>当在同一台机器部署server client时，使用shared memory模块，python_backend使用shared memory传输数据。</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
+        <a href="01Triton_Inference_Server%E5%85%A5%E9%97%A8.html" class="btn btn-neutral float-left" title="Triton Inference Server入门" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
+        <a href="../../%E8%AE%BA%E6%96%87%E5%AD%A6%E4%B9%A0/index.html" class="btn btn-neutral float-right" title="Contents" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; 版权所有 2023, 李仲亮.</p>
+  </div>
+
+  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
+    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

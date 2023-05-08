@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>一、Prompt Tuning &mdash; SpinxDemo v1.0 文档</title>
+  <title>Prompt Tuning &mdash; SpinxDemo v1.0 文档</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -18,8 +18,8 @@
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="索引" href="../../genindex.html" />
     <link rel="search" title="搜索" href="../../search.html" />
-    <link rel="next" title="二、Prompt Tuning V2" href="02Prompt%20Tuning%20v2.html" />
-    <link rel="prev" title="一、Fine tuning" href="../index.html" />
+    <link rel="next" title="Prompt Tuning V2" href="02Prompt%20Tuning%20v2.html" />
+    <link rel="prev" title="Contents" href="../index.html" />
     <link href="../../_static/style.css" rel="stylesheet" type="text/css">
 
 </head>
@@ -50,12 +50,15 @@
 <li class="toctree-l1"><a class="reference internal" href="../../%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/index.html#kubernetes">Kubernetes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/index.html#git">Git</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/index.html#spinx">Spinx</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/index.html#fastertransformer">FasterTransformer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/index.html#triton">Triton</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">论文学习:</span></p>
 <ul class="current">
-<li class="toctree-l1 current"><a class="reference internal" href="../index.html">一、Fine tuning</a><ul class="current">
-<li class="toctree-l2 current"><a class="current reference internal" href="#">一、Prompt Tuning</a></li>
-<li class="toctree-l2"><a class="reference internal" href="02Prompt%20Tuning%20v2.html">二、Prompt Tuning V2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../index.html">Contents</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html#fine-tuning">Fine tuning</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Prompt Tuning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02Prompt%20Tuning%20v2.html">Prompt Tuning V2</a></li>
 </ul>
 </li>
 </ul>
@@ -74,8 +77,8 @@
           <div role="navigation" aria-label="页面导航">
   <ul class="wy-breadcrumbs">
       <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
-          <li class="breadcrumb-item"><a href="../index.html">一、Fine tuning</a></li>
-      <li class="breadcrumb-item active">一、Prompt Tuning</li>
+          <li class="breadcrumb-item"><a href="../index.html">Contents</a></li>
+      <li class="breadcrumb-item active">Prompt Tuning</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../../_sources/论文学习/01Fine_tuning/01Prompt Tuning.md.txt" rel="nofollow"> 查看页面源码</a>
       </li>
@@ -86,7 +89,8 @@
            <div itemprop="articleBody">
              
   <section id="prompt-tuning">
-<h1>一、Prompt Tuning<a class="headerlink" href="#prompt-tuning" title="此标题的永久链接"></a></h1>
+<h1>Prompt Tuning<a class="headerlink" href="#prompt-tuning" title="此标题的永久链接"></a></h1>
+<p>论文链接：<a class="reference external" href="https://arxiv.org/pdf/2103.10385.pdf">[GPT Understands, Too (arxiv.org)]</a></p>
 <p>巨大的单向语言模型使用手动提示（one-shot, few-shot）有助于自然语言的理解，然而手工寻找最佳性能提升十分困难。提示工程意味着过度拟合测试集，创造对抗性提示容易导致性能大幅下降</p>
 <p>P-tuning：在连续空间中自动搜索提示，利用少量连续自由参数作为提示，作为预训练语言模型的输入。使用梯度下降作为离散提示搜索的替代方案来优化连续提示。</p>
 <p>P-tuning打破了GPT只能生成但不能理解的刻板印象，也是一种通用的方法，可用于微调预训练语言模型，以获得最佳的下游任务的性能。</p>
@@ -119,8 +123,8 @@
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
-        <a href="../index.html" class="btn btn-neutral float-left" title="一、Fine tuning" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
-        <a href="02Prompt%20Tuning%20v2.html" class="btn btn-neutral float-right" title="二、Prompt Tuning V2" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="../index.html" class="btn btn-neutral float-left" title="Contents" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
+        <a href="02Prompt%20Tuning%20v2.html" class="btn btn-neutral float-right" title="Prompt Tuning V2" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

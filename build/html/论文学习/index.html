@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>一、Fine tuning &mdash; SpinxDemo v1.0 文档</title>
+  <title>Contents &mdash; SpinxDemo v1.0 文档</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -18,8 +18,8 @@
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="索引" href="../genindex.html" />
     <link rel="search" title="搜索" href="../search.html" />
-    <link rel="next" title="一、Prompt Tuning" href="01Fine_tuning/01Prompt%20Tuning.html" />
-    <link rel="prev" title="GitHub + Spinx + Read the docs实战入门指南（一）" href="../%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/04Spinx/01GitHub%20%2B%20Spinx%20%2B%20Read%20the%20docs%E5%AE%9E%E6%88%98%E5%85%A5%E9%97%A8%E6%8C%87%E5%8D%97%EF%BC%88%E4%B8%80%EF%BC%89.html" />
+    <link rel="next" title="Prompt Tuning" href="01Fine_tuning/01Prompt%20Tuning.html" />
+    <link rel="prev" title="Triton Inference Server入门" href="../%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/06Triton/01Triton_Inference_Server%E5%85%A5%E9%97%A8.html" />
     <link href="../_static/style.css" rel="stylesheet" type="text/css">
 
 </head>
@@ -50,12 +50,15 @@
 <li class="toctree-l1"><a class="reference internal" href="../%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/index.html#kubernetes">Kubernetes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/index.html#git">Git</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/index.html#spinx">Spinx</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/index.html#fastertransformer">FasterTransformer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/index.html#triton">Triton</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">论文学习:</span></p>
 <ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#">一、Fine tuning</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="01Fine_tuning/01Prompt%20Tuning.html">一、Prompt Tuning</a></li>
-<li class="toctree-l2"><a class="reference internal" href="01Fine_tuning/02Prompt%20Tuning%20v2.html">二、Prompt Tuning V2</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Contents</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#fine-tuning">Fine tuning</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="01Fine_tuning/01Prompt%20Tuning.html">Prompt Tuning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="01Fine_tuning/02Prompt%20Tuning%20v2.html">Prompt Tuning V2</a></li>
 </ul>
 </li>
 </ul>
@@ -74,7 +77,7 @@
           <div role="navigation" aria-label="页面导航">
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
-      <li class="breadcrumb-item active">一、Fine tuning</li>
+      <li class="breadcrumb-item active">Contents</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../_sources/论文学习/index.rst.txt" rel="nofollow"> 查看页面源码</a>
       </li>
@@ -84,12 +87,15 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="fine-tuning">
-<h1>一、Fine tuning<a class="headerlink" href="#fine-tuning" title="此标题的永久链接"></a></h1>
+  <section id="contents">
+<h1>Contents<a class="headerlink" href="#contents" title="此标题的永久链接"></a></h1>
+</section>
+<section id="fine-tuning">
+<h1>Fine tuning<a class="headerlink" href="#fine-tuning" title="此标题的永久链接"></a></h1>
 <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="01Fine_tuning/01Prompt%20Tuning.html">一、Prompt Tuning</a></li>
-<li class="toctree-l1"><a class="reference internal" href="01Fine_tuning/02Prompt%20Tuning%20v2.html">二、Prompt Tuning V2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="01Fine_tuning/01Prompt%20Tuning.html">Prompt Tuning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="01Fine_tuning/02Prompt%20Tuning%20v2.html">Prompt Tuning V2</a></li>
 </ul>
 </div>
 </section>
@@ -98,8 +104,8 @@
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
-        <a href="../%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/04Spinx/01GitHub%20%2B%20Spinx%20%2B%20Read%20the%20docs%E5%AE%9E%E6%88%98%E5%85%A5%E9%97%A8%E6%8C%87%E5%8D%97%EF%BC%88%E4%B8%80%EF%BC%89.html" class="btn btn-neutral float-left" title="GitHub + Spinx + Read the docs实战入门指南（一）" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
-        <a href="01Fine_tuning/01Prompt%20Tuning.html" class="btn btn-neutral float-right" title="一、Prompt Tuning" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="../%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/06Triton/01Triton_Inference_Server%E5%85%A5%E9%97%A8.html" class="btn btn-neutral float-left" title="Triton Inference Server入门" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
+        <a href="01Fine_tuning/01Prompt%20Tuning.html" class="btn btn-neutral float-right" title="Prompt Tuning" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
