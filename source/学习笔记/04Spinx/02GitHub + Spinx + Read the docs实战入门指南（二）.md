@@ -36,7 +36,7 @@
 
 - 去Github界面查看，示例图如下：
 
-  ![image-20230508210952148](02.assets/image-20230508210952148.png)
+  ![](02.assets/image-20230508210952148.png)
 
 #### 二、部署到Read the docs网站
 

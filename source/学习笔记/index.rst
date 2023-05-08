@@ -43,8 +43,22 @@ Spinx
 
    04Spinx/01GitHub + Spinx + Read the docs实战入门指南（一）
    04Spinx/02GitHub + Spinx + Read the docs实战入门指南（二）
-   04Spinx/03GitHub + Spinx + Read the docs实战入门指南（三）
 
+FasterTransformer
+======================================
+
+.. toctree::
+   :maxdepth: 1
+
+   05Fastertransformer/01Fastertransformer
+
+Triton
+======================================
+
+.. toctree::
+   :maxdepth: 1
+
+   06Triton/01Triton_Inference_Server入门
 
 
 
