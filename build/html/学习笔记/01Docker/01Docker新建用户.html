@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>新建Ubuntu docker容器 &mdash; SpinxDemo v1.0 文档</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/sphinx_highlight.js"></script>
+        <script src="../../_static/translations.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="../../genindex.html" />
+    <link rel="search" title="搜索" href="../../search.html" />
+    <link rel="next" title="Triton_with_kubernetes" href="../02Triton_with_kubernetes/index.html" />
+    <link rel="prev" title="Docker" href="index.html" />
+    <link href="../../_static/style.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            SpinxDemo
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">学习笔记</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Docker</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">新建Ubuntu docker容器</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#ubuntudocker">1、在Ubuntu主机上安装docker</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#docker-dockerfile">2、创建docker镜像并在其中创建多个用户账户，可以使用Dockerfile：</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#docker">3、构建Docker镜像：</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id1">4、构建完成后，使用以下命令启动一个新的docker容器</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#ssh">5、开启ssh服务</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id2">6、docker自启动</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id3">7、开机ssh自启动</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../02Triton_with_kubernetes/index.html">Triton_with_kubernetes</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">SpinxDemo</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="页面导航">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">学习笔记</a></li>
+          <li class="breadcrumb-item"><a href="index.html">Docker</a></li>
+      <li class="breadcrumb-item active">新建Ubuntu docker容器</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/学习笔记/01Docker/01Docker新建用户.md.txt" rel="nofollow"> 查看页面源码</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="ubuntu-docker">
+<h1>新建Ubuntu docker容器<a class="headerlink" href="#ubuntu-docker" title="此标题的永久链接"></a></h1>
+<p>主机连接</p>
+<p><img alt="image-20230316164731404" src="../../_images/image-20230316164731404.png" /></p>
+<p>密码：xmdx3090</p>
+<section id="ubuntudocker">
+<h2>1、在Ubuntu主机上安装docker<a class="headerlink" href="#ubuntudocker" title="此标题的永久链接"></a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="n">update</span>
+<span class="n">sudo</span> <span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="n">install</span> <span class="n">docker</span><span class="o">.</span><span class="n">io</span>
+</pre></div>
+</div>
+</section>
+<section id="docker-dockerfile">
+<h2>2、创建docker镜像并在其中创建多个用户账户，可以使用Dockerfile：<a class="headerlink" href="#docker-dockerfile" title="此标题的永久链接"></a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">FROM</span> <span class="n">ubuntu</span><span class="p">:</span><span class="mf">20.04</span>
+<span class="n">RUN</span> <span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="n">update</span> <span class="o">&amp;&amp;</span> <span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="n">upgrade</span> <span class="o">-</span><span class="n">y</span> <span class="o">&amp;&amp;</span> \
+    <span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="n">install</span> <span class="o">-</span><span class="n">y</span> <span class="n">xauth</span> <span class="n">ssh</span> <span class="o">&amp;&amp;</span> \
+    <span class="n">adduser</span> <span class="n">lzl</span> <span class="o">--</span><span class="n">gecos</span> <span class="s1">&#39;&#39;</span> <span class="o">--</span><span class="n">disabled</span><span class="o">-</span><span class="n">password</span> <span class="o">&amp;&amp;</span> \
+    <span class="n">echo</span> <span class="s2">&quot;lzl:123456&quot;</span> <span class="o">|</span> <span class="n">chpasswd</span> <span class="o">&amp;&amp;</span> \	
+    <span class="n">usermod</span> <span class="o">-</span><span class="n">aG</span> <span class="n">sudo</span> <span class="n">lzl</span> <span class="o">&amp;&amp;</span> \
+    <span class="n">service</span> <span class="n">ssh</span> <span class="n">start</span>
+</pre></div>
+</div>
+<p>保存”Dockerfile”并退出</p>
+</section>
+<section id="docker">
+<h2>3、构建Docker镜像：<a class="headerlink" href="#docker" title="此标题的永久链接"></a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">docker</span> <span class="n">build</span> <span class="o">.</span> <span class="o">-</span><span class="n">f</span> <span class="n">Dockerfile</span><span class="o">/</span><span class="n">Dockerfile</span><span class="o">.</span><span class="n">lzl</span> <span class="o">-</span><span class="n">t</span> <span class="n">ubuntu2004</span><span class="p">:</span><span class="n">lzl</span> <span class="o">--</span><span class="n">network</span> <span class="n">host</span>
+</pre></div>
+</div>
+</section>
+<section id="id1">
+<h2>4、构建完成后，使用以下命令启动一个新的docker容器<a class="headerlink" href="#id1" title="此标题的永久链接"></a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">docker</span> <span class="n">run</span> <span class="o">-</span><span class="n">it</span> <span class="o">--</span><span class="n">gpus</span> <span class="nb">all</span> <span class="o">--</span><span class="n">name</span> <span class="n">lzl</span> <span class="o">-</span><span class="n">v</span> <span class="o">/</span><span class="n">data</span><span class="p">:</span><span class="o">/</span><span class="n">container</span> <span class="o">-</span><span class="n">p</span> <span class="mi">2000</span><span class="p">:</span><span class="mi">22</span> <span class="n">ubuntu2004</span><span class="p">:</span><span class="n">lzl</span> <span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">bash</span>
+
+<span class="c1"># wenet:</span>
+<span class="n">docker</span> <span class="n">run</span> <span class="o">--</span><span class="n">gpus</span> <span class="nb">all</span> <span class="o">--</span><span class="n">name</span> <span class="n">wenet_server</span> <span class="o">-</span><span class="n">it</span> <span class="o">-</span><span class="n">p</span> <span class="mi">8000</span><span class="p">:</span><span class="mi">8000</span> <span class="o">-</span><span class="n">p</span> <span class="mi">8001</span><span class="p">:</span><span class="mi">8001</span> <span class="o">-</span><span class="n">p</span> <span class="mi">8002</span><span class="p">:</span><span class="mi">8002</span> <span class="o">--</span><span class="n">shm</span><span class="o">-</span><span class="n">size</span><span class="o">=</span><span class="mi">1</span><span class="n">g</span> <span class="o">--</span><span class="n">ulimit</span> <span class="n">memlock</span><span class="o">=-</span><span class="mi">1</span>  <span class="n">wenet_server</span><span class="p">:</span><span class="mf">22.03</span> <span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">bash</span>
+</pre></div>
+</div>
+<p>这将创建一个名为“lzl”的新容器，并将其映射到主机的端口2000，映射机械硬盘data到container，需要记住映射的端口号，</p>
+</section>
+<section id="ssh">
+<h2>5、开启ssh服务<a class="headerlink" href="#ssh" title="此标题的永久链接"></a></h2>
+<p>​	进入docker开启ssh服务</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">service</span> <span class="n">ssh</span> <span class="n">start</span>
+</pre></div>
+</div>
+</section>
+<section id="id2">
+<h2>6、docker自启动<a class="headerlink" href="#id2" title="此标题的永久链接"></a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">docker</span> <span class="n">update</span> <span class="o">--</span><span class="n">restart</span><span class="o">=</span><span class="n">always</span> <span class="n">lzl</span>	<span class="c1">#lzl是容器名称</span>
+</pre></div>
+</div>
+</section>
+<section id="id3">
+<h2>7、开机ssh自启动<a class="headerlink" href="#id3" title="此标题的永久链接"></a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>1、在 /root 目录下新建一个 start_ssh.sh文件，并给予该文件可执行权限。
+vim /root/start_ssh.sh
+chmod +x /root/start_ssh.sh
+
+2、start_ssh.sh 脚本的内容，如下：
+
+#!/bin/bash
+LOGTIME=$(date &quot;+%Y-%m-%d %H:%M:%S&quot;)
+echo &quot;[$LOGTIME] startup run...&quot; &gt;&gt;/root/start_ssh.log
+service ssh start &gt;&gt;/root/start_ssh.log
+#service mysql start &gt;&gt;/root/star_mysql.log   //其他服务也可这么实现
+
+3、将start_ssh.sh脚本添加到启动文件中，在 .bashrc 文件末尾加入如下内容
+
+vim /root/.bashrc
+
+# startup run
+if [ -f /root/start_ssh.sh ]; then
+      /root/start_ssh.sh
+fi
+4、保存后，等下次重启容器的时候，添加的服务也就跟着重启了。
+</pre></div>
+</div>
+<p><img alt="image-20230316164904927" src="../../_images/image-20230316164904927.png" /></p>
+<p>用户名和密码是dockerfile里面设置的</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
+        <a href="index.html" class="btn btn-neutral float-left" title="Docker" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
+        <a href="../02Triton_with_kubernetes/index.html" class="btn btn-neutral float-right" title="Triton_with_kubernetes" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; 版权所有 2023, 李仲亮.</p>
+  </div>
+
+  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
+    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

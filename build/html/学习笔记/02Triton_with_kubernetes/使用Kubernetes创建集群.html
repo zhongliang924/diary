@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>验收集群 &mdash; SpinxDemo v1.0 文档</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/sphinx_highlight.js"></script>
+        <script src="../../_static/translations.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="../../genindex.html" />
+    <link rel="search" title="搜索" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            SpinxDemo
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../index.html">学习笔记</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">SpinxDemo</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="页面导航">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">验收集群</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/学习笔记/02Triton_with_kubernetes/使用Kubernetes创建集群.md.txt" rel="nofollow"> 查看页面源码</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <p>Master节点和Node节点</p>
+<p>操作根据 <strong>在Ubuntu18.04上搭建kubernetes</strong> 上的文档进行操作，在master节点执行完kubeadm之后，出现信息</p>
+<p><img alt="image-20230404200323062" src="学习笔记/02Triton_with_kubernetes/%E4%BD%BF%E7%94%A8Kubernetes%E5%88%9B%E5%BB%BA%E9%9B%86%E7%BE%A4.assets/image-20230404200323062.png" /></p>
+<p>在从节点上执行</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">kubeadm</span> <span class="n">join</span> <span class="mf">10.24.83.22</span><span class="p">:</span><span class="mi">6443</span> <span class="o">...</span>
+</pre></div>
+</div>
+<p>这条命令是有有效期的，需要的时候，可以执行以下命令获取</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">kubeadm</span> <span class="n">token</span> <span class="n">create</span> <span class="o">--</span><span class="nb">print</span><span class="o">-</span><span class="n">join</span><span class="o">-</span><span class="n">command</span>
+</pre></div>
+</div>
+<p>可以查看集群的基本状况：</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">kubectl</span> <span class="n">get</span> <span class="n">nodes</span>
+</pre></div>
+</div>
+<p><img alt="image-20230404200903123" src="学习笔记/02Triton_with_kubernetes/%E4%BD%BF%E7%94%A8Kubernetes%E5%88%9B%E5%BB%BA%E9%9B%86%E7%BE%A4.assets/image-20230404200903123.png" /></p>
+<p>其中master节点为主机节点，IP为10.24.83.40，node02节点为虚拟机节点，IP为192.168.24.129，可以发现所有的node均已Ready。</p>
+<section id="id1">
+<h1>验收集群<a class="headerlink" href="#id1" title="此标题的永久链接"></a></h1>
+<p>​	使用以下命令可以创建一个最简单的nginx pod</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">kubectl</span> <span class="n">apply</span> <span class="o">-</span><span class="n">f</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">k8s</span><span class="o">.</span><span class="n">io</span><span class="o">/</span><span class="n">examples</span><span class="o">/</span><span class="n">pods</span><span class="o">/</span><span class="n">simple</span><span class="o">-</span><span class="n">pod</span><span class="o">.</span><span class="n">yaml</span>
+</pre></div>
+</div>
+<p>创建后可以发现Pod处于Running状态：</p>
+<p><img alt="image-20230404201546481" src="学习笔记/02Triton_with_kubernetes/%E4%BD%BF%E7%94%A8Kubernetes%E5%88%9B%E5%BB%BA%E9%9B%86%E7%BE%A4.assets/image-20230404201546481.png" /></p>
+<p>在Node02上，添加<code class="docutils literal notranslate"><span class="pre">-o</span> <span class="pre">wide</span></code>可以查看pod的ip，再使用curl，可以访问这个nginx服务</p>
+<p><img alt="image-20230404202803267" src="学习笔记/02Triton_with_kubernetes/%E4%BD%BF%E7%94%A8Kubernetes%E5%88%9B%E5%BB%BA%E9%9B%86%E7%BE%A4.assets/image-20230404202803267.png" /></p>
+<p>如无特殊设置，k8s会通过服务器负载均衡自动部署到合适的node节点上，pods的内部IP为192.168.140.65，端口号为80.</p>
+<p><img alt="image-20230404202303906" src="学习笔记/02Triton_with_kubernetes/%E4%BD%BF%E7%94%A8Kubernetes%E5%88%9B%E5%BB%BA%E9%9B%86%E7%BE%A4.assets/image-20230404202303906.png" /></p>
+</section>
+<section id="nginx">
+<h1>正式部署NGINX集群<a class="headerlink" href="#nginx" title="此标题的永久链接"></a></h1>
+<section id="deployment">
+<h2>1、创建deployment<a class="headerlink" href="#deployment" title="此标题的永久链接"></a></h2>
+<p>创建<code class="docutils literal notranslate"><span class="pre">nginx-dep.yml</span></code>部署文件</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">apiVersion</span><span class="p">:</span> <span class="n">v1</span>	<span class="c1">#核心，对象pod、service等</span>
+<span class="n">kind</span><span class="p">:</span> <span class="n">Pod</span>
+<span class="n">metadata</span><span class="p">:</span>		<span class="c1">#资源的元数据/属性</span>
+  <span class="n">name</span><span class="p">:</span> <span class="n">nginx</span>
+  <span class="n">labels</span><span class="p">:</span>
+    <span class="n">app</span><span class="p">:</span> <span class="n">nginx</span>
+<span class="n">spec</span><span class="p">:</span>			<span class="c1">#设置该资源的内容</span>
+  <span class="n">containers</span><span class="p">:</span>
+  <span class="o">-</span> <span class="n">name</span><span class="p">:</span> <span class="n">nginx</span>
+    <span class="n">image</span><span class="p">:</span> <span class="n">nginx</span><span class="p">:</span><span class="n">latest</span>
+    <span class="n">ports</span><span class="p">:</span>
+    <span class="o">-</span> <span class="n">containerPort</span><span class="p">:</span> <span class="mi">80</span>	<span class="c1">#容器端口</span>
+      <span class="n">hostPort</span><span class="p">:</span> <span class="mi">8081</span>	<span class="c1">#让外部访问端口，官方及其不推荐这种方式，走的防火墙iptables方式，本人测试没成功，仍然无法从外部访问。</span>
+</pre></div>
+</div>
+<p>使用命令<code class="docutils literal notranslate"><span class="pre">kubectl</span> <span class="pre">apply</span></code>创建pod</p>
+<p>create：先删除现有的东西，重新根据yaml文件生成新的，无法覆盖</p>
+<p>apply：根据配置文件列出来的内容，升级现有的，直接覆盖原来的（建议使用）</p>
+<p>可以查看pods的详细信息：</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">kubectl</span> <span class="n">get</span> <span class="n">pods</span> <span class="o">-</span><span class="n">o</span> <span class="n">wide</span>
+</pre></div>
+</div>
+<p><img alt="image-20230404205604591" src="学习笔记/02Triton_with_kubernetes/%E4%BD%BF%E7%94%A8Kubernetes%E5%88%9B%E5%BB%BA%E9%9B%86%E7%BE%A4.assets/image-20230404205604591.png" /></p>
+<p>三个pods全部部署在了node02节点上</p>
+</section>
+<section id="service">
+<h2>2、创建Service<a class="headerlink" href="#service" title="此标题的永久链接"></a></h2>
+<p>创建<code class="docutils literal notranslate"><span class="pre">nginx-service.yaml</span></code>文件，内容为：</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">apiVersion</span><span class="p">:</span> <span class="n">v1</span>
+<span class="n">kind</span><span class="p">:</span> <span class="n">Service</span>
+<span class="n">metadata</span><span class="p">:</span>
+  <span class="n">name</span><span class="p">:</span> <span class="n">nginx</span><span class="o">-</span><span class="n">service</span>
+<span class="n">spec</span><span class="p">:</span>
+  <span class="n">selector</span><span class="p">:</span>
+    <span class="n">app</span><span class="p">:</span> <span class="n">nginx</span>
+  <span class="n">ports</span><span class="p">:</span>
+  <span class="o">-</span> <span class="n">protocol</span><span class="p">:</span> <span class="n">TCP</span>
+    <span class="n">port</span><span class="p">:</span> <span class="mi">80</span>
+    <span class="n">targetPort</span><span class="p">:</span> <span class="mi">80</span>
+    <span class="n">nodePort</span><span class="p">:</span> <span class="mi">30080</span> <span class="c1">#端口范围只能是 30000-32767，外部通过此端口访问</span>
+  <span class="nb">type</span><span class="p">:</span> <span class="n">NodePort</span>	<span class="c1">#nodePort方式，必须声明这类型</span>
+</pre></div>
+</div>
+<p>通过</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">kubectl</span> <span class="n">apply</span> <span class="o">-</span><span class="n">f</span> <span class="n">nginx</span><span class="o">-</span><span class="n">service</span><span class="o">.</span><span class="n">yml</span>
+</pre></div>
+</div>
+<p>创建Service服务</p>
+<p>查询服务：</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">kubectl</span> <span class="n">get</span> <span class="n">svc</span> <span class="o">-</span><span class="n">o</span> <span class="n">wide</span>
+</pre></div>
+</div>
+<p><img alt="image-20230404210010885" src="学习笔记/02Triton_with_kubernetes/%E4%BD%BF%E7%94%A8Kubernetes%E5%88%9B%E5%BB%BA%E9%9B%86%E7%BE%A4.assets/image-20230404210010885.png" /></p>
+<p>可以发现服务能正常启动</p>
+</section>
+<section id="id2">
+<h2>3、测试<a class="headerlink" href="#id2" title="此标题的永久链接"></a></h2>
+<p>浏览器输入节点IP:30080访问</p>
+<p>虚拟机的节点为：192.168.24.129</p>
+<p><img alt="image-20230404210746093" src="学习笔记/02Triton_with_kubernetes/%E4%BD%BF%E7%94%A8Kubernetes%E5%88%9B%E5%BB%BA%E9%9B%86%E7%BE%A4.assets/image-20230404210746093.png" /></p>
+<p>测试完成，这时候正式nginx集群搭建完成。</p>
+</section>
+</section>
+<section id="dashboard">
+<h1>部署Dashboard<a class="headerlink" href="#dashboard" title="此标题的永久链接"></a></h1>
+<p>​	Dashboard是官方提供的一个UI，可用于基本管理K8s资源</p>
+<p>YAML文件下载地址：</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span> <span class="n">wget</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">raw</span><span class="o">.</span><span class="n">githubusercontent</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">kubernetes</span><span class="o">/</span><span class="n">dashboard</span><span class="o">/</span><span class="n">v2</span><span class="mf">.4.0</span><span class="o">/</span><span class="n">aio</span><span class="o">/</span><span class="n">deploy</span><span class="o">/</span><span class="n">recommended</span><span class="o">.</span><span class="n">yaml</span>
+</pre></div>
+</div>
+<p>将Service改成NodePort类型，可以暴露到外部</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">kind</span><span class="p">:</span> <span class="n">Service</span>
+<span class="n">apiVersion</span><span class="p">:</span> <span class="n">v1</span>
+<span class="n">metadata</span><span class="p">:</span>
+  <span class="n">labels</span><span class="p">:</span>
+    <span class="n">k8s</span><span class="o">-</span><span class="n">app</span><span class="p">:</span> <span class="n">kubernetes</span><span class="o">-</span><span class="n">dashboard</span>
+  <span class="n">name</span><span class="p">:</span> <span class="n">kubernetes</span><span class="o">-</span><span class="n">dashboard</span>
+  <span class="n">namespace</span><span class="p">:</span> <span class="n">kubernetes</span><span class="o">-</span><span class="n">dashboard</span>
+<span class="n">spec</span><span class="p">:</span>
+  <span class="n">ports</span><span class="p">:</span>
+    <span class="o">-</span> <span class="n">port</span><span class="p">:</span> <span class="mi">443</span>
+      <span class="n">targetPort</span><span class="p">:</span> <span class="mi">8443</span>
+      <span class="n">nodePort</span><span class="p">:</span> <span class="mi">30001</span>
+  <span class="n">selector</span><span class="p">:</span>
+    <span class="n">k8s</span><span class="o">-</span><span class="n">app</span><span class="p">:</span> <span class="n">kubernetes</span><span class="o">-</span><span class="n">dashboard</span>
+  <span class="nb">type</span><span class="p">:</span> <span class="n">NodePort</span>
+<span class="o">...</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">kubectl</span> <span class="n">apply</span> <span class="o">-</span><span class="n">f</span> <span class="n">recommended</span><span class="o">.</span><span class="n">yaml</span>
+<span class="n">kubectl</span> <span class="n">get</span> <span class="n">pods</span> <span class="o">-</span><span class="n">n</span> <span class="n">kubernetes</span><span class="o">-</span><span class="n">dashboard</span>
+</pre></div>
+</div>
+<p>访问地址：https://10.24.83.22:30001</p>
+<p>查看状态</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">kubectl</span> <span class="n">get</span> <span class="nb">all</span> <span class="o">-</span><span class="n">n</span> <span class="n">kubernetes</span><span class="o">-</span><span class="n">dashboard</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span># 创建用户
+kubectl create serviceaccount dashboard-admin -n kube-system
+# 用户授权
+kubectl create clusterrolebinding dashboard-admin --clusterrole=cluster-admin --serviceaccount=kube-system:dashboard-admin
+# 获取用户Token
+kubectl describe secrets -n kube-system $(kubectl -n kube-system get secret | awk &#39;/dashboard-admin/{print $1}&#39;)
+</pre></div>
+</div>
+<p>使用输出的token登录到Dashboard</p>
+<p><img alt="image-20230406111500864" src="学习笔记/02Triton_with_kubernetes/%E4%BD%BF%E7%94%A8Kubernetes%E5%88%9B%E5%BB%BA%E9%9B%86%E7%BE%A4.assets/image-20230406111500864.png" /></p>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; 版权所有 2023, 李仲亮.</p>
+  </div>
+
+  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
+    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

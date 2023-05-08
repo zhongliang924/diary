@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>二、Prompt Tuning V2 &mdash; SpinxDemo v1.0 文档</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/sphinx_highlight.js"></script>
+        <script src="../../_static/translations.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="../../genindex.html" />
+    <link rel="search" title="搜索" href="../../search.html" />
+    <link rel="prev" title="一、Prompt Tuning" href="01Prompt%20Tuning.html" />
+    <link href="../../_static/style.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            SpinxDemo
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/index.html">学习笔记</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">论文学习:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">论文学习</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Fine_tuning</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="01Prompt%20Tuning.html">一、Prompt Tuning</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">二、Prompt Tuning V2</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">SpinxDemo</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="页面导航">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">论文学习</a></li>
+          <li class="breadcrumb-item"><a href="index.html">Fine_tuning</a></li>
+      <li class="breadcrumb-item active">二、Prompt Tuning V2</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/论文学习/01Fine_tuning/02Prompt Tuning v2.md.txt" rel="nofollow"> 查看页面源码</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="prompt-tuning-v2">
+<h1>二、Prompt Tuning V2<a class="headerlink" href="#prompt-tuning-v2" title="此标题的永久链接"></a></h1>
+<p>P-tuning V2是深度提示微调的实现，针对NLU进行了优化和自适应实现，专为生成和知识探索而设计。可作为微调的替代方案，同时作为未来研究强有力的baseline。</p>
+<p>微调会在训练过程中消耗内存，需要存储所有参数的梯度和优化器的状态；提示不需要训练，只存储一个模型参数的副本，离散提示在性能上次优于微调。</p>
+<p>P-tuning V2对预训练模型的每一层应用连续提示，而不仅仅是输入应用连续提示，深度提示微调增加了连续提示的能力。</p>
+<p>NLU任务可分为简单的分类任务和硬序列标记任务，硬序列标记任务包含对token序列的分类，例如命名实体识别和提取式问答。</p>
+<p><img alt="image-20230507202904572" src="../../_images/image-20230507202904572.png" /></p>
+<p>传统的Prompt-tuning缺乏在<strong>跨规模</strong>和<strong>跨任务</strong>的通用性，连续提示仅仅插入在输入嵌入序列中</p>
+<p>P-tuning v2为不同层的提示添加了前缀标记，具有更多可调参数，添加到更深层次的提示对模型有更加直接的影响。</p>
+<p>重参数化</p>
+<p>​	先前的工作采用重参数化编码器（如MLP）来转换可训练的嵌入，但是性能取决于任务和数据集，有些数据集MLP能带来改进，</p>
+<p>提示长度</p>
+<p>多任务学习</p>
+<p>分类头</p>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
+        <a href="01Prompt%20Tuning.html" class="btn btn-neutral float-left" title="一、Prompt Tuning" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; 版权所有 2023, 李仲亮.</p>
+  </div>
+
+  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
+    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
