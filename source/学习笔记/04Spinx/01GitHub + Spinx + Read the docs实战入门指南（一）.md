@@ -14,7 +14,7 @@
 - 在与Github连接上配置无误的情况下，当Github上有文件改动时，会自动触发RTD自动更新对应的文档。RTD提供了丰富的文档主题，有着灵活的配置，可以满足大部分的需求。
 - Github Pages是Github下自带的静态网站托管服务，选择合适主题后，也可根据Github的内容，自动排版和更新对应内容到网站中。
 
-![image-20230508121129552](01GitHub + Spinx + Read the docs实战入门指南（一）.assets/image-20230508121129552.png)
+![image-20230508121129552](01.assets/image-20230508121129552.png)
 
 1. 安装spinx：
 
