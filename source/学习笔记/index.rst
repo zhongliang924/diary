@@ -18,6 +18,10 @@ Kubernetes
    :maxdepth: 1
 
    02Triton_with_kubernetes/01在Ubuntu18.04上搭建kubernetes
+   02Triton_with_kubernetes/02使用MIG和Kubernetes大规模部署NVIDIA Triton
+   02Triton_with_kubernetes/03使用Kubernetes创建集群
+   02Triton_with_kubernetes/04Triton Metrics
+   02Triton_with_kubernetes/05Grafana
 
 Git
 ======================================
