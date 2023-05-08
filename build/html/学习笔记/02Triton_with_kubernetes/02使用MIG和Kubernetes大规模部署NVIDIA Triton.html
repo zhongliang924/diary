@@ -18,6 +18,8 @@
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="索引" href="../../genindex.html" />
     <link rel="search" title="搜索" href="../../search.html" />
+    <link rel="next" title="三、使用Kubernetes创建集群" href="03%E4%BD%BF%E7%94%A8Kubernetes%E5%88%9B%E5%BB%BA%E9%9B%86%E7%BE%A4.html" />
+    <link rel="prev" title="一、kubernetes安装" href="01%E5%9C%A8Ubuntu18.04%E4%B8%8A%E6%90%AD%E5%BB%BAkubernetes.html" />
     <link href="../../_static/style.css" rel="stylesheet" type="text/css">
 
 </head>
@@ -42,8 +44,39 @@
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
               <p class="caption" role="heading"><span class="caption-text">学习笔记:</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../index.html">Docker</a></li>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../index.html">Contents</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../index.html#docker">Docker</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html#kubernetes">Kubernetes</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="01%E5%9C%A8Ubuntu18.04%E4%B8%8A%E6%90%AD%E5%BB%BAkubernetes.html">一、kubernetes安装</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">二、使用MIG和Kubernetes大规模部署NVIDIA Triton</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#create-a-kubernetes-deployment-for-triton-inference-servers">1、Create a Kubernetes Deployment for Triton Inference Servers</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id1">出现问题</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#deployment">删除Deployment命令</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#create-a-kubernetes-service-for-triton-inference-servers">2、Create a Kubernetes Service for Triton Inference Servers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#prometheusnvidia">3、使用Prometheus爬取NVIDIA的性能</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#create-podmonitor-for-prometheus">3.1	Create PodMonitor for Prometheus</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#prometheusnvidia-triton">3.2	使用Prometheus查询NVIDIA Triton 指标</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#autoscale-triton-inference-servers">4、Autoscale Triton Inference Servers</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#create-configmap-to-define-the-custom-metric">4.1	Create ConfigMap to define the custom metric</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#kubernetes-metrcs-apiprometheus-adapter">4.2	为Kubernetes metrcs API创建Prometheus adapter</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#hpa">5、部署HPA</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#nginx-plus">6、使用NGINX Plus负载均衡</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="03%E4%BD%BF%E7%94%A8Kubernetes%E5%88%9B%E5%BB%BA%E9%9B%86%E7%BE%A4.html">三、使用Kubernetes创建集群</a></li>
+<li class="toctree-l2"><a class="reference internal" href="04Triton%20Metrics.html">四、Triton Metrics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="05Grafana.html">五、Grafana</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../index.html#git">Git</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../index.html#spinx">Spinx</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">论文学习:</span></p>
 <ul>
@@ -64,6 +97,7 @@
           <div role="navigation" aria-label="页面导航">
   <ul class="wy-breadcrumbs">
       <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Contents</a></li>
       <li class="breadcrumb-item active">二、使用MIG和Kubernetes大规模部署NVIDIA Triton</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../../_sources/学习笔记/02Triton_with_kubernetes/02使用MIG和Kubernetes大规模部署NVIDIA Triton.md.txt" rel="nofollow"> 查看页面源码</a>
@@ -637,7 +671,10 @@ $R$表示Kubernetes拥有replicas的数量；$CR$是当前replicas pod的数量�
 
            </div>
           </div>
-          <footer>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
+        <a href="01%E5%9C%A8Ubuntu18.04%E4%B8%8A%E6%90%AD%E5%BB%BAkubernetes.html" class="btn btn-neutral float-left" title="一、kubernetes安装" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
+        <a href="03%E4%BD%BF%E7%94%A8Kubernetes%E5%88%9B%E5%BB%BA%E9%9B%86%E7%BE%A4.html" class="btn btn-neutral float-right" title="三、使用Kubernetes创建集群" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
 
   <hr/>
 
