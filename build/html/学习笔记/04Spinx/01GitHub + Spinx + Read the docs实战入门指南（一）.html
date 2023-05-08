@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>&lt;no title&gt; &mdash; SpinxDemo v1.0 文档</title>
+  <title>GitHub + Spinx + Read the docs实战入门指南（一） &mdash; SpinxDemo v1.0 文档</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -18,8 +18,6 @@
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="索引" href="../../genindex.html" />
     <link rel="search" title="搜索" href="../../search.html" />
-    <link rel="next" title="一、kubernetes安装" href="01%E5%9C%A8Ubuntu18.04%E4%B8%8A%E6%90%AD%E5%BB%BAkubernetes.html" />
-    <link rel="prev" title="新建Ubuntu docker容器" href="../01Docker/01Docker%E6%96%B0%E5%BB%BA%E7%94%A8%E6%88%B7.html" />
     <link href="../../_static/style.css" rel="stylesheet" type="text/css">
 
 </head>
@@ -46,7 +44,6 @@
               <p class="caption" role="heading"><span class="caption-text">学习笔记:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../index.html">Docker</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../index.html#kubernetes">Kubernetes</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">论文学习:</span></p>
 <ul>
@@ -67,10 +64,9 @@
           <div role="navigation" aria-label="页面导航">
   <ul class="wy-breadcrumbs">
       <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
-          <li class="breadcrumb-item"><a href="../index.html">Docker</a></li>
-      <li class="breadcrumb-item active">&lt;no title&gt;</li>
+      <li class="breadcrumb-item active">GitHub + Spinx + Read the docs实战入门指南（一）</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="../../_sources/学习笔记/02Triton_with_kubernetes/index.rst.txt" rel="nofollow"> 查看页面源码</a>
+            <a href="../../_sources/学习笔记/04Spinx/01GitHub + Spinx + Read the docs实战入门指南（一）.md.txt" rel="nofollow"> 查看页面源码</a>
       </li>
   </ul>
   <hr/>
@@ -78,19 +74,52 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <div class="toctree-wrapper compound">
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="01%E5%9C%A8Ubuntu18.04%E4%B8%8A%E6%90%AD%E5%BB%BAkubernetes.html">一、kubernetes安装</a></li>
+  <section id="github-spinx-read-the-docs">
+<h1>GitHub + Spinx + Read the docs实战入门指南（一）<a class="headerlink" href="#github-spinx-read-the-docs" title="此标题的永久链接"></a></h1>
+<p>参考链接：<a class="reference external" href="https://zhuanlan.zhihu.com/p/618869114">知乎博客</a></p>
+<p><strong><u>Spinx</u></strong></p>
+<ul class="simple">
+<li><p><strong>Sphinx是什么?</strong> Sphinx是一个自动生成文档的工具，可以用简洁的语法快速生成优雅的文档。</p></li>
+<li><p><strong>哪些场景要用Sphinx?</strong> 如果想要写书，不想陷入复杂的排版中，可以考虑使用这个。如果有代码项目之类的，可以用它快速生成使用文档，支持markdown语法。</p></li>
 </ul>
+<p><strong><u>Read the docs</u></strong></p>
+<ul class="simple">
+<li><p>RTD(Read the docs) 是一个文档托管网站，这一点从网站名字上就能看出来。</p></li>
+<li><p>在与Github连接上配置无误的情况下，当Github上有文件改动时，会自动触发RTD自动更新对应的文档。RTD提供了丰富的文档主题，有着灵活的配置，可以满足大部分的需求。</p></li>
+<li><p>Github Pages是Github下自带的静态网站托管服务，选择合适主题后，也可根据Github的内容，自动排版和更新对应内容到网站中。</p></li>
+</ul>
+<p><img alt="../../_images/image-20230508121129552.png" src="../../_images/image-20230508121129552.png" /></p>
+<ol>
+<li><p>安装spinx：</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">spinx</span>
+</pre></div>
 </div>
+</li>
+<li><p>执行sphinx-quickstart：</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">venv</span><span class="p">)</span> <span class="n">D</span><span class="p">:</span>\<span class="n">ProgramFile</span>\<span class="n">TestProject</span><span class="o">&gt;</span><span class="n">sphinx</span><span class="o">-</span><span class="n">quickstart</span>
+</pre></div>
+</div>
+</li>
+<li><p>生成最原始的文档文件：</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">make</span> <span class="n">html</span>
+</pre></div>
+</div>
+</li>
+<li><p>查看效果。在<code class="docutils literal notranslate"><span class="pre">build/html/index.html</span></code>下可以查看最基本的Sphinx文档系统搭建</p></li>
+</ol>
+<section id="id1">
+<h2>二、定制化<a class="headerlink" href="#id1" title="此标题的永久链接"></a></h2>
+<p>定制化配置在<code class="docutils literal notranslate"><span class="pre">source/conf.py</span></code>中设置</p>
+<ol class="simple">
+<li></li>
+</ol>
+</section>
+</section>
 
 
            </div>
           </div>
-          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
-        <a href="../01Docker/01Docker%E6%96%B0%E5%BB%BA%E7%94%A8%E6%88%B7.html" class="btn btn-neutral float-left" title="新建Ubuntu docker容器" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
-        <a href="01%E5%9C%A8Ubuntu18.04%E4%B8%8A%E6%90%AD%E5%BB%BAkubernetes.html" class="btn btn-neutral float-right" title="一、kubernetes安装" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
-    </div>
+          <footer>
 
   <hr/>
 

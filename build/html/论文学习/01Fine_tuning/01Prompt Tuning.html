@@ -43,9 +43,9 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
-              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+              <p class="caption" role="heading"><span class="caption-text">学习笔记:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/index.html">学习笔记</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/index.html">Docker</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">论文学习:</span></p>
 <ul class="current">
@@ -89,16 +89,16 @@
 <p>大模型的可移植性很差，针对万亿规模的模型来说，对下游任务的微调很难起效果</p>
 <p>P-tuning使用差分输出嵌入取代了预训练语言模型的输入嵌入。</p>
 <p>P-tuning将$[P_i]$视为伪tokens，将模板映射到</p>
-<p><img alt="image-20230504170156267" src="../../_images/image-20230504170156267.png" /></p>
+<p><img alt="../../_images/image-20230504170156267.png" src="../../_images/image-20230504170156267.png" /></p>
 <p>其中$h_i$是可训练的嵌入张量，这样能够在语言模型的原始词汇之外找到更好的连续提示，利用下游损失函数$L$，可以对连续提示进行差分优化。</p>
-<p><img alt="image-20230504171226971" src="../../_images/image-20230504171226971.png" /></p>
-<p><img alt="image-20230504171339484" src="../../_images/image-20230504171339484.png" /></p>
+<p><img alt="../../_images/image-20230504171226971.png" src="../../_images/image-20230504171226971.png" /></p>
+<p><img alt="../../_images/image-20230504171339484.png" src="../../_images/image-20230504171339484.png" /></p>
 <p>P-tuning的主要问题：</p>
 <p>1、模型的原始词嵌入$e$是高度离散化的，如果$h$使用随机分布初始化，然后使用随机梯度下降（SGD）方式优化，已有文章验证了优化器容易陷入局部极小值</p>
 <p>2、我们认为嵌入$h_i$是相互依赖相关联的，而不是独立的，需要引入一些机制使提示嵌入之间相互关联</p>
 <p>解决方案：</p>
 <p>使用由非常轻量级的神经网络构成的“提示编码器”将$h_i$建模成序列，在实际中，使用双向LSTM，带有ReLu激活的双层MLP用于鼓励离散性，语言模型的实际输入嵌入可以表示为：</p>
-<p><img alt="image-20230504173638982" src="../../_images/image-20230504173638982.png" /></p>
+<p><img alt="../../_images/image-20230504173638982.png" src="../../_images/image-20230504173638982.png" /></p>
 <p>现有的调优方法：</p>
 <p>1、手工提示（manual prompt）</p>
 <p>2、微调（fine-tuning）</p>

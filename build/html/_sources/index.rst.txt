@@ -8,7 +8,7 @@ Welcome to SphinxDemo's documentation!
 
 .. toctree::
    :maxdepth: 2
-   :caption: Contents:
+   :caption: 学习笔记:
 
    学习笔记/index
 

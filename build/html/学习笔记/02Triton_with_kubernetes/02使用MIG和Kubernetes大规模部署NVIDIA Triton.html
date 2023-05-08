@@ -18,8 +18,6 @@
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="索引" href="../../genindex.html" />
     <link rel="search" title="搜索" href="../../search.html" />
-    <link rel="next" title="三、使用Kubernetes创建集群" href="03%E4%BD%BF%E7%94%A8Kubernetes%E5%88%9B%E5%BB%BA%E9%9B%86%E7%BE%A4.html" />
-    <link rel="prev" title="一、kubernetes安装" href="01%E5%9C%A8Ubuntu18.04%E4%B8%8A%E6%90%AD%E5%BB%BAkubernetes.html" />
     <link href="../../_static/style.css" rel="stylesheet" type="text/css">
 
 </head>
@@ -43,29 +41,9 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
-              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
-<ul class="current">
-<li class="toctree-l1 current"><a class="reference internal" href="../index.html">学习笔记</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="../01Docker/index.html">Docker</a></li>
-<li class="toctree-l2 current"><a class="reference internal" href="index.html">Triton_with_kubernetes</a><ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="01%E5%9C%A8Ubuntu18.04%E4%B8%8A%E6%90%AD%E5%BB%BAkubernetes.html">一、kubernetes安装</a></li>
-<li class="toctree-l3 current"><a class="current reference internal" href="#">二、使用MIG和Kubernetes大规模部署NVIDIA Triton</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#create-a-kubernetes-deployment-for-triton-inference-servers">1、Create a Kubernetes Deployment for Triton Inference Servers</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#create-a-kubernetes-service-for-triton-inference-servers">2、Create a Kubernetes Service for Triton Inference Servers</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#prometheusnvidia">3、使用Prometheus爬取NVIDIA的性能</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#autoscale-triton-inference-servers">4、Autoscale Triton Inference Servers</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#hpa">5、部署HPA</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#nginx-plus">6、使用NGINX Plus负载均衡</a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="03%E4%BD%BF%E7%94%A8Kubernetes%E5%88%9B%E5%BB%BA%E9%9B%86%E7%BE%A4.html">三、使用Kubernetes创建集群</a></li>
-<li class="toctree-l3"><a class="reference internal" href="04Triton%20Metrics.html">四、Triton Metrics</a></li>
-<li class="toctree-l3"><a class="reference internal" href="05Grafana.html">五、Grafana</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="../03Git/index.html">Git</a></li>
-</ul>
-</li>
+              <p class="caption" role="heading"><span class="caption-text">学习笔记:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../index.html">Docker</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">论文学习:</span></p>
 <ul>
@@ -86,8 +64,6 @@
           <div role="navigation" aria-label="页面导航">
   <ul class="wy-breadcrumbs">
       <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
-          <li class="breadcrumb-item"><a href="../index.html">学习笔记</a></li>
-          <li class="breadcrumb-item"><a href="index.html">Triton_with_kubernetes</a></li>
       <li class="breadcrumb-item active">二、使用MIG和Kubernetes大规模部署NVIDIA Triton</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../../_sources/学习笔记/02Triton_with_kubernetes/02使用MIG和Kubernetes大规模部署NVIDIA Triton.md.txt" rel="nofollow"> 查看页面源码</a>
@@ -163,12 +139,12 @@
 <section id="id1">
 <h3>出现问题<a class="headerlink" href="#id1" title="此标题的永久链接"></a></h3>
 <p>查看pods，发现状态为Pending</p>
-<p><img alt="image-20230320112006623" src="../../_images/image-20230320112006623.png" /></p>
+<p><img alt="../../_images/image-20230320112006623.png" src="../../_images/image-20230320112006623.png" /></p>
 <p>查看具体原因执行</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">kubectl</span> <span class="n">describe</span> <span class="n">pod</span> <span class="n">speech</span><span class="o">-</span><span class="mi">677</span><span class="n">b4999cf</span><span class="o">-</span><span class="mi">9</span><span class="n">nsrq</span>
 </pre></div>
 </div>
-<p><img alt="image-20230320111921236" src="../../_images/image-20230320111921236.png" /></p>
+<p><img alt="../../_images/image-20230320111921236.png" src="../../_images/image-20230320111921236.png" /></p>
 <section id="id2">
 <h4>解决方案1<a class="headerlink" href="#id2" title="此标题的永久链接"></a></h4>
 <p><a class="reference external" href="https://blog.csdn.net/weixin_43114954/article/details/119153903">(70条消息) 0/1 nodes are available: 1 node(s) had taint {node-role.kubernetes.io/master: }, that the pod didn‘t_YuanOo。的博客-CSDN博客</a></p>
@@ -220,14 +196,14 @@
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">kubectl</span> <span class="n">apply</span> <span class="o">-</span><span class="n">f</span> <span class="n">speech</span><span class="o">-</span><span class="n">service</span><span class="o">.</span><span class="n">yml</span>
 </pre></div>
 </div>
-<p><img alt="image-20230321113735206" src="../../_images/image-20230321113735206.png" /></p>
+<p><img alt="../../_images/image-20230321113735206.png" src="../../_images/image-20230321113735206.png" /></p>
 <p>​	验证服务创建成功</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">kubectl</span> <span class="n">get</span> <span class="n">svc</span>
 </pre></div>
 </div>
-<p><img alt="image-20230321113857175" src="../../_images/image-20230321113857175.png" /></p>
+<p><img alt="../../_images/image-20230321113857175.png" src="../../_images/image-20230321113857175.png" /></p>
 <p>现在，Triton推理服务器已准备好接收来自远程客户端的推理请求，如果客户端发送推理请求，则客户端可以查看语音识别的结果。10.24.83.40: 30869</p>
-<p><img alt="image-20230321122629260" src="../../_images/image-20230321122629260.png" /></p>
+<p><img alt="../../_images/image-20230321122629260.png" src="../../_images/image-20230321122629260.png" /></p>
 <p>至此，多个Triton推理服务器在Kubernetes环境中运行，对客户端发送的语音进行推理，可以手动更改服务器的数量。在接下来的部分中，对其进行改进，以便可以根据客户端请求自动调整服务器的数量。</p>
 </section>
 <section id="prometheusnvidia">
@@ -259,7 +235,7 @@
 </div>
 <p>要匹配NVIDIA Triton Deployment的标签，确保<code class="docutils literal notranslate"><span class="pre">spec.selector.matchLabels</span></code>字段为<code class="docutils literal notranslate"><span class="pre">app:</span> <span class="pre">speech</span></code>，<code class="docutils literal notranslate"><span class="pre">spec.namespaceSelector.matchNames</span></code>字段为<code class="docutils literal notranslate"><span class="pre">-default</span></code>，两者都应与NVIDIA Triton Deployment位于同一命名空间下。</p>
 <p>使用命令<code class="docutils literal notranslate"><span class="pre">kubectl</span> <span class="pre">apply</span> <span class="pre">-f</span> <span class="pre">speech-pod-monitor.yml</span></code>并验证</p>
-<p><img alt="image-20230321154541639" src="../../_images/image-20230321154541639.png" /></p>
+<p><img alt="../../_images/image-20230321154541639.png" src="../../_images/image-20230321154541639.png" /></p>
 <section id="prometheus">
 <h4>安装Prometheus<a class="headerlink" href="#prometheus" title="此标题的永久链接"></a></h4>
 <p>下载地址：</p>
@@ -277,7 +253,7 @@
 </pre></div>
 </div>
 <p>验证：</p>
-<p><img alt="image-20230321154509028" src="../../_images/image-20230321154509028.png" /></p>
+<p><img alt="../../_images/image-20230321154509028.png" src="../../_images/image-20230321154509028.png" /></p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">kubectl</span> <span class="o">--</span><span class="n">namespace</span> <span class="n">monitoring</span> <span class="n">port</span><span class="o">-</span><span class="n">forward</span> <span class="n">svc</span><span class="o">/</span><span class="n">prometheus</span><span class="o">-</span><span class="n">k8s</span> <span class="mi">9090</span>
 </pre></div>
 </div>
@@ -393,7 +369,7 @@
 </pre></div>
 </div>
 <p>出现</p>
-<p><img alt="image-20230321204503467" src="../../_images/image-20230321204503467.png" /></p>
+<p><img alt="../../_images/image-20230321204503467.png" src="../../_images/image-20230321204503467.png" /></p>
 </section>
 <section id="kubernetes-metrcs-apiprometheus-adapter">
 <h3>4.2	为Kubernetes metrcs API创建Prometheus adapter<a class="headerlink" href="#kubernetes-metrcs-apiprometheus-adapter" title="此标题的永久链接"></a></h3>
@@ -477,12 +453,12 @@
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">kubectl</span> <span class="n">get</span> <span class="o">--</span><span class="n">raw</span> <span class="o">/</span><span class="n">apis</span><span class="o">/</span><span class="n">custom</span><span class="o">.</span><span class="n">metrics</span><span class="o">.</span><span class="n">k8s</span><span class="o">.</span><span class="n">io</span><span class="o">/</span><span class="n">v1beta1</span> <span class="o">|</span> <span class="n">jq</span> <span class="o">.</span>
 </pre></div>
 </div>
-<p><img alt="image-20230327192343568" src="../../_images/image-20230327192343568.png" /></p>
+<p><img alt="../../_images/image-20230327192343568.png" src="../../_images/image-20230327192343568.png" /></p>
 <p>还可以检查custom metrics的当前值，该值为0表示没有来自客户端的推理请求，default namespace选择所有pod，其中部署了speech-demo：</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">kubectl</span> <span class="n">get</span> <span class="o">--</span><span class="n">raw</span> <span class="o">/</span><span class="n">apis</span><span class="o">/</span><span class="n">custom</span><span class="o">.</span><span class="n">metrics</span><span class="o">.</span><span class="n">k8s</span><span class="o">.</span><span class="n">io</span><span class="o">/</span><span class="n">v1beta1</span><span class="o">/</span><span class="n">namespaces</span><span class="o">/</span><span class="n">default</span><span class="o">/</span><span class="n">pods</span><span class="o">/*/</span><span class="n">avg_time_queue_us</span> <span class="o">|</span> <span class="n">jq</span> <span class="o">.</span>
 </pre></div>
 </div>
-<p><img alt="image-20230327192704313" src="../../_images/image-20230327192704313.png" /></p>
+<p><img alt="../../_images/image-20230327192704313.png" src="../../_images/image-20230327192704313.png" /></p>
 </section>
 </section>
 <section id="hpa">
@@ -512,14 +488,14 @@ $R$表示Kubernetes拥有replicas的数量；$CR$是当前replicas pod的数量�
 </pre></div>
 </div>
 <p>可以查看部署的HPA状态：</p>
-<p><img alt="image-20230327200937175" src="../../_images/image-20230327200937175.png" /></p>
+<p><img alt="../../_images/image-20230327200937175.png" src="../../_images/image-20230327200937175.png" /></p>
 <p>如果客户端向服务器发送推理请求，则新的HPA可以获取部署的自定义度量，并建立所需Pod的数量，当客户端停止发送推理请求时，HPA将replicas数量减少到只有1。</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">kubectl</span> <span class="n">get</span> <span class="n">hpa</span>
 
 <span class="n">kubectl</span> <span class="n">describe</span> <span class="n">hpa</span> <span class="n">speech</span><span class="o">-</span><span class="n">hpa</span>
 </pre></div>
 </div>
-<p><img alt="image-20230327203412462" src="../../_images/image-20230327203412462.png" /></p>
+<p><img alt="../../_images/image-20230327203412462.png" src="../../_images/image-20230327203412462.png" /></p>
 </section>
 <section id="nginx-plus">
 <h2>6、使用NGINX Plus负载均衡<a class="headerlink" href="#nginx-plus" title="此标题的永久链接"></a></h2>
@@ -530,7 +506,7 @@ $R$表示Kubernetes拥有replicas的数量；$CR$是当前replicas pod的数量�
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">kubectl</span> <span class="n">label</span> <span class="n">node</span> <span class="n">xmdx</span> <span class="n">role</span><span class="o">=</span><span class="n">nginxplus</span>
 </pre></div>
 </div>
-<p><img alt="image-20230403111341595" src="../../_images/image-20230403111341595.png" /></p>
+<p><img alt="../../_images/image-20230403111341595.png" src="../../_images/image-20230403111341595.png" /></p>
 <p>​	修改Service将Cluster IP设置为None，暴露并标识所有的replicas端点。创建一个新的Service文件<code class="docutils literal notranslate"><span class="pre">speech-service-nginx.yml</span></code>，并且apply it：</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">apiVersion</span><span class="p">:</span> <span class="n">v1</span>
 <span class="n">kind</span><span class="p">:</span> <span class="n">Service</span>
@@ -661,10 +637,7 @@ $R$表示Kubernetes拥有replicas的数量；$CR$是当前replicas pod的数量�
 
            </div>
           </div>
-          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
-        <a href="01%E5%9C%A8Ubuntu18.04%E4%B8%8A%E6%90%AD%E5%BB%BAkubernetes.html" class="btn btn-neutral float-left" title="一、kubernetes安装" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
-        <a href="03%E4%BD%BF%E7%94%A8Kubernetes%E5%88%9B%E5%BB%BA%E9%9B%86%E7%BE%A4.html" class="btn btn-neutral float-right" title="三、使用Kubernetes创建集群" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
-    </div>
+          <footer>
 
   <hr/>
 
