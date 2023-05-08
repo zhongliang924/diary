@@ -16,8 +16,6 @@
 
 ![image-20230508121129552](01GitHub + Spinx + Read the docs实战入门指南（一）.assets/image-20230508121129552.png)
 
-#### 一、本地搭建Spinx环境，用于本地查看效果
-
 1. 安装spinx：
 
    ```
