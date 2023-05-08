@@ -77,7 +77,7 @@ deployment.apps/speech created
 
 查看pods，发现状态为Pending
 
-![image-20230320112006623](02.assets/image-20230320112006623.png)
+![](02.assets/image-20230320112006623.png)
 
 查看具体原因执行
 
@@ -85,7 +85,7 @@ deployment.apps/speech created
 sudo kubectl describe pod speech-677b4999cf-9nsrq
 ```
 
-![image-20230320111921236](02.assets/image-20230320111921236.png)
+![](02.assets/image-20230320111921236.png)
 
 ###### 解决方案1
 
@@ -145,7 +145,7 @@ spec:
 kubectl apply -f speech-service.yml
 ```
 
-![image-20230321113735206](02.assets/image-20230321113735206.png)
+![](02.assets/image-20230321113735206.png)
 
 ​	验证服务创建成功
 
@@ -153,11 +153,11 @@ kubectl apply -f speech-service.yml
 kubectl get svc
 ```
 
-![image-20230321113857175](02.assets/image-20230321113857175.png)
+![](02.assets/image-20230321113857175.png)
 
 现在，Triton推理服务器已准备好接收来自远程客户端的推理请求，如果客户端发送推理请求，则客户端可以查看语音识别的结果。10.24.83.40: 30869
 
-![image-20230321122629260](02.assets/image-20230321122629260.png)
+![](02.assets/image-20230321122629260.png)
 
 至此，多个Triton推理服务器在Kubernetes环境中运行，对客户端发送的语音进行推理，可以手动更改服务器的数量。在接下来的部分中，对其进行改进，以便可以根据客户端请求自动调整服务器的数量。
 
@@ -196,7 +196,7 @@ spec:
 
 使用命令`kubectl apply -f speech-pod-monitor.yml`并验证
 
-![image-20230321154541639](02.assets/image-20230321154541639.png)
+![](02.assets/image-20230321154541639.png)
 
 ###### 安装Prometheus
 
@@ -222,7 +222,7 @@ kubectl delete --ignore-not-found=true -f manifests/ -f manifests/setup
 
 验证：
 
-![image-20230321154509028](02.assets/image-20230321154509028.png)
+![](02.assets/image-20230321154509028.png)
 
 ```
 kubectl --namespace monitoring port-forward svc/prometheus-k8s 9090
@@ -358,7 +358,7 @@ kubectl apply -f custom-metrics-server-config.yml
 
 出现
 
-![image-20230321204503467](02.assets/image-20230321204503467.png)
+![](02.assets/image-20230321204503467.png)
 
 ##### 4.2	为Kubernetes metrcs API创建Prometheus adapter
 
@@ -453,7 +453,7 @@ spec:
 kubectl get --raw /apis/custom.metrics.k8s.io/v1beta1 | jq .
 ```
 
-![image-20230327192343568](02.assets/image-20230327192343568.png)
+![](02.assets/image-20230327192343568.png)
 
 还可以检查custom metrics的当前值，该值为0表示没有来自客户端的推理请求，default namespace选择所有pod，其中部署了speech-demo：
 
@@ -461,7 +461,7 @@ kubectl get --raw /apis/custom.metrics.k8s.io/v1beta1 | jq .
 kubectl get --raw /apis/custom.metrics.k8s.io/v1beta1/namespaces/default/pods/*/avg_time_queue_us | jq .
 ```
 
-![image-20230327192704313](02.assets/image-20230327192704313.png)
+![](02.assets/image-20230327192704313.png)
 
 #### 5、部署HPA
 
@@ -494,7 +494,7 @@ spec:
 
 可以查看部署的HPA状态：
 
-![image-20230327200937175](02.assets/image-20230327200937175.png)
+![](02.assets/image-20230327200937175.png)
 
 如果客户端向服务器发送推理请求，则新的HPA可以获取部署的自定义度量，并建立所需Pod的数量，当客户端停止发送推理请求时，HPA将replicas数量减少到只有1。
 
@@ -504,7 +504,7 @@ kubectl get hpa
 kubectl describe hpa speech-hpa
 ```
 
-![image-20230327203412462](02.assets/image-20230327203412462.png)
+![](02.assets/image-20230327203412462.png)
 
 #### 6、使用NGINX Plus负载均衡
 
@@ -520,7 +520,7 @@ kubectl describe hpa speech-hpa
 kubectl label node xmdx role=nginxplus
 ```
 
-![image-20230403111341595](02.assets/image-20230403111341595.png)	
+![](02.assets/image-20230403111341595.png)	
 
 ​	修改Service将Cluster IP设置为None，暴露并标识所有的replicas端点。创建一个新的Service文件`speech-service-nginx.yml`，并且apply it：
 

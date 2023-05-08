@@ -8,7 +8,7 @@ P-tuning V2对预训练模型的每一层应用连续提示，而不仅仅是输
 
 NLU任务可分为简单的分类任务和硬序列标记任务，硬序列标记任务包含对token序列的分类，例如命名实体识别和提取式问答。
 
-![image-20230507202904572](2-P-Tuning_v2--Prompt_Tuning_Can_Be_Comparable_to_Fine-tuning_Universally_Across_Scales_and_Tasks.assets/image-20230507202904572.png)
+![](2-P-Tuning_v2--Prompt_Tuning_Can_Be_Comparable_to_Fine-tuning_Universally_Across_Scales_and_Tasks.assets/image-20230507202904572.png)
 
 传统的Prompt-tuning缺乏在**跨规模**和**跨任务**的通用性，连续提示仅仅插入在输入嵌入序列中
 
@@ -16,12 +16,12 @@ P-tuning v2为不同层的提示添加了前缀标记，具有更多可调参数
 
 
 
-重参数化
+**重参数化**
 
 ​	先前的工作采用重参数化编码器（如MLP）来转换可训练的嵌入，但是性能取决于任务和数据集，有些数据集MLP能带来改进，
 
-提示长度
+**提示长度**
 
-多任务学习
+**多任务学习**
 
-分类头
+**分类头**
