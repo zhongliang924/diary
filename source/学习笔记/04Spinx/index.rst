@@ -3,17 +3,15 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-学习笔记
-======================================
+Spinx
+=====================================
 
 .. toctree::
    :maxdepth: 1
 
-   01Docker/index
-   02Triton_with_kubernetes/index
-   03Git/index
-   04Spinx/index
-
+   01GitHub + Spinx + Read the docs实战入门指南（一）
+   02GitHub + Spinx + Read the docs实战入门指南（二）
+   03GitHub + Spinx + Read the docs实战入门指南（三）
 
 
 
