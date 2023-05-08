@@ -13,7 +13,7 @@ env:
   CLONE_URL: ${{ github.event.repository.clone_url }}
   USER_NAME: ${{ github.event.repository.owner.name }}
   USER_EMAIL: ${{ github.event.repository.owner.email }}
-  SUBMMIT_BRANCH: docs
+  SUBMMIT_BRANCH: main
   PACKAGE_NAME: rapid_videocr
 
 jobs:
@@ -40,10 +40,10 @@ jobs:
           git config --global user.name $USER_NAME
           git config --global user.email $USER_EMAIL
 
-      - name: Summit repo to docs branch.
+      - name: Summit repo to main branch.
         run: |
           ls
-          rm -r docs
+          rm -r main
 
           git clone -b ${SUBMMIT_BRANCH} $CLONE_URL ${SUBMMIT_BRANCH}
           cd ${SUBMMIT_BRANCH}
