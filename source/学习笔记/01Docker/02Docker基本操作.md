@@ -44,13 +44,13 @@ systemctl restart docker
 
 **Docker镜像容器删除**
 
-- 删除名称为<none>的镜像
+- 删除名称为\<none>的镜像
 
 ```
 docker rmi $(docker images -f "dangling=true" -q)
 ```
 
-- 删除状态为<Exited>的容器
+- 删除状态为\<Exited>的容器
 
 ```
 docker rm $(docker ps -q -f status=exited)
