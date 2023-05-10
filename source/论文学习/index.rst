@@ -14,6 +14,6 @@ Fine tuning
 
    01Fine_tuning/01Prompt Tuning
    01Fine_tuning/02Prompt Tuning v2
-
+   01Fine_tuning/03ChatGLM微调实验
 
 

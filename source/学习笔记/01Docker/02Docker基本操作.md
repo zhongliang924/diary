@@ -56,3 +56,31 @@ docker rmi $(docker images -f "dangling=true" -q)
 docker rm $(docker ps -q -f status=exited)
 ```
 
+**修改共享内存**
+
+​	docker中的进程要与宿主机使用共享内存通信，共享内存过小可能导致在执行某些程序时发生内存溢出的现象，默认的共享内存大小为64MB，下面介绍如何在启动的docker容器中修改共享内存的大小。
+
+进入容器，输入df可以看到共享内存的大小：
+
+![](figs.assets/image-20230510133912899.png)
+
+首先在主机上使用`docker ps -a`查看容器id：
+
+![](figs.assets/image-20230510134044004.png)
+
+接下来关闭docker服务
+
+```
+service docker stop
+```
+
+进入该容器目录`cd /ssd1/docker/containers/容器id`，修改`hostconfig.json`文件，找到`ShmSize`字段并进行更改我们需要的共享内存大小
+
+![](figs.assets/image-20230510134334049.png)
+
+最后重启docker服务
+
+```
+systemctl restart docker
+```
+

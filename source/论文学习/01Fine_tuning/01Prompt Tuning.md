@@ -1,6 +1,6 @@
 ### Prompt Tuning
 
-论文链接：[[GPT Understands, Too (arxiv.org)]](https://arxiv.org/pdf/2103.10385.pdf)
+论文链接：[https://arxiv.org/pdf/2103.10385.pdf](https://arxiv.org/pdf/2103.10385.pdf)
 
 
 
@@ -24,13 +24,13 @@ P-tuning使用差分输出嵌入取代了预训练语言模型的输入嵌入。
 
 P-tuning将$[P_i]$视为伪tokens，将模板映射到
 
-![](1-GPT_Understands,Too.assets/image-20230504170156267.png)
+![](figs.assets/image-20230504170156267.png)
 
 其中$h_i$是可训练的嵌入张量，这样能够在语言模型的原始词汇之外找到更好的连续提示，利用下游损失函数$L$，可以对连续提示进行差分优化。
 
-![](1-GPT_Understands,Too.assets/image-20230504171226971.png)
+![](figs.assets/image-20230504171226971.png)
 
-![](1-GPT_Understands,Too.assets/image-20230504171339484.png)
+![](figs.assets/image-20230504171339484.png)
 
 
 
@@ -46,7 +46,7 @@ P-tuning的主要问题：
 
 使用由非常轻量级的神经网络构成的“提示编码器”将$h_i$建模成序列，在实际中，使用双向LSTM，带有ReLu激活的双层MLP用于鼓励离散性，语言模型的实际输入嵌入可以表示为：
 
-![](1-GPT_Understands,Too.assets/image-20230504173638982.png)
+![](figs.assets/image-20230504173638982.png)
 
 
 
