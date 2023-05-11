@@ -57,7 +57,42 @@ model = load_model_on_gpus("../chatglm-6b", num_gpus=2)
 RuntimeError: Expected all tensors to be on the same device, but found at least two devices, cuda:1 and cuda:0! (when checking argument for argument weight in method wrapper__native_layer_norm)
 ```
 
+**模型部署**
 
+- 代码调用生成对话
+
+  ```
+  >>> from transformers import AutoTokenizer, AutoModel
+  >>> import os
+  >>> os.environ["CUDA_VISIBLE_DEVICES"] = '1'
+  >>> tokenizer = AutoTokenizer.from_pretrained("../chatglm-6b", trust_remote_code=True)
+  >>> model = AutoModel.from_pretrained("../chatglm-6b", trust_remote_code=True).half().cuda()
+  >>> model = model.eval()
+  >>> response, history = model.chat(tokenizer, "你好", history=[])
+  >>> print(response)
+  你好👋!我是人工智能助手 ChatGLM-6B,很高兴见到你,欢迎问我任何问题。
+  >>> response, history = model.chat(tokenizer, "晚上睡不着应该怎么办", history=history)
+  >>> print(response)
+  晚上睡不着可能会让人感到困扰和焦虑，但有一些方法可以帮助你入睡。以下是一些可能有用的技巧：
+  
+  1. 创造一个舒适的睡眠环境：确保卧室安静、黑暗、凉爽和舒适。你可以使用柔和的音乐或白噪声、窗帘或眼罩来帮助创造舒适的睡眠环境。
+  
+  2. 建立一个睡前例行程序：每天晚上在相同的时间上床，并建立一个睡前例行程序，如洗澡、读书或听轻柔的音乐，有助于让身体和大脑准备好睡觉。
+  
+  3. 避免使用电子设备：在睡觉前尽量避免使用电子设备，如手机、电脑和电视，因为这些设备会发出蓝光，影响身体释放褪黑素，这是帮助入睡的关键物质。
+  
+  4. 尝试放松技巧：放松技巧，如深呼吸、渐进性肌肉松弛和冥想，可以帮助你放松身体和头脑，更容易入睡。
+  
+  5. 避免在床上做其他事情：避免在床上做与睡眠无关的事情，如看电视、使用电脑或手机等，这将有助于确保身体和大脑进入睡眠状态。
+  
+  如果使用了这些方法仍然无法入睡，你可能需要寻求医生的建议，因为可能存在某些睡眠障碍或其他健康问题，需要进一步的治疗。
+  ```
+
+- 网页版Demo
+
+- 命令行Demo
+
+  ![](figs.assets/image-20230510201219981.png)
 
 
 
@@ -122,17 +157,66 @@ CUDA_VISIBLE_DEVICES=0,1 deepspeed finetuning_freeze.py --num_train_epochs 5 --t
 CUDA_VISIBLE_DEVICES=0 deepspeed finetuning_pt.py --num_train_epochs 5 --train_batch_size 2 --pre_seq_len 16
 ```
 
+**LoRA方法**
+
+Lora方法，即在大型语言模型上对指定参数（权重矩阵）并行增加额外的低秩矩阵，并在模型训练过程中，仅训练额外增加的并行低秩矩阵的参数。 当“秩值”远小于原始参数维度时，新增的低秩矩阵参数量也就很小。在下游任务tuning时，仅须训练很小的参数，但能获取较好的表现结果。
 
 
-| 微调方法     | 未微调   | Freeze(fp16) | PT(int 4) | Lora |
-| ------------ | -------- | ------------ | --------- | ---- |
-| 显存占用     |          | 22.938GiB    | 21.894GiB |      |
-| 可训练参数   |          | 1.01B        | 0.96B     |      |
-| 总参数       |          | 6.17B        | 4.31B     |      |
-| 可训练参数比 |          | 16.31%       | 22.18%    |      |
-| 训练耗时     |          | 78.86min     |           |      |
-| 测试结果F1   | 0.0      | 0.5467       |           |      |
-| 测试耗时     | 113.215s | 38.731s      |           |      |
+
+**测试结果**
+
+| 微调方法     | 未微调   | Freeze(fp16) | PT(int 4) | LoRA(load_in_int8) |
+| ------------ | -------- | ------------ | --------- | ------------------ |
+| 训练显存占用 |          | 22.938GiB    | 21.894GiB | 22.662GiB          |
+| 可训练参数   |          | 1.01B        | 0.96B     | 0.0367B            |
+| 总参数       |          | 6.17B        | 4.31B     | 6.17B              |
+| 可训练参数比 |          | 16.31%       | 22.18%    | 0.06%              |
+| 推理显存占用 |          | 13.174GiB    | 7.788GiB  | 9.184GiB           |
+| 训练耗时     |          | 78.86min     | 107.6min  | 73.5min            |
+| 测试结果F1   | 0.0      | 0.5467       | 0.6211    | 0.5393             |
+| 测试耗时     | 113.215s | 44.161s      | 96.128s   | 172.885s           |
 
 
+
+**遇到的问题**
+
+- bitsandbytes
+
+在模型加载中使用`load_in_8bit=True`时，要求安装accelerate和bitsandbytes
+
+```
+model = ChatGLMForConditionalGeneration.from_pretrained(args.model_dir, load_in_8bit=True, trust_remote_code=True, device_map="auto")
+```
+
+对于CUDA11.8，accelerate使用pip进行安装，直接使用`pip install bitsandbytes`安装只能安装到cu117版本，需要采用源码安装：
+
+```
+git clone https://github.com/timdettmers/bitsandbytes.git
+cd bitsandbytes
+
+# CUDA_VERSIONS in {110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 120}
+# make argument in {cuda110, cuda11x, cuda12x}
+# if you do not know what CUDA you have, try looking at the output of: python -m bitsandbytes
+CUDA_VERSION=117 make cuda11x
+python setup.py install
+```
+
+- 训练LoRA时，随着训练轮次的增加，显存占用也会增加，容易爆显存，以下两种方法可以有所缓解
+
+  1. 设置`max_split_size_mb:128`
+
+     ```
+     os.environ["PYTORCH_CUDA_ALLOC_CONF"] = "max_split_size_mb:128"
+     ```
+
+  2. deepspeed在`zero_optimization`下添加设置
+
+     ```
+     "offload_param": {
+     	"device": "cpu",
+     	"pin_memory": True
+     },
+     ```
+
+     
 
