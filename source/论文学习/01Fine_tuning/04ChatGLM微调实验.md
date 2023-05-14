@@ -6,7 +6,7 @@
 
 AI预训练大模型网址：[最近几年AI模型列表](https://www.datalearner.com/ai-models/pretrained-models)
 
-![image-20230509163925799](figs.assets/image-20230509163925799.png)
+![](figs.assets/image-20230509163925799.png)
 
 AI模型月报
 
@@ -115,7 +115,7 @@ RuntimeError: Expected all tensors to be on the same device, but found at least 
 
 ​	Freeze方法，即参数冻结，对原始模型部分参数进行冻结操作，仅训练部分参数，以达到在单卡或不进行TP或PP操作，就可以对大模型进行训练。核心代码如下：
 
-![image-20230509171421842](figs.assets/image-20230509171421842.png)
+![](figs.assets/image-20230509171421842.png)
 
 训练采用[DeepSpeed](https://www.deepspeed.ai/)进行训练。deep speed是微软的新大规模模型分布式训练的工具，专门为训练超大模型而生，号称可以训练10B参数的模型，比目前最好的模型大10倍，训练速度块10倍，兼容pytorch的模型，改动最少代码。
 
@@ -159,7 +159,9 @@ CUDA_VISIBLE_DEVICES=0 deepspeed finetuning_pt.py --num_train_epochs 5 --train_b
 
 **LoRA方法**
 
-Lora方法，即在大型语言模型上对指定参数（权重矩阵）并行增加额外的低秩矩阵，并在模型训练过程中，仅训练额外增加的并行低秩矩阵的参数。 当“秩值”远小于原始参数维度时，新增的低秩矩阵参数量也就很小。在下游任务tuning时，仅须训练很小的参数，但能获取较好的表现结果。
+Lora方法，即在大型语言模型上对指定参数（权重矩阵）并行增加额外的低秩矩阵，并在模型训练过程中，仅训练额外增加的并行低秩矩阵的参数。 当“秩值”远小于原始参数维度时，新增的低秩矩阵参数量也就很小。在下游任务tuning时，仅须训练很小的参数，但能获取较好的表现结果。核心代码：
+
+![](figs.assets/image-20230511203445674.png)
 
 
 
