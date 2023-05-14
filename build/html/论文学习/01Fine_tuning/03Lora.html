@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Prompt Tuning &mdash; SpinxDemo v1.0 文档</title>
+  <title>LoRA &mdash; SpinxDemo v1.0 文档</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -18,8 +18,8 @@
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="索引" href="../../genindex.html" />
     <link rel="search" title="搜索" href="../../search.html" />
-    <link rel="next" title="Prompt Tuning V2" href="02Prompt%20Tuning%20v2.html" />
-    <link rel="prev" title="Contents" href="../index.html" />
+    <link rel="next" title="ChatGLM微调实验" href="04ChatGLM%E5%BE%AE%E8%B0%83%E5%AE%9E%E9%AA%8C.html" />
+    <link rel="prev" title="Prompt Tuning V2" href="02Prompt%20Tuning%20v2.html" />
     <link href="../../_static/style.css" rel="stylesheet" type="text/css">
 
 </head>
@@ -57,9 +57,9 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../index.html">Contents</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../index.html#fine-tuning">Fine tuning</a><ul class="current">
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Prompt Tuning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="01Prompt%20Tuning.html">Prompt Tuning</a></li>
 <li class="toctree-l2"><a class="reference internal" href="02Prompt%20Tuning%20v2.html">Prompt Tuning V2</a></li>
-<li class="toctree-l2"><a class="reference internal" href="03Lora.html">LoRA</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">LoRA</a></li>
 <li class="toctree-l2"><a class="reference internal" href="04ChatGLM%E5%BE%AE%E8%B0%83%E5%AE%9E%E9%AA%8C.html">ChatGLM微调实验</a></li>
 </ul>
 </li>
@@ -80,9 +80,9 @@
   <ul class="wy-breadcrumbs">
       <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="../index.html">Contents</a></li>
-      <li class="breadcrumb-item active">Prompt Tuning</li>
+      <li class="breadcrumb-item active">LoRA</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="../../_sources/论文学习/01Fine_tuning/01Prompt Tuning.md.txt" rel="nofollow"> 查看页面源码</a>
+            <a href="../../_sources/论文学习/01Fine_tuning/03Lora.md.txt" rel="nofollow"> 查看页面源码</a>
       </li>
   </ul>
   <hr/>
@@ -90,43 +90,29 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="prompt-tuning">
-<h1>Prompt Tuning<a class="headerlink" href="#prompt-tuning" title="此标题的永久链接"></a></h1>
-<p>论文链接：<a class="reference external" href="https://arxiv.org/pdf/2103.10385.pdf">https://arxiv.org/pdf/2103.10385.pdf</a></p>
-<p>巨大的单向语言模型使用手动提示（one-shot, few-shot）有助于自然语言的理解，然而手工寻找最佳性能提升十分困难。提示工程意味着过度拟合测试集，创造对抗性提示容易导致性能大幅下降</p>
-<p>P-tuning：在连续空间中自动搜索提示，利用少量连续自由参数作为提示，作为预训练语言模型的输入。使用梯度下降作为离散提示搜索的替代方案来优化连续提示。</p>
-<p>P-tuning打破了GPT只能生成但不能理解的刻板印象，也是一种通用的方法，可用于微调预训练语言模型，以获得最佳的下游任务的性能。</p>
-<p>大模型的可移植性很差，针对万亿规模的模型来说，对下游任务的微调很难起效果</p>
-<p>P-tuning使用差分输出嵌入取代了预训练语言模型的输入嵌入。</p>
-<p>P-tuning将$[P_i]$视为伪tokens，将模板映射到</p>
-<p><img alt="../../_images/image-20230504170156267.png" src="../../_images/image-20230504170156267.png" /></p>
-<p>其中$h_i$是可训练的嵌入张量，这样能够在语言模型的原始词汇之外找到更好的连续提示，利用下游损失函数$L$，可以对连续提示进行差分优化。</p>
-<p><img alt="../../_images/image-20230504171226971.png" src="../../_images/image-20230504171226971.png" /></p>
-<p><img alt="../../_images/image-20230504171339484.png" src="../../_images/image-20230504171339484.png" /></p>
-<p>P-tuning的主要问题：</p>
-<p>1、模型的原始词嵌入$e$是高度离散化的，如果$h$使用随机分布初始化，然后使用随机梯度下降（SGD）方式优化，已有文章验证了优化器容易陷入局部极小值</p>
-<p>2、我们认为嵌入$h_i$是相互依赖相关联的，而不是独立的，需要引入一些机制使提示嵌入之间相互关联</p>
-<p>解决方案：</p>
-<p>使用由非常轻量级的神经网络构成的“提示编码器”将$h_i$建模成序列，在实际中，使用双向LSTM，带有ReLu激活的双层MLP用于鼓励离散性，语言模型的实际输入嵌入可以表示为：</p>
-<p><img alt="../../_images/image-20230504173638982.png" src="../../_images/image-20230504173638982.png" /></p>
-<p>现有的调优方法：</p>
-<p>1、手工提示（manual prompt）</p>
-<p>2、微调（fine-tuning）</p>
-<p>3、手工微调提示（manual prompt with fine-tuning）</p>
-<p>4、P-tuning：使用连续提示</p>
-<p>P-tuning能够达到与fine-tuning效果相当的结果，P-tuning并没有改变预训练模型的模型参数，参数的微调可能会导致灾难性遗忘，P-tuning使通过找到更好的连续提示来唤起存储的知识</p>
-<p>手动提示微小的更改将导致显著的性能差异，预训练语言模型对提示的选择十分敏感，在few-shot设置下选择最佳的手工提示是一个挑战，相比之下，P-tuning可以通过自动搜索的方式找到更好的提示。</p>
-<p>P-Tuning在few-shot性能具有优势，能够自动搜索到较好的手工提示。</p>
-<p>在推动难以微调的大规模预训练模型方面具有竞争潜力。</p>
-<p>P-tuning可以使用anchor提示进一步改善性能，学习连续提示是有用的，优于离线提示搜索。</p>
+  <section id="lora">
+<h1>LoRA<a class="headerlink" href="#lora" title="此标题的永久链接"></a></h1>
+<p>论文链接：<a class="reference external" href="https://arxiv.org/pdf/2106.09685.pdf">https://arxiv.org/pdf/2106.09685.pdf</a></p>
+<p>源代码： https://github.com/microsoft/LoRA</p>
+<p>自然语言处理一个重要范式是对一般领域数据进行大规模预训练，然后对特定任务进行自适应。本文提出了低秩自适应(Low-Rank Adaptation, LoRA)，将可训练的秩分解矩阵注入Transformer架构的每一层，从而大大减少下游任务可训练参数量。</p>
+<p>LoRA的优势：</p>
+<ul class="simple">
+<li><p>预训练模型可以共享，为不同任务构建许多小型的LoRA模块，显著降低存储需求和任务切换开销</p></li>
+<li><p>只优化低秩矩阵，训练高效，硬件门槛较低</p></li>
+<li><p>采用线性设计，部署时将可训练矩阵与冻结权重合并，不会引入推理延时</p></li>
+<li><p>LoRA与许多现有方法正交，与许多现有方法可以组合使用</p></li>
+</ul>
+<p>完全微调的数学表示，${\Phi}$表示模型参数，$x$表示输入序列，$y$表示输出序列。缺点：如果预训练模型很大，那么存储和部署独立的微调模型会很有挑战性。</p>
+<p><img alt="../../_images/image-20230511175311297.png" src="../../_images/image-20230511175311297.png" /></p>
+<p><img alt="../../_images/image-20230510205451246.png" src="../../_images/image-20230510205451246.png" /></p>
 </section>
 
 
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
-        <a href="../index.html" class="btn btn-neutral float-left" title="Contents" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
-        <a href="02Prompt%20Tuning%20v2.html" class="btn btn-neutral float-right" title="Prompt Tuning V2" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="02Prompt%20Tuning%20v2.html" class="btn btn-neutral float-left" title="Prompt Tuning V2" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
+        <a href="04ChatGLM%E5%BE%AE%E8%B0%83%E5%AE%9E%E9%AA%8C.html" class="btn btn-neutral float-right" title="ChatGLM微调实验" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

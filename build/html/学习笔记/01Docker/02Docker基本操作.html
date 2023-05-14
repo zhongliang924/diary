@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Docker基本操作 &mdash; SpinxDemo v1.0 文档</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/sphinx_highlight.js"></script>
+        <script src="../../_static/translations.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="../../genindex.html" />
+    <link rel="search" title="搜索" href="../../search.html" />
+    <link rel="next" title="一、kubernetes安装" href="../02Triton_with_kubernetes/01%E5%9C%A8Ubuntu18.04%E4%B8%8A%E6%90%AD%E5%BB%BAkubernetes.html" />
+    <link rel="prev" title="Docker新建用户" href="01Docker%E6%96%B0%E5%BB%BA%E7%94%A8%E6%88%B7.html" />
+    <link href="../../_static/style.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            SpinxDemo
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+              <p class="caption" role="heading"><span class="caption-text">学习笔记:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../index.html">Contents</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html#docker">Docker</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="01Docker%E6%96%B0%E5%BB%BA%E7%94%A8%E6%88%B7.html">Docker新建用户</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Docker基本操作</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../index.html#kubernetes">Kubernetes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../index.html#git">Git</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../index.html#spinx">Spinx</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../index.html#fastertransformer">FasterTransformer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../index.html#triton">Triton</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">论文学习:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../%E8%AE%BA%E6%96%87%E5%AD%A6%E4%B9%A0/index.html">Contents</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../%E8%AE%BA%E6%96%87%E5%AD%A6%E4%B9%A0/index.html#fine-tuning">Fine tuning</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">SpinxDemo</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="页面导航">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Contents</a></li>
+      <li class="breadcrumb-item active">Docker基本操作</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/学习笔记/01Docker/02Docker基本操作.md.txt" rel="nofollow"> 查看页面源码</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="docker">
+<h1>Docker基本操作<a class="headerlink" href="#docker" title="此标题的永久链接"></a></h1>
+<p><strong>修改Docker镜像默认存储位置</strong></p>
+<p>Docker容器默认存储位于<code class="docutils literal notranslate"><span class="pre">/var/lib/docker</span></code>下面，可以通过以下命令查看我们的Docker容器具体位置</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">docker</span> <span class="n">info</span> <span class="o">|</span> <span class="n">grep</span> <span class="s2">&quot;Docker Root Dir&quot;</span>
+</pre></div>
+</div>
+<p>停掉docker服务</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">systemctl</span> <span class="n">stop</span> <span class="n">docker</span>
+</pre></div>
+</div>
+<p>移动整个<code class="docutils literal notranslate"><span class="pre">/var/lib/docker</span></code>目录到空间富裕的路径</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mv</span> <span class="o">/</span><span class="n">var</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">docker</span> <span class="o">/</span><span class="n">ssd1</span><span class="o">/</span><span class="n">docker</span>
+</pre></div>
+</div>
+<p>更改docker配置文件，首先在<code class="docutils literal notranslate"><span class="pre">/etc/docker</span></code>目录下新建daemon.json文件</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">vim</span> <span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">docker</span><span class="o">/</span><span class="n">daemon</span><span class="o">.</span><span class="n">json</span>
+</pre></div>
+</div>
+<p>输入</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="s2">&quot;data-root&quot;</span><span class="p">:</span> <span class="s2">&quot;/ssd1/docker&quot;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>重启docker服务</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">systemctl</span> <span class="n">restart</span> <span class="n">docker</span>
+</pre></div>
+</div>
+<p>这样，我们的docker的默认存储位置就由<code class="docutils literal notranslate"><span class="pre">/var/lib/docker</span></code>更改到<code class="docutils literal notranslate"><span class="pre">/ssd1/docker</span></code>目录下了</p>
+<p><strong>Docker镜像容器删除</strong></p>
+<ul class="simple">
+<li><p>删除名称为&lt;none&gt;的镜像</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>docker rmi $(docker images -f &quot;dangling=true&quot; -q)
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>删除状态为&lt;Exited&gt;的容器</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>docker rm $(docker ps -q -f status=exited)
+</pre></div>
+</div>
+<p><strong>修改共享内存</strong></p>
+<p>​	docker中的进程要与宿主机使用共享内存通信，共享内存过小可能导致在执行某些程序时发生内存溢出的现象，默认的共享内存大小为64MB，下面介绍如何在启动的docker容器中修改共享内存的大小。</p>
+<p>进入容器，输入df可以看到共享内存的大小：</p>
+<p><img alt="../../_images/image-20230510133912899.png" src="../../_images/image-20230510133912899.png" /></p>
+<p>首先在主机上使用<code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">ps</span> <span class="pre">-a</span></code>查看容器id：</p>
+<p><img alt="../../_images/image-20230510134044004.png" src="../../_images/image-20230510134044004.png" /></p>
+<p>接下来关闭docker服务</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">service</span> <span class="n">docker</span> <span class="n">stop</span>
+</pre></div>
+</div>
+<p>进入该容器目录<code class="docutils literal notranslate"><span class="pre">cd</span> <span class="pre">/ssd1/docker/containers/容器id</span></code>，修改<code class="docutils literal notranslate"><span class="pre">hostconfig.json</span></code>文件，找到<code class="docutils literal notranslate"><span class="pre">ShmSize</span></code>字段并进行更改我们需要的共享内存大小</p>
+<p><img alt="../../_images/image-20230510134334049.png" src="../../_images/image-20230510134334049.png" /></p>
+<p>最后重启docker服务</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">systemctl</span> <span class="n">restart</span> <span class="n">docker</span>
+</pre></div>
+</div>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
+        <a href="01Docker%E6%96%B0%E5%BB%BA%E7%94%A8%E6%88%B7.html" class="btn btn-neutral float-left" title="Docker新建用户" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
+        <a href="../02Triton_with_kubernetes/01%E5%9C%A8Ubuntu18.04%E4%B8%8A%E6%90%AD%E5%BB%BAkubernetes.html" class="btn btn-neutral float-right" title="一、kubernetes安装" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; 版权所有 2023, 李仲亮.</p>
+  </div>
+
+  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
+    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

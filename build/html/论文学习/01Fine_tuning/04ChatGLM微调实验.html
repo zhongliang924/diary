@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ChatGLM微调实验 &mdash; SpinxDemo v1.0 文档</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/sphinx_highlight.js"></script>
+        <script src="../../_static/translations.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="../../genindex.html" />
+    <link rel="search" title="搜索" href="../../search.html" />
+    <link rel="prev" title="LoRA" href="03Lora.html" />
+    <link href="../../_static/style.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            SpinxDemo
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+              <p class="caption" role="heading"><span class="caption-text">学习笔记:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/index.html">Contents</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/index.html#docker">Docker</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/index.html#kubernetes">Kubernetes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/index.html#git">Git</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/index.html#spinx">Spinx</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/index.html#fastertransformer">FasterTransformer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/index.html#triton">Triton</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">论文学习:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../index.html">Contents</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html#fine-tuning">Fine tuning</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="01Prompt%20Tuning.html">Prompt Tuning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02Prompt%20Tuning%20v2.html">Prompt Tuning V2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="03Lora.html">LoRA</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">ChatGLM微调实验</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">SpinxDemo</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="页面导航">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Contents</a></li>
+      <li class="breadcrumb-item active">ChatGLM微调实验</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/论文学习/01Fine_tuning/04ChatGLM微调实验.md.txt" rel="nofollow"> 查看页面源码</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="chatglm">
+<h1>ChatGLM微调实验<a class="headerlink" href="#chatglm" title="此标题的永久链接"></a></h1>
+<p>微调实验参考链接：<a class="reference external" href="https://github.com/liucongg/ChatGLM-Finetuning">https://github.com/liucongg/ChatGLM-Finetuning</a></p>
+<p><strong>预训练AI大模型</strong></p>
+<p>AI预训练大模型网址：<a class="reference external" href="https://www.datalearner.com/ai-models/pretrained-models">最近几年AI模型列表</a></p>
+<p><img alt="../../_images/image-20230509163925799.png" src="../../_images/image-20230509163925799.png" /></p>
+<p>AI模型月报</p>
+<p><img alt="../../_images/image-20230509164042167.png" src="../../_images/image-20230509164042167.png" /></p>
+<p>AI大模型预览图：</p>
+<p><img alt="../../_images/1.png" src="../../_images/1.png" /></p>
+<p><strong>ChatGLM-6B模型结构</strong></p>
+<p>​	ChatGLM-6B的底层架构是通用语言模型（GLM），GLM利用自回归空白填充作为其主要的预训练目标，它掩盖了随机的连续文本区间，并对其进行自回归预测，采用两种不同的掩码标识符[MASK]和[gMASK]分别用于短文和长文的生成</p>
+<p><img alt="../../_images/image-20230509170917122.png" src="../../_images/image-20230509170917122.png" /></p>
+<p>​	ChatGLM-6B是清华大学知识工程和数据挖掘小组发布的一个开源的对话机器人，约60亿参数的中英文语言模型，并对中文做了优化。</p>
+<ul class="simple">
+<li><p>28层Transformer，采用<code class="docutils literal notranslate"><span class="pre">final_layernorm</span></code>进行输出</p></li>
+<li><p>每一层的结构：<code class="docutils literal notranslate"><span class="pre">input_layernorm</span></code> -&gt; <code class="docutils literal notranslate"><span class="pre">attention.query_key_value</span></code> -&gt;<code class="docutils literal notranslate"><span class="pre">attention.dense</span></code>-&gt; <code class="docutils literal notranslate"><span class="pre">post_attention_layernorm</span></code> -&gt; <code class="docutils literal notranslate"><span class="pre">mlp.dense_h_to_4h</span></code> -&gt; <code class="docutils literal notranslate"><span class="pre">mlp.dense_4h_to_h</span></code></p></li>
+<li><p>总共参数6173286400</p></li>
+</ul>
+<p><strong>多卡部署</strong></p>
+<p>如果你有多张 GPU，但是每张 GPU 的显存大小都不足以容纳完整的模型，那么可以将模型切分在多张GPU上。首先安装 accelerate: <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">accelerate</span></code>，然后通过如下方法加载模型：</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">utils</span> <span class="kn">import</span> <span class="n">load_model_on_gpus</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">load_model_on_gpus</span><span class="p">(</span><span class="s2">&quot;../chatglm-6b&quot;</span><span class="p">,</span> <span class="n">num_gpus</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>即可将模型部署到两张 GPU 上进行推理。</p>
+<p>单卡部署显存占用：</p>
+<p><img alt="../../_images/image-20230509201910217.png" src="../../_images/image-20230509201910217.png" /></p>
+<p>多卡部署显存占用：</p>
+<p><img alt="../../_images/image-20230509201720223.png" src="../../_images/image-20230509201720223.png" /></p>
+<p>在多卡部署模式下，可以进行推理，但无法进行训练，会出现错误：</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>RuntimeError: Expected all tensors to be on the same device, but found at least two devices, cuda:1 and cuda:0! (when checking argument for argument weight in method wrapper__native_layer_norm)
+</pre></div>
+</div>
+<p><strong>模型部署</strong></p>
+<ul>
+<li><p>代码调用生成对话</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">transformers</span> <span class="kn">import</span> <span class="n">AutoTokenizer</span><span class="p">,</span> <span class="n">AutoModel</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">os</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;CUDA_VISIBLE_DEVICES&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;1&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tokenizer</span> <span class="o">=</span> <span class="n">AutoTokenizer</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="s2">&quot;../chatglm-6b&quot;</span><span class="p">,</span> <span class="n">trust_remote_code</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span> <span class="n">AutoModel</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="s2">&quot;../chatglm-6b&quot;</span><span class="p">,</span> <span class="n">trust_remote_code</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">half</span><span class="p">()</span><span class="o">.</span><span class="n">cuda</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">response</span><span class="p">,</span> <span class="n">history</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">chat</span><span class="p">(</span><span class="n">tokenizer</span><span class="p">,</span> <span class="s2">&quot;你好&quot;</span><span class="p">,</span> <span class="n">history</span><span class="o">=</span><span class="p">[])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">response</span><span class="p">)</span>
+<span class="go">你好👋!我是人工智能助手 ChatGLM-6B,很高兴见到你,欢迎问我任何问题。</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">response</span><span class="p">,</span> <span class="n">history</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">chat</span><span class="p">(</span><span class="n">tokenizer</span><span class="p">,</span> <span class="s2">&quot;晚上睡不着应该怎么办&quot;</span><span class="p">,</span> <span class="n">history</span><span class="o">=</span><span class="n">history</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">response</span><span class="p">)</span>
+<span class="go">晚上睡不着可能会让人感到困扰和焦虑，但有一些方法可以帮助你入睡。以下是一些可能有用的技巧：</span>
+
+<span class="go">1. 创造一个舒适的睡眠环境：确保卧室安静、黑暗、凉爽和舒适。你可以使用柔和的音乐或白噪声、窗帘或眼罩来帮助创造舒适的睡眠环境。</span>
+
+<span class="go">2. 建立一个睡前例行程序：每天晚上在相同的时间上床，并建立一个睡前例行程序，如洗澡、读书或听轻柔的音乐，有助于让身体和大脑准备好睡觉。</span>
+
+<span class="go">3. 避免使用电子设备：在睡觉前尽量避免使用电子设备，如手机、电脑和电视，因为这些设备会发出蓝光，影响身体释放褪黑素，这是帮助入睡的关键物质。</span>
+
+<span class="go">4. 尝试放松技巧：放松技巧，如深呼吸、渐进性肌肉松弛和冥想，可以帮助你放松身体和头脑，更容易入睡。</span>
+
+<span class="go">5. 避免在床上做其他事情：避免在床上做与睡眠无关的事情，如看电视、使用电脑或手机等，这将有助于确保身体和大脑进入睡眠状态。</span>
+
+<span class="go">如果使用了这些方法仍然无法入睡，你可能需要寻求医生的建议，因为可能存在某些睡眠障碍或其他健康问题，需要进一步的治疗。</span>
+</pre></div>
+</div>
+</li>
+<li><p>网页版Demo</p></li>
+<li><p>命令行Demo</p>
+<p><img alt="../../_images/image-20230510201219981.png" src="../../_images/image-20230510201219981.png" /></p>
+</li>
+</ul>
+<p><strong>三元组抽取任务</strong></p>
+<ul class="simple">
+<li><p>采用一个领域的比赛数据集-<a class="reference external" href="https://www.datafountain.cn/competitions/584">汽车工业故障模式关系抽取</a>，随机抽取50条作为测试集</p></li>
+<li><p>本任务为信息抽取中的关系抽取任务，带抽取的文本语料为工业制造领域相关故障案例文本</p></li>
+<li><p>部件单元（燃油泵、换流变压器、分离器）、性能表征（压力、转速、温度）、故障状态（漏油、断裂、变形、卡滞）</p></li>
+</ul>
+<p>未微调：</p>
+<p><img alt="../../_images/image-20230425200038369.png" src="../../_images/image-20230425200038369.png" /></p>
+<p>理想答案：</p>
+<p><img alt="../../_images/image-20230425200015879.png" src="../../_images/image-20230425200015879.png" /></p>
+<p><strong>Freeze方法</strong></p>
+<p>​	Freeze方法，即参数冻结，对原始模型部分参数进行冻结操作，仅训练部分参数，以达到在单卡或不进行TP或PP操作，就可以对大模型进行训练。核心代码如下：</p>
+<p><img alt="../../_images/image-20230509171421842.png" src="../../_images/image-20230509171421842.png" /></p>
+<p>训练采用<a class="reference external" href="https://www.deepspeed.ai/">DeepSpeed</a>进行训练。deep speed是微软的新大规模模型分布式训练的工具，专门为训练超大模型而生，号称可以训练10B参数的模型，比目前最好的模型大10倍，训练速度块10倍，兼容pytorch的模型，改动最少代码。</p>
+<ul class="simple">
+<li><p>模型训练时，最大长度为768，Batch size为2，训练轮数为5，fp16训练，仅训练模型的后5层参数</p></li>
+<li><p>训练示例</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>prompt_text = 你现在是一个信息抽取模型，请你帮我抽取出关系内容为\&quot;性能故障\&quot;, \&quot;部件故障\&quot;, \&quot;组成\&quot;和 \&quot;检测工具\&quot;的相关三元组，三元组内部用\&quot;_\&quot;连接，三元组之间用\\n分割。文本：
+输入：332号汽车故障报告故障现象空调系统故障，按空调控制器任何按键都没有反映。
+输出：空调系统_部件故障_故障\n空调控制器_部件故障_没有反映
+</pre></div>
+</div>
+<p>单卡训练脚本：</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">conda</span> <span class="n">activate</span> <span class="n">chatglm</span>
+
+<span class="n">CUDA_VISIBLE_DEVICES</span><span class="o">=</span><span class="mi">0</span> <span class="n">deepspeed</span> <span class="n">finetuning_freeze</span><span class="o">.</span><span class="n">py</span> <span class="o">--</span><span class="n">num_train_epochs</span> <span class="mi">5</span> <span class="o">--</span><span class="n">train_batch_size</span> <span class="mi">2</span>
+</pre></div>
+</div>
+<p>多卡训练脚本：</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">CUDA_VISIBLE_DEVICES</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span> <span class="n">deepspeed</span> <span class="n">finetuning_freeze</span><span class="o">.</span><span class="n">py</span> <span class="o">--</span><span class="n">num_train_epochs</span> <span class="mi">5</span> <span class="o">--</span><span class="n">train_batch_size</span> <span class="mi">2</span>
+</pre></div>
+</div>
+<p>在多卡模式下，训练显存翻倍增加，训练时间变慢很多？？？</p>
+<p><strong>P-tuning V2方法</strong></p>
+<p>​	是一种针对大模型的soft-prompt方法，P-tuning V2将大模型的Embedding和每一层前加入新的Prompt参数，核心代码：</p>
+<p><img alt="../../_images/image-20230509173739968.png" src="../../_images/image-20230509173739968.png" /></p>
+<p>当<code class="docutils literal notranslate"><span class="pre">prefix_encoder</span></code>为True时，采用<code class="docutils literal notranslate"><span class="pre">P-Tuning</span> <span class="pre">V2</span></code>方法；为<code class="docutils literal notranslate"><span class="pre">False</span></code>时，采用<code class="docutils literal notranslate"><span class="pre">P-Tuning</span></code>方法，仅在大模型的Embedding上添加参数</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">CUDA_VISIBLE_DEVICES</span><span class="o">=</span><span class="mi">0</span> <span class="n">deepspeed</span> <span class="n">finetuning_pt</span><span class="o">.</span><span class="n">py</span> <span class="o">--</span><span class="n">num_train_epochs</span> <span class="mi">5</span> <span class="o">--</span><span class="n">train_batch_size</span> <span class="mi">2</span> <span class="o">--</span><span class="n">pre_seq_len</span> <span class="mi">16</span>
+</pre></div>
+</div>
+<p><strong>LoRA方法</strong></p>
+<p>Lora方法，即在大型语言模型上对指定参数（权重矩阵）并行增加额外的低秩矩阵，并在模型训练过程中，仅训练额外增加的并行低秩矩阵的参数。 当“秩值”远小于原始参数维度时，新增的低秩矩阵参数量也就很小。在下游任务tuning时，仅须训练很小的参数，但能获取较好的表现结果。核心代码：</p>
+<p><img alt="../../_images/image-20230511203445674.png" src="../../_images/image-20230511203445674.png" /></p>
+<p><strong>测试结果</strong></p>
+<table border="1" class="docutils">
+<thead>
+<tr>
+<th>微调方法</th>
+<th>未微调</th>
+<th>Freeze(fp16)</th>
+<th>PT(int 4)</th>
+<th>LoRA(load_in_int8)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>训练显存占用</td>
+<td></td>
+<td>22.938GiB</td>
+<td>21.894GiB</td>
+<td>22.662GiB</td>
+</tr>
+<tr>
+<td>可训练参数</td>
+<td></td>
+<td>1.01B</td>
+<td>0.96B</td>
+<td>0.0367B</td>
+</tr>
+<tr>
+<td>总参数</td>
+<td></td>
+<td>6.17B</td>
+<td>4.31B</td>
+<td>6.17B</td>
+</tr>
+<tr>
+<td>可训练参数比</td>
+<td></td>
+<td>16.31%</td>
+<td>22.18%</td>
+<td>0.06%</td>
+</tr>
+<tr>
+<td>推理显存占用</td>
+<td></td>
+<td>13.174GiB</td>
+<td>7.788GiB</td>
+<td>9.184GiB</td>
+</tr>
+<tr>
+<td>训练耗时</td>
+<td></td>
+<td>78.86min</td>
+<td>107.6min</td>
+<td>73.5min</td>
+</tr>
+<tr>
+<td>测试结果F1</td>
+<td>0.0</td>
+<td>0.5467</td>
+<td>0.6211</td>
+<td>0.5393</td>
+</tr>
+<tr>
+<td>测试耗时</td>
+<td>113.215s</td>
+<td>44.161s</td>
+<td>96.128s</td>
+<td>172.885s</td>
+</tr>
+</tbody>
+</table><p><strong>遇到的问题</strong></p>
+<ul class="simple">
+<li><p>bitsandbytes</p></li>
+</ul>
+<p>在模型加载中使用<code class="docutils literal notranslate"><span class="pre">load_in_8bit=True</span></code>时，要求安装accelerate和bitsandbytes</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">ChatGLMForConditionalGeneration</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">model_dir</span><span class="p">,</span> <span class="n">load_in_8bit</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">trust_remote_code</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">device_map</span><span class="o">=</span><span class="s2">&quot;auto&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>对于CUDA11.8，accelerate使用pip进行安装，直接使用<code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">bitsandbytes</span></code>安装只能安装到cu117版本，需要采用源码安装：</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">clone</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">timdettmers</span><span class="o">/</span><span class="n">bitsandbytes</span><span class="o">.</span><span class="n">git</span>
+<span class="n">cd</span> <span class="n">bitsandbytes</span>
+
+<span class="c1"># CUDA_VERSIONS in {110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 120}</span>
+<span class="c1"># make argument in {cuda110, cuda11x, cuda12x}</span>
+<span class="c1"># if you do not know what CUDA you have, try looking at the output of: python -m bitsandbytes</span>
+<span class="n">CUDA_VERSION</span><span class="o">=</span><span class="mi">117</span> <span class="n">make</span> <span class="n">cuda11x</span>
+<span class="n">python</span> <span class="n">setup</span><span class="o">.</span><span class="n">py</span> <span class="n">install</span>
+</pre></div>
+</div>
+<ul>
+<li><p>训练LoRA时，随着训练轮次的增加，显存占用也会增加，容易爆显存，以下两种方法可以有所缓解</p>
+<ol>
+<li><p>设置<code class="docutils literal notranslate"><span class="pre">max_split_size_mb:128</span></code></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;PYTORCH_CUDA_ALLOC_CONF&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;max_split_size_mb:128&quot;</span>
+</pre></div>
+</div>
+</li>
+<li><p>deepspeed在<code class="docutils literal notranslate"><span class="pre">zero_optimization</span></code>下添加设置</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="s2">&quot;offload_param&quot;</span><span class="p">:</span> <span class="p">{</span>
+	<span class="s2">&quot;device&quot;</span><span class="p">:</span> <span class="s2">&quot;cpu&quot;</span><span class="p">,</span>
+	<span class="s2">&quot;pin_memory&quot;</span><span class="p">:</span> <span class="kc">True</span>
+<span class="p">},</span>
+</pre></div>
+</div>
+</li>
+</ol>
+</li>
+</ul>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
+        <a href="03Lora.html" class="btn btn-neutral float-left" title="LoRA" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; 版权所有 2023, 李仲亮.</p>
+  </div>
+
+  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
+    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

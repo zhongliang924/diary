@@ -66,9 +66,9 @@
 <li class="toctree-l4"><a class="reference internal" href="#instance-groups">2.3  Instance Groups</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#id2">2.4  调度策略</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#id3">2.5  优化手段</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#model-warmup">2.6  Model Warmup</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#model-warmup">2.6  Model Warmup</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#launch-triton-server">3、Launch Triton Server</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#id4">3.1  常用选项</a></li>
 </ul>
@@ -204,11 +204,11 @@
 <p>针对ONNX模型，可以直接开启TensorRT加速，TRT backend for ONNX</p>
 <p><img alt="../../_images/image-20230107164145247.png" src="../../_images/image-20230107164145247.png" /></p>
 </section>
-</section>
 <section id="model-warmup">
-<h2>2.6  Model Warmup<a class="headerlink" href="#model-warmup" title="此标题的永久链接"></a></h2>
+<h3>2.6  Model Warmup<a class="headerlink" href="#model-warmup" title="此标题的永久链接"></a></h3>
 <p>热身的过程使模型推理稳定，热身完之后模型被加载进来并提供服务，但是模型加载比较漫长</p>
 <p><img alt="../../_images/image-20230107164702954.png" src="../../_images/image-20230107164702954.png" /></p>
+</section>
 </section>
 <section id="launch-triton-server">
 <h2>3、Launch Triton Server<a class="headerlink" href="#launch-triton-server" title="此标题的永久链接"></a></h2>
