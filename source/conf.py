@@ -15,7 +15,7 @@ release = 'v1.0'
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
 
 # extensions = []
-extensions = ['recommonmark','sphinx_markdown_tables']
+extensions = ['recommonmark', 'sphinx_markdown_tables', 'sphinx_copybutton', 'sphinx.ext.imgmath']
 
 templates_path = ['_templates']
 exclude_patterns = []

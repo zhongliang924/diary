@@ -18,3 +18,12 @@ Fine tuning
    01Fine_tuning/04ChatGLM微调实验
 
 
+语音识别
+======================================
+
+.. toctree::
+   :maxdepth: 1
+
+   02语音识别/index
+
+
