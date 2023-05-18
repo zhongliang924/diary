@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>端到端自动语音识别最新进展 &mdash; SpinxDemo v1.0 文档</title>
+  <title>1-Recent Advance in End-to-End Automatic Speech Recognition &mdash; SpinxDemo v1.0 文档</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/copybutton.css" type="text/css" />
@@ -21,8 +21,8 @@
     <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="索引" href="../../../genindex.html" />
     <link rel="search" title="搜索" href="../../../search.html" />
-    <link rel="next" title="1-WeNet Production Oriented Streaming and Non-Streaming End-to-End Speech Recognition Toolkit" href="../02Wenet/1-WeNet%20Production%20Oriented%20Streaming%20and%20Non-Streaming%20End-to-End%20Speech%20Recognition%20Toolkit.html" />
-    <link rel="prev" title="语音识别综述" href="../index.html" />
+    <link rel="next" title="Wenet" href="../2-index.html" />
+    <link rel="prev" title="语音识别综述" href="../1-index.html" />
     <link href="../../../_static/style.css" rel="stylesheet" type="text/css">
 
 </head>
@@ -48,36 +48,34 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
               <p class="caption" role="heading"><span class="caption-text">学习笔记:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/index.html">Contents</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/index.html#docker">Docker</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/index.html#kubernetes">Kubernetes</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/index.html#git">Git</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/index.html#spinx">Spinx</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/index.html#fastertransformer">FasterTransformer</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/index.html#triton">Triton</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/1-index.html">Docker</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/2-index.html">Kubernetes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/3-index.html">Git</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/4-index.html">Spinx</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/5-index.html">FasterTransformer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/6-index.html">Triton</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">论文学习:</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="../../index.html">Contents</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../index.html#fine-tuning">Fine tuning</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="../../index.html#id1">语音识别</a><ul class="current">
-<li class="toctree-l2 current"><a class="reference internal" href="../index.html">语音识别综述</a><ul class="current">
-<li class="toctree-l3 current"><a class="current reference internal" href="#">端到端自动语音识别最新进展</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#id2">摘要</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id3">一、引言</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id4">二、端到端模型</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id5">三、编码器</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id6">四、其它训练标准</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id9">五、多语音建模</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id10">六、自适应</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id11">七、先进模型</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id13">八、其它主题</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id14">九、结论和未来的研究方向</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../1-index.html">Fine tuning</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../2-index.html">语音识别</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../1-index.html">语音识别综述</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">1-Recent Advance in End-to-End Automatic Speech Recognition</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id1">摘要</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id2">一、引言</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id3">二、端到端模型</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id4">三、编码器</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id5">四、其它训练标准</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id8">五、多语音建模</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id9">六、自适应</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id10">七、先进模型</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id12">八、其它主题</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id13">九、结论和未来的研究方向</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../index.html#wenet">Wenet</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../2-index.html">Wenet</a></li>
 </ul>
 </li>
 </ul>
@@ -96,9 +94,9 @@
           <div role="navigation" aria-label="页面导航">
   <ul class="wy-breadcrumbs">
       <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
-          <li class="breadcrumb-item"><a href="../../index.html">Contents</a></li>
-          <li class="breadcrumb-item"><a href="../index.html">语音识别综述</a></li>
-      <li class="breadcrumb-item active">端到端自动语音识别最新进展</li>
+          <li class="breadcrumb-item"><a href="../../2-index.html">语音识别</a></li>
+          <li class="breadcrumb-item"><a href="../1-index.html">语音识别综述</a></li>
+      <li class="breadcrumb-item active">1-Recent Advance in End-to-End Automatic Speech Recognition</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../../../_sources/论文学习/02语音识别/01语音识别综述/1-Recent Advance in End-to-End Automatic Speech Recognition.md.txt" rel="nofollow"> 查看页面源码</a>
       </li>
@@ -108,17 +106,17 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="id1">
-<h1>端到端自动语音识别最新进展<a class="headerlink" href="#id1" title="此标题的永久链接"></a></h1>
+  <section id="recent-advance-in-end-to-end-automatic-speech-recognition">
+<h1>1-Recent Advance in End-to-End Automatic Speech Recognition<a class="headerlink" href="#recent-advance-in-end-to-end-automatic-speech-recognition" title="此标题的永久链接"></a></h1>
 <p>论文链接：https://arxiv.org/pdf/2111.01690.pdf</p>
 <p>[TOC]</p>
-<section id="id2">
-<h2>摘要<a class="headerlink" href="#id2" title="此标题的永久链接"></a></h2>
+<section id="id1">
+<h2>摘要<a class="headerlink" href="#id1" title="此标题的永久链接"></a></h2>
 <p>​	基于深度神经网络的混合模型在商用ASR领域中部署广泛，E2E模型在ASR精度方面在大多数基准测试中达到了最先进的结果。</p>
 <p>**关键词：**end-to-end, automatic speech recognition, streaming, attention, transducer, transformer, adaption</p>
 </section>
-<section id="id3">
-<h2>一、引言<a class="headerlink" href="#id3" title="此标题的永久链接"></a></h2>
+<section id="id2">
+<h2>一、引言<a class="headerlink" href="#id2" title="此标题的永久链接"></a></h2>
 <p>​	DNN代替传统高斯混合模型进行声学似然评估，保留了<strong>声学模型</strong>、<strong>语言模型</strong>和<strong>词典模型</strong>等所有组件，构成混合ASR系统。E2E建模使用<strong>单个网络</strong>，将输入语音序列直接转换为输出令牌训练（output token sequence），推翻了传统ASR系统中的所有建模组件。</p>
 <p>​	E2E模型较传统混合模型的优势：</p>
 <ol class="simple">
@@ -128,8 +126,8 @@
 </ol>
 <p>许多实际因素，如流(streaming)、时延(latency)、自适应能力(adaption capability)等影响商业部署决策。本文概述了流行的E2E模型，重点介绍从行业角度解决这些挑战的技术。</p>
 </section>
-<section id="id4">
-<h2>二、端到端模型<a class="headerlink" href="#id4" title="此标题的永久链接"></a></h2>
+<section id="id3">
+<h2>二、端到端模型<a class="headerlink" href="#id3" title="此标题的永久链接"></a></h2>
 <p>​	ASR最流行的E2E技术有：(a)关联时间分类(Connectionist Temporal Classification, CTC)；(b)基于注意力的编解码(Attention-based Encoder-Decoder, AED)；(c)RNN-T(Recurrent Neural Network Transducer)，其中RNN-T为流式ASR提供了一个自然的解决方案，具有高精度和低时延的特点，三种流行的E2E技术如图1所示：</p>
 <p><img alt="../../../_images/image-20220912155744604.png" src="../../../_images/image-20220912155744604.png" /></p>
 <center>图1.三种受关注的端到端架构</center><section id="ctc">
@@ -195,8 +193,8 @@ RNN-T的损失函数定义为$-lnP(\bf y|x)$，对齐路径$\bf a$到标签序�
 <center>图4. RNN-T对齐路径示例</center><p>​	实际系统需要较小的推理延时，以便为用户提供良好的体验。RNN-T现在时流媒体最自然的E2E模型，但普通的RNN-T仍存在延时挑战。图4中的绿色路径是延时决策对齐路径示例。自对齐的方法以温和的方式减少时延，使用当前模型的自对齐找到较低时延的对齐方向，图4中的蓝色路径表示自对齐路径，红色路径是自对齐路径的左一帧。</p>
 </section>
 </section>
-<section id="id5">
-<h2>三、编码器<a class="headerlink" href="#id5" title="此标题的永久链接"></a></h2>
+<section id="id4">
+<h2>三、编码器<a class="headerlink" href="#id4" title="此标题的永久链接"></a></h2>
 <p>​	在所有E2E ASR模型中，最重要的组件是编码器，它将语音输入序列转换为高级特征表示。</p>
 <section id="lstm">
 <h3>1.	LSTM<a class="headerlink" href="#lstm" title="此标题的永久链接"></a></h3>
@@ -254,11 +252,11 @@ $$
 其中$\sigma$是可训练参数，这两种掩膜方式均能增强对语音信号有利的局部性，软掩膜的方式需要关注整个序列，不能降低计算成本和延时。</p>
 </section>
 </section>
-<section id="id6">
-<h2>四、其它训练标准<a class="headerlink" href="#id6" title="此标题的永久链接"></a></h2>
+<section id="id5">
+<h2>四、其它训练标准<a class="headerlink" href="#id5" title="此标题的永久链接"></a></h2>
 <p>​	在E2E模型中，标准的训练损失可以表示为$-lnP(\bf y|x)$，在师生学习和最小词差错率训练中使用了其它损失。</p>
-<section id="id7">
-<h3>1.	教师学生学习<a class="headerlink" href="#id7" title="此标题的永久链接"></a></h3>
+<section id="id6">
+<h3>1.	教师学生学习<a class="headerlink" href="#id6" title="此标题的永久链接"></a></h3>
 <p>在E2E建模的背景下，T/S学习的token级损失函数为：
 $$
 -\sum_{u}\sum_{k}\bf P_{T}(k|y_{1:u-1},x)logP_S(k|y_{1:u-1},x)
@@ -266,8 +264,8 @@ $$
 其中$\bf P_T$和$\bf P_S$分别表示教师和学生网络的后验分布，从大的教师E2E模型中学习小的学生E2E模型。</p>
 <p>​	虽然标准的T/S学习遵循两步过程，即首先训练教师模型，然后使用T/S标准训练学生模型，但最近的研究[119-122]可以同时训练教师和学生模型。</p>
 </section>
-<section id="id8">
-<h3>2.	最小词误差率训练<a class="headerlink" href="#id8" title="此标题的永久链接"></a></h3>
+<section id="id7">
+<h3>2.	最小词误差率训练<a class="headerlink" href="#id7" title="此标题的永久链接"></a></h3>
 <p>最小词误差率(MWER)试图减轻训练准则与语音识别模型的评估度量之间的差异。MWER不是最小化概率$P(\bf y|x)$的负对数损失，而是最小化预期的词错误：
 $$
 L_{MWER} = \sum_{\bf h_i}\hat P(\bf h_i|x)R(h_i,h^r)
@@ -279,11 +277,11 @@ $$
 其中$P(\bf h_i|x)$是假设$\bf h_i$的概率，可以由AED模型的等式(4)和RNN-T模型的等式(8)计算得到。MWER可以提高AED模型、RNN-T模型、混合自回归transducer模型的准确性。</p>
 </section>
 </section>
-<section id="id9">
-<h2>五、多语音建模<a class="headerlink" href="#id9" title="此标题的永久链接"></a></h2>
+<section id="id8">
+<h2>五、多语音建模<a class="headerlink" href="#id8" title="此标题的永久链接"></a></h2>
 </section>
-<section id="id10">
-<h2>六、自适应<a class="headerlink" href="#id10" title="此标题的永久链接"></a></h2>
+<section id="id9">
+<h2>六、自适应<a class="headerlink" href="#id9" title="此标题的永久链接"></a></h2>
 <p>​	当测试条件与训练条件不同时，ASR系统的性能会显著降低。自适应的算法被设计用来解决这些具有挑战性的问题，自适应的全面综述见[159]，本节介绍E2E模型中的一些自适应技术。</p>
 <section id="speaker-adaptation">
 <h3>1.	Speaker Adaptation<a class="headerlink" href="#speaker-adaptation" title="此标题的永久链接"></a></h3>
@@ -324,10 +322,10 @@ $$
 <p>ASR假设嵌入和上下文短语列表作为编码器的输入，从而生成新的单词序列。基于ASR假设和上下文短语之间的距离过滤机制用于将非常大的短语列表修剪为相对较小的短语列表，以便注意力能够很好地执行。因为过滤依赖于ASR解码结果，这种过滤方法无法作用于ASR模型内部，例如CLAS。</p>
 </section>
 </section>
+<section id="id10">
+<h2>七、先进模型<a class="headerlink" href="#id10" title="此标题的永久链接"></a></h2>
 <section id="id11">
-<h2>七、先进模型<a class="headerlink" href="#id11" title="此标题的永久链接"></a></h2>
-<section id="id12">
-<h3>1.	非自回归模型<a class="headerlink" href="#id12" title="此标题的永久链接"></a></h3>
+<h3>1.	非自回归模型<a class="headerlink" href="#id11" title="此标题的永久链接"></a></h3>
 <p>​	大多数E2E模型使用自回归（AR）模型的特性以从左到右的方式预测目标令牌(tokens)。最近出现了一种使用非自回归(NAR)建模趋势，即一次性或迭代地生成所有目标令牌，不依赖于早期阶段的预测令牌。这些NAR方法基于这样的假设，即声学编码器生成的特征序列不仅包含声学信息，而且有一些语言语义信息。然而，这样的假设并不是很强，导致NAR模型的性能比AR模型的总体性能差。NAR模型最大的优点是其解码速度比AR模型快得多，因为它不依赖于之前的令牌，所有的目标令牌都可以并行预测，而AR模型的解码则由于令牌依赖性更加复杂。</p>
 <p>​	[210]中描述了生成所有目标令牌的经典方法。目标令牌序列长度$L$被预测或设为常数值。然后，NAR假设每个令牌彼此之间相互独立：
 $$
@@ -388,8 +386,8 @@ $$
 <p>该编码器由通道自注意力层和跨通道注意力层内级联多个块组成。通道自注意力层对一个通道的时间自相关性进行建模，跨通道注意力层则试图了解通道之间的关系。可以将多通道编码器嵌入到任何E2E模型中，E2E模型不许呀波束成形器设计的常规知识，其性能优于ASR模型所采用的标准波束成形方法。</p>
 </section>
 </section>
-<section id="id13">
-<h2>八、其它主题<a class="headerlink" href="#id13" title="此标题的永久链接"></a></h2>
+<section id="id12">
+<h2>八、其它主题<a class="headerlink" href="#id12" title="此标题的永久链接"></a></h2>
 <p>​	E2E建模是一个巨大的研究课题，由于篇幅有限，我们仅能涵盖从行业角度思考的最重要的几个领域，还有更多值得一提的领域。首先，尽管一些公司有自己内部的E2E模型训练工具，优秀的工具包对于E2E ASR技术的发展必不可少，其中，ESPnet是语音社区中广泛使用的E2E工具包。我们将继续见证E2E工具包的发展，使整个语音社区受益。</p>
 <p>​	模型单元选择是E2E建模中一个非常重要的领域。虽然大多数单元（字符、词组、单词，甚至短语）都是基于纯文本而来的，但也有研究在“音素”单元上进行。由于ASR在底层声学信号中是独特的，因此最好在文本和音素世界之间建立桥接单元。为此，发音指导单元值得研究。</p>
 <p>​	经过配对语音文本数据训练，E2E模型相较混合模型需要更多数据。如果训练数据规模较小，E2E模型性能会显著下降。有很多种方法可以为低资源语言解决构建E2E模型的挑战。首先，可以使用正则化技术（如dropout）以防止E2E模型过度拟合有限的训练数据。数据增强方法，如SpecAugment和速度扰动也非常有用。此外，还有对抗学习和元学习等方法。最流行的解决方案是首先使用多语言数据或自监督学习（self-supervised learning, SSL）预训练E2E模型，然后使用低资源标记的数据进行微调。多语言E2E模型已经捕获了跨语言的大量信息，这使得使用目标语言数据的迁移学习非常有效。SSL甚至更强大，因为它不需要任何标记数据进行预训练，自然解决了低资源的挑战。因此，SSL正称为一种新趋势，尤其适用于资源受限语言的ASR，具有代表性的技术如wav2vec 2.0、自回归预测编码和HuBERT。虽然大多数SSL研究关注的是非常有限的监督训练数据，但最近的研究表明，在工业规模的数万小时监督训练数据上SSL也能取得良好的结果。</p>
@@ -399,8 +397,8 @@ $$
 <p>​	鲁棒性始终是ASR系统的一个重要主题，E2E模型倾向于拟合训练数据，并且由于训练和测试之间的不匹配，具有严重的鲁棒性挑战。然而，在解决这种失配方面没有太多的进展。T/S学习用于使干净训练的E2E模型适应噪声环境。在[322, 323]中，学习了噪声不变特征以提高鲁棒性。数据增强[324]是在训练期间向E2E模型暴露更多测试环境的另一种有效方法。</p>
 <p>​	最后，使用公共数据库检测技术总是有益的。Librispeech上评估了大量的E2E工作，推动了最新技术的发展。表1和表2分别给出了非流式和流式E2E模型下Librispeech的一些代表性作品。令人惊讶的是，由于快速发展的技术，WER在短短几年内大幅降低，其中有两个明显趋势：在模型方面从CTC到AED/RNN-T，在编码器方面从LSTM到Transformer。由于在Librispeech上获得先进成果是大多数工作的目标，因此有更多的非流式E2E研究。由于Librispeech只有960小时的标记数据，所以有助于有限资源场景的方法（如自监督学习和数据增强）对于提高Librispeech上的ASR准确性至关重要。</p>
 </section>
-<section id="id14">
-<h2>九、结论和未来的研究方向<a class="headerlink" href="#id14" title="此标题的永久链接"></a></h2>
+<section id="id13">
+<h2>九、结论和未来的研究方向<a class="headerlink" href="#id13" title="此标题的永久链接"></a></h2>
 </section>
 </section>
 
@@ -408,8 +406,8 @@ $$
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
-        <a href="../index.html" class="btn btn-neutral float-left" title="语音识别综述" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
-        <a href="../02Wenet/1-WeNet%20Production%20Oriented%20Streaming%20and%20Non-Streaming%20End-to-End%20Speech%20Recognition%20Toolkit.html" class="btn btn-neutral float-right" title="1-WeNet Production Oriented Streaming and Non-Streaming End-to-End Speech Recognition Toolkit" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="../1-index.html" class="btn btn-neutral float-left" title="语音识别综述" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
+        <a href="../2-index.html" class="btn btn-neutral float-right" title="Wenet" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

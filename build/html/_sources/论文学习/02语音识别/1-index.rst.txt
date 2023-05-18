@@ -12,13 +12,6 @@
    01语音识别综述/1-Recent Advance in End-to-End Automatic Speech Recognition
 
 
-Wenet
-======================================
 
-.. toctree::
-   :maxdepth: 1
-
-   02Wenet/1-WeNet Production Oriented Streaming and Non-Streaming End-to-End Speech Recognition Toolkit
-   02Wenet/2-WeNet2.0 More Productive End-to-End Speech Recognition Toolkit
 
 

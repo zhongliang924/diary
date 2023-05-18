@@ -1,4 +1,4 @@
-### 端到端自动语音识别最新进展
+### 1-Recent Advance in End-to-End Automatic Speech Recognition
 
 论文链接：https://arxiv.org/pdf/2111.01690.pdf
 

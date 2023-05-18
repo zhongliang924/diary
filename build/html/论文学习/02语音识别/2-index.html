@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>语音识别综述 &mdash; SpinxDemo v1.0 文档</title>
+  <title>Wenet &mdash; SpinxDemo v1.0 文档</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
@@ -21,8 +21,8 @@
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="索引" href="../../genindex.html" />
     <link rel="search" title="搜索" href="../../search.html" />
-    <link rel="next" title="端到端自动语音识别最新进展" href="01%E8%AF%AD%E9%9F%B3%E8%AF%86%E5%88%AB%E7%BB%BC%E8%BF%B0/1-Recent%20Advance%20in%20End-to-End%20Automatic%20Speech%20Recognition.html" />
-    <link rel="prev" title="ChatGLM微调实验" href="../01Fine_tuning/04ChatGLM%E5%BE%AE%E8%B0%83%E5%AE%9E%E9%AA%8C.html" />
+    <link rel="next" title="1-WeNet Production Oriented Streaming and Non-Streaming End-to-End Speech Recognition Toolkit" href="02Wenet/1-WeNet%20Production%20Oriented%20Streaming%20and%20Non-Streaming%20End-to-End%20Speech%20Recognition%20Toolkit.html" />
+    <link rel="prev" title="1-Recent Advance in End-to-End Automatic Speech Recognition" href="01%E8%AF%AD%E9%9F%B3%E8%AF%86%E5%88%AB%E7%BB%BC%E8%BF%B0/1-Recent%20Advance%20in%20End-to-End%20Automatic%20Speech%20Recognition.html" />
     <link href="../../_static/style.css" rel="stylesheet" type="text/css">
 
 </head>
@@ -48,24 +48,19 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
               <p class="caption" role="heading"><span class="caption-text">学习笔记:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/index.html">Contents</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/index.html#docker">Docker</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/index.html#kubernetes">Kubernetes</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/index.html#git">Git</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/index.html#spinx">Spinx</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/index.html#fastertransformer">FasterTransformer</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/index.html#triton">Triton</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/1-index.html">Docker</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/2-index.html">Kubernetes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/3-index.html">Git</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/4-index.html">Spinx</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/5-index.html">FasterTransformer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/6-index.html">Triton</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">论文学习:</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="../index.html">Contents</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../index.html#fine-tuning">Fine tuning</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="../index.html#id1">语音识别</a><ul class="current">
-<li class="toctree-l2 current"><a class="current reference internal" href="#">语音识别综述</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="01%E8%AF%AD%E9%9F%B3%E8%AF%86%E5%88%AB%E7%BB%BC%E8%BF%B0/1-Recent%20Advance%20in%20End-to-End%20Automatic%20Speech%20Recognition.html">端到端自动语音识别最新进展</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="#wenet">Wenet</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="../1-index.html">Fine tuning</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../2-index.html">语音识别</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="1-index.html">语音识别综述</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Wenet</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="02Wenet/1-WeNet%20Production%20Oriented%20Streaming%20and%20Non-Streaming%20End-to-End%20Speech%20Recognition%20Toolkit.html">1-WeNet Production Oriented Streaming and Non-Streaming End-to-End Speech Recognition Toolkit</a></li>
 <li class="toctree-l3"><a class="reference internal" href="02Wenet/2-WeNet2.0%20More%20Productive%20End-to-End%20Speech%20Recognition%20Toolkit.html">2-Wenet2.0 More Productive End-to-End Speech Recognition Toolkit</a></li>
 </ul>
@@ -88,10 +83,10 @@
           <div role="navigation" aria-label="页面导航">
   <ul class="wy-breadcrumbs">
       <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
-          <li class="breadcrumb-item"><a href="../index.html">Contents</a></li>
-      <li class="breadcrumb-item active">语音识别综述</li>
+          <li class="breadcrumb-item"><a href="../2-index.html">语音识别</a></li>
+      <li class="breadcrumb-item active">Wenet</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="../../_sources/论文学习/02语音识别/index.rst.txt" rel="nofollow"> 查看页面源码</a>
+            <a href="../../_sources/论文学习/02语音识别/2-index.rst.txt" rel="nofollow"> 查看页面源码</a>
       </li>
   </ul>
   <hr/>
@@ -99,15 +94,7 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="id1">
-<h1>语音识别综述<a class="headerlink" href="#id1" title="此标题的永久链接"></a></h1>
-<div class="toctree-wrapper compound">
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="01%E8%AF%AD%E9%9F%B3%E8%AF%86%E5%88%AB%E7%BB%BC%E8%BF%B0/1-Recent%20Advance%20in%20End-to-End%20Automatic%20Speech%20Recognition.html">端到端自动语音识别最新进展</a></li>
-</ul>
-</div>
-</section>
-<section id="wenet">
+  <section id="wenet">
 <h1>Wenet<a class="headerlink" href="#wenet" title="此标题的永久链接"></a></h1>
 <div class="toctree-wrapper compound">
 <ul>
@@ -121,8 +108,8 @@
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
-        <a href="../01Fine_tuning/04ChatGLM%E5%BE%AE%E8%B0%83%E5%AE%9E%E9%AA%8C.html" class="btn btn-neutral float-left" title="ChatGLM微调实验" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
-        <a href="01%E8%AF%AD%E9%9F%B3%E8%AF%86%E5%88%AB%E7%BB%BC%E8%BF%B0/1-Recent%20Advance%20in%20End-to-End%20Automatic%20Speech%20Recognition.html" class="btn btn-neutral float-right" title="端到端自动语音识别最新进展" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="01%E8%AF%AD%E9%9F%B3%E8%AF%86%E5%88%AB%E7%BB%BC%E8%BF%B0/1-Recent%20Advance%20in%20End-to-End%20Automatic%20Speech%20Recognition.html" class="btn btn-neutral float-left" title="1-Recent Advance in End-to-End Automatic Speech Recognition" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
+        <a href="02Wenet/1-WeNet%20Production%20Oriented%20Streaming%20and%20Non-Streaming%20End-to-End%20Speech%20Recognition%20Toolkit.html" class="btn btn-neutral float-right" title="1-WeNet Production Oriented Streaming and Non-Streaming End-to-End Speech Recognition Toolkit" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
