@@ -2,8 +2,6 @@
 
 论文链接：https://arxiv.org/pdf/2111.01690.pdf
 
-:math:`\sigma_{1}`
-
 [TOC]
 
 #### 摘要
