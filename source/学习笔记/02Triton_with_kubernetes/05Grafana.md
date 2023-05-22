@@ -1,4 +1,4 @@
-### 五、Grafana
+### Grafana
 
 仪表可视化工具。
 

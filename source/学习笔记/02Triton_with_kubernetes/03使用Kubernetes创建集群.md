@@ -1,4 +1,4 @@
-### 三、使用Kubernetes创建集群
+### 使用Kubernetes创建集群
 
 Master节点和Node节点
 

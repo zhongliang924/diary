@@ -1,4 +1,4 @@
-### 二、使用MIG和Kubernetes大规模部署NVIDIA Triton
+### Kubernetes部署NVIDIA Triton
 
 ​	docker版本：20.10.21
 
@@ -14,7 +14,7 @@
 
 扩展到Kubernetest环境中部署，可以根据推理请求自动调整Triton推理服务器的数量，并且推理负载能够分布在所有服务器之间，实现负载均衡。
 
-#### 1、Create a Kubernetes Deployment for Triton Inference Servers
+#### 1、创建Kubernetes Deployment
 
 ​	第一步是为Triton推理服务器创建Kubernetes部署。部署为Pods和ReplicaSet提供声明性更新。Kubernetes中的ReplicaSet同时启动同一Pod的多个实例。
 
@@ -107,7 +107,7 @@ kubectl taint nodes --all node-role.kubernetes.io/master-
 kubectl delete deployment speech
 ```
 
-#### 2、Create a Kubernetes Service for Triton Inference Servers
+#### 2、创建Kubernetes Service
 
 ​	第二步是创建一个Kubernetes服务，将Triton推理服务器作为网络服务公开。创建服务时，使用Type字段选择自动创建外部负载均衡选项，其提供了一个外部可访问的IP地址，用于将流量发送到节点上的正确端口：
 
@@ -161,44 +161,13 @@ kubectl get svc
 
 至此，多个Triton推理服务器在Kubernetes环境中运行，对客户端发送的语音进行推理，可以手动更改服务器的数量。在接下来的部分中，对其进行改进，以便可以根据客户端请求自动调整服务器的数量。
 
-#### 3、使用Prometheus爬取NVIDIA的性能
+#### 3、安装Prometheus
 
-​	要自动更改Kubernetest Pods上Trition推理服务器的数量，首先收集用于自定义度量NVIDIA Triton性能，因为有来自多个Kubernetes Pods下的NVIDIA Triton指标，所以需要部署一个PodMonitor，告诉Prometheus从所有的Pods中收集指标。
+​	Prometheus是K8s集群内应用广泛的监控服务，要自动更改Kubernetest Pods上Trition推理服务器的数量，首先收集用于自定义度量NVIDIA Triton性能，因为有来自多个Kubernetes Pods下的NVIDIA Triton指标，所以需要部署一个PodMonitor，告诉Prometheus从所有的Pods中收集指标。
 
 ​	Prometheus是一款开源的系统监控和报警工具包，提供由度量名称键值对标识的时间序列数据。PromQL是一种灵活的查询语言，用于查询Prometheus的度量。
 
-##### 3.1	Create PodMonitor for Prometheus
-
-​	在`speech-pod-monitor.yml`文件中，定义一个PodMonitor来监视服务器的pod，如spec.selector字段所示，还需要kube-prometheus，包括prometheus的部署，并抓取链接到Prometheus各种度量端点的目标配置，如spec.podMetricsEndpoints字段所示，Prometheus每隔10s从这些端点抓取NVIDIA Triton指标：
-
-```
-apiVersion: monitoring.coreos.com/v1
-kind: PodMonitor
-metadata:
-  name: kube-prometheus-stack-tritonmetrics
-  namespace: monitoring
-  labels:
-      prometheus: k8s
-spec:
-   selector:
-      matchLabels:
-         app: speech
-   namespaceSelector:
-      matchNames:
-         - default
-   podMetricsEndpoints:
-   - port: metrics-triton
-     interval: 10s
-     path: /metrics
-```
-
-要匹配NVIDIA Triton Deployment的标签，确保`spec.selector.matchLabels`字段为`app: speech`，`spec.namespaceSelector.matchNames`字段为`-default`，两者都应与NVIDIA Triton Deployment位于同一命名空间下。
-
-使用命令`kubectl apply -f speech-pod-monitor.yml`并验证
-
-![](02.assets/image-20230321154541639.png)
-
-###### 安装Prometheus
+##### 3.1	安装Prometheus
 
 下载地址：
 
@@ -304,23 +273,78 @@ spec:
     app.kubernetes.io/part-of: kube-prometheus
 ```
 
+##### 3.2	修改Prometheus配置文件
 
+为了使Prometheus监控服务全部部署在主节点上，需要指定服务的部署节点，需要修改以下文件
 
-##### 3.2	使用Prometheus查询NVIDIA Triton 指标
+| 服务类型          | 服务名称           | 服务文件                            |
+| ----------------- | ------------------ | ----------------------------------- |
+| Prometheus Server | prometheus         | prometheis-prometheus.yaml          |
+| Setup             | setup              | prometheus-operator-deployment.yaml |
+| Prom-adapter      | adapter            | prometheus-adapter-deployment.yaml  |
+| metrics-state     | kube-state-metrics | kube-state-metrics-deployment.yaml  |
+| blackbos          | blackbox           | blackbox-exporter-deployment.yaml   |
 
-​	默认情况下，Prometheus附带了一个用户界面，可以在Prometheus服务器9090号端口访问，地址是http://10.24.83.40:30503/
+有两种修改方式：
+
+- 通过节点类型指定，这样可以批量指定
+
+```
+nodeSelector:
+	type: cloud_1080_ti
+```
+
+不同节点的type可以使用`kubectl label`进行指定
+
+- 通过节点名称指定，这样可以更精确指定
+
+```
+nodeName:
+	master
+```
+
+#### 4、缩扩容服务
+
+​	Prometheus在监视服务器，接下来部署Prometheus适配器，它知道如何与Kubernetes和Prometheus通信，适配器能够使用Prometheus收集的指标作出缩放决策。
+
+##### 3.1	创建PodMonitor
+
+​	在`speech-pod-monitor.yml`文件中，定义一个PodMonitor来监视服务器的pod，如spec.selector字段所示，还需要kube-prometheus，包括prometheus的部署，并抓取链接到Prometheus各种度量端点的目标配置，如spec.podMetricsEndpoints字段所示，Prometheus每隔10s从这些端点抓取NVIDIA Triton指标：
+
+```
+apiVersion: monitoring.coreos.com/v1
+kind: PodMonitor
+metadata:
+  name: kube-prometheus-stack-tritonmetrics
+  namespace: monitoring
+  labels:
+      prometheus: k8s
+spec:
+   selector:
+      matchLabels:
+         app: speech
+   namespaceSelector:
+      matchNames:
+         - default
+   podMetricsEndpoints:
+   - port: metrics-triton
+     interval: 10s
+     path: /metrics
+```
+
+要匹配NVIDIA Triton Deployment的标签，确保`spec.selector.matchLabels`字段为`app: speech`，`spec.namespaceSelector.matchNames`字段为`-default`，两者都应与NVIDIA Triton Deployment位于同一命名空间下。
+
+使用命令`kubectl apply -f speech-pod-monitor.yml`并验证
+
+![](02.assets/image-20230321154541639.png)
+
+​	默认情况下，Prometheus附带了一个用户界面，可以在Prometheus服务器9090号端口访问，地址是http://10.24.83.40:30503/，在输入框中输入以下命令可以爬取Triton输出的指标
 
 ```
 avg(delta(nv_inference_queue_duration_us[30s])/(1+delta(nv_inference_request_success[30s])))
 ```
 
-
-
-#### 4、Autoscale Triton Inference Servers
-
-​	Prometheus在监视服务器，接下来部署Prometheus适配器，它知道如何与Kubernetes和Prometheus通信，适配器能够使用Prometheus收集的指标作出缩放决策。
-
-##### 4.1	Create ConfigMap to define the custom metric
+##### 4.1	创建ConfigMap
 
 ​	首先需要告诉Prometheus如何收集特定的度量，在ConfigMap中自定义平均等待时间`avg_time_queue_us`度量，`nv_inference_request_success[30]`定义了过去30s成功推理请求数目，`nv_inference_quene_duration_us`定义了以微秒为单位的累计排队持续时间。
 
@@ -360,7 +384,7 @@ kubectl apply -f custom-metrics-server-config.yml
 
 ![](02.assets/image-20230321204503467.png)
 
-##### 4.2	为Kubernetes metrcs API创建Prometheus adapter
+##### 4.2	创建Prometheus Adapter
 
 ​	首先：
 
@@ -446,6 +470,8 @@ spec:
      namespace: monitoring
    version: v1beta1
 ```
+
+##### 4.3	查询创建的自定义指标
 
 ​	使用命令kubectl apply来应用三个前面提到的.yml文件配置，为Prometheus创建API Service之后，可以看到custom metrics可用：
 

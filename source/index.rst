@@ -16,6 +16,7 @@ Welcome to SphinxDemo's documentation!
    学习笔记/4-index
    学习笔记/5-index
    学习笔记/6-index
+   学习笔记/7-index
 
 .. toctree::
    :maxdepth: 2
@@ -26,7 +27,7 @@ Welcome to SphinxDemo's documentation!
 
 .. Indices and tables
  ==================
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
+    * :ref:`genindex`
+    * :ref:`modindex`
+    * :ref:`search`
 

@@ -1,6 +1,6 @@
 ### Triton Inference Server入门
 
-#### 1、Overview of Triton（概述）
+#### 1、概述
 
 ![](figs.assets/image-20230103170550670.png)
 
@@ -29,7 +29,7 @@
 - 完全开源，NGC上每月发布
 
 
-#### 2、Design Basics of Triton（设计理念）
+#### 2、设计理念
 
 ​	自己设计一个Triton该如何设计？
 
@@ -56,15 +56,15 @@
 
 Backend可以对推理服务本身进行解耦
 
-#### 3、 Auxiliary Features of Triton（增值功能）
+#### 3、 增值功能
 
 - ​	Model Analyzer：对推理请求全方位的扫描
   - Performance Analysis
   - Memory Analysis
 
-#### 4、Addition resources（上手参考）
+#### 4、上手参考
 
-#### 5、In-house Inference Server vs Triton（推理引擎比较）
+#### 5、推理引擎比较
 
 - Triton是开源的
   - 社区有很多讨论

@@ -1,28 +1,28 @@
-### 一、kubernetes安装
+### kubernetes安装
 
 ​	Kubernetes是由谷歌开发的一个开源系统，用于在集群内运行和管理以容器微服务为基础的应用。使用Kubernetes需要确保可以从Kubernetes集群外部访问在Kubernetes内创建的服务。
 
-##### 1、关闭防火墙
+**1、关闭防火墙**
 
 ```
 ufw disable
 ```
 
-##### 2、关闭selinux
+**2、关闭selinux**
 
 ```
 sudo apt install selinux-utils
 setenforce 0
 ```
 
-##### 3、禁止swap分区
+**3、禁止swap分区**
 
 ```
 swapoff -a
 sudo vim /etc/fstab		注释掉swap一行
 ```
 
-##### 4、桥接的IPV4流量传递到[iptables](https://so.csdn.net/so/search?q=iptables&spm=1001.2101.3001.7020) 的链
+**4、桥接的IPV4流量传递到[iptables](https://so.csdn.net/so/search?q=iptables&spm=1001.2101.3001.7020) 的链**
 
 ```
 cat > /etc/sysctl.d/k8s.conf <<EOF
@@ -32,7 +32,7 @@ EOF
 sysctl --system
 ```
 
-##### 5、配置k8s资源
+**5、配置k8s资源**
 
 ```
 curl -s https://mirrors.aliyun.com/kubernetes/apt/doc/apt-key.gpg | sudo apt-key add -
@@ -40,19 +40,19 @@ echo "deb https://mirrors.aliyun.com/kubernetes/apt/ kubernetes-xenial main" > /
 apt-get update
 ```
 
-##### 6、安装nfs
+**6、安装nfs**
 
 ```
 apt-get install nfs-common
 ```
 
-##### 7、安装kubeadm(初始化cluster)，kubelet(启动pod)和kubectl(k8s命令工具)
+**7、安装kubeadm(初始化cluster)，kubelet(启动pod)和kubectl(k8s命令工具)**
 
 ```
 apt install -y kubelet=1.21.3-00 kubeadm=1.21.3-00 kubectl=1.21.3-00
 ```
 
-##### 8、设置开机启动并启动kubelet
+**8、设置开机启动并启动kubelet**
 
 ```
 systemctl enable kubelet && systemctl start kubelet
@@ -60,7 +60,7 @@ systemctl enable kubelet && systemctl start kubelet
 
 
 
-##### 9、Master节点执行初始化配置
+**9、Master节点执行初始化配置**
 
 ```
 kubeadm init \
@@ -83,7 +83,7 @@ kubeadm init \
 
 ```
 
-##### 10、master节点拷贝认证文件
+**10、master节点拷贝认证文件**
 
 ```
 mkdir -p $HOME/.kube
@@ -91,7 +91,7 @@ sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
 sudo chown $(id -u):$(id -g) $HOME/.kube/config
 ```
 
-##### 11、切换至根目录下，将node节点加入集群
+**11、切换至根目录下，将node节点加入集群**
 
 ![](01.assets/image-20230319175053980.png)
 
@@ -100,7 +100,7 @@ kubeadm join 10.24.83.40:6443 --token mczjk1.5m5ypxfaunv4nd61 \
         --discovery-token-ca-cert-hash sha256:c360c1f4b50c96d7cc80759c73b0de9afa5dc5e1461693d781798f07b1bb4031
 ```
 
-##### 12、配置命令补全工具
+**12、配置命令补全工具**
 
 ```
 apt-get -y install bash-completion
@@ -108,7 +108,7 @@ source <(kubectl completion bash)                               #临时生效
 echo "source <(kubectl completion bash)" >> ~/.bashrc           #永久生效
 ```
 
-##### 13、查看集群状态
+**13、查看集群状态**
 
 网络插件calico.yaml的链接：[kubernetes(k8s)网络插件calico.yaml文件](https://blog.csdn.net/moyuanbomo/article/details/123092448)
 

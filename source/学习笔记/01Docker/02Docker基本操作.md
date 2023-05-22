@@ -56,6 +56,12 @@ docker rmi $(docker images -f "dangling=true" -q)
 docker rm $(docker ps -q -f status=exited)
 ```
 
+- 删除名称包含"calico"的镜像
+
+```
+docker rmi $(docker images | grep calico | awk '{print $3}')
+```
+
 **修改共享内存**
 
 ​	docker中的进程要与宿主机使用共享内存通信，共享内存过小可能导致在执行某些程序时发生内存溢出的现象，默认的共享内存大小为64MB，下面介绍如何在启动的docker容器中修改共享内存的大小。
