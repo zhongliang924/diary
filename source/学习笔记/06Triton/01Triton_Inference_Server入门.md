@@ -1,6 +1,6 @@
-### Triton Inference Server入门
+# Triton Inference Server入门
 
-#### 1、概述
+### 1、概述
 
 ![](figs.assets/image-20230103170550670.png)
 
@@ -29,11 +29,11 @@
 - 完全开源，NGC上每月发布
 
 
-#### 2、设计理念
+### 2、设计理念
 
 ​	自己设计一个Triton该如何设计？
 
-##### 2.1	lifecycle  推理请求生命周期
+#### 2.1	lifecycle  推理请求生命周期
 
 - 基于不同框架推理模型都需要支持，backends的方式实现对不同框架的支持
 - 通用功能
@@ -46,7 +46,7 @@
     - 推理响应管理  退出
 - GRPC服务相关
 
-##### 2.2  model type relevant  模型角度
+#### 2.2  model type relevant  模型角度
 
 - 单一简单的模型（Stateless model）：Default scheduler均匀分配、Dynamic batch
 - 模型的组合  pipeline：模型与模型之间有依赖关系，每个模型可以有自己的调度方式
@@ -56,15 +56,15 @@
 
 Backend可以对推理服务本身进行解耦
 
-#### 3、 增值功能
+### 3、 增值功能
 
 - ​	Model Analyzer：对推理请求全方位的扫描
   - Performance Analysis
   - Memory Analysis
 
-#### 4、上手参考
+### 4、上手参考
 
-#### 5、推理引擎比较
+### 5、推理引擎比较
 
 - Triton是开源的
   - 社区有很多讨论

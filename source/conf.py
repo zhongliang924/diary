@@ -7,7 +7,7 @@
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
 project = 'SphinxDiary'
-copyright = '2023, 李仲'
+copyright = '2023, 李仲亮'
 author = '李仲亮'
 release = 'v1.0'
 
@@ -56,9 +56,9 @@ html_theme_options = {
     "light_css_variables": {
         "color-brand-primary": "#7C4DFF",
         "color-brand-content": "#7C4DFF",
-        "font-stack": "Arial, sans-serif",
-        "font-stack--monospace": "Courier, monospace",
+        "font-stack": "Bookman Old Style, Adobe 黑体 Std R",
+        "font-stack--monospace": "Consolas, monospace",
+        "font-size": "6px, 6px"
     },
-
     "top_of_page_button": "edit",
 }

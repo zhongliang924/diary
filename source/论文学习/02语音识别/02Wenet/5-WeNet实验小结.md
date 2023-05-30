@@ -1,6 +1,6 @@
-### 5-WeNet实验小结
+# 5-WeNet实验小结
 
-#### 1、开源模型
+### 1、开源模型
 
 下载地址：https://github.com/wenet-e2e/wenet/blob/main/docs/pretrained_models.en.md
 
@@ -9,7 +9,7 @@
 | aishell2 |      | [Conformer](https://wenet-1256283475.cos.ap-shanghai.myqcloud.com/models/aishell2/20210618_u2pp_conformer_exp.tar.gz) |
 | multi_cn |      | [Conformer](https://wenet-1256283475.cos.ap-shanghai.myqcloud.com/models/multi_cn/20210815_unified_conformer_exp.tar.gz) |
 
-#### 2、开源multi_CN数据集
+### 2、开源multi_CN数据集
 
 OpenSLR: http://www.openslr.org/resources.php
 
@@ -24,7 +24,7 @@ OpenSLR: http://www.openslr.org/resources.php
 
 总共包含1021000条音频数据，443065394个帧，词汇表有7028个单元
 
-#### 3、模型训练
+### 3、模型训练
 
 ​	训练完成的模型可以使用tensorboard查看，如果在容器内运行则需要添加端口映射
 
@@ -42,7 +42,7 @@ tensorboard --logdir=./tensorboard --host=0.0.0.0 --port 2001
 
 
 
-#### 4、测试结果
+### 4、测试结果
 
 - 官方下载的multi-cn预训练模型结果，模型结构为Unified Conformer，chunk size为16，模型大小为213.4MB
 
@@ -91,7 +91,7 @@ thchs是带噪的测试语音，所以效果较差，且转录文本字数较多
 | AISHELL |                     |      |
 | THCHS   |                     |      |
 
-#### 5、心得记录
+### 5、心得记录
 
 **动态bath size和静态batch size**
 

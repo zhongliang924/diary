@@ -1,8 +1,8 @@
-### Triton Metrics
+# Triton Metrics
 
 Triton提供了指示GPU和请求统计信息的Prometheus度量。
 
-#### 1、推理请求Metrics
+### 1、推理请求Metrics
 
 ​	对于不支持批处理的模型，其请求数、推理数和执行数应该是相等的；对于支持批处理的模型，平均批处理大小应为推理数/执行数。
 
@@ -23,7 +23,7 @@ Triton提供了指示GPU和请求统计信息的Prometheus度量。
 |                    | Compute Time        | nv_inference_compute_infer_summary_us   | 请求执行推理模型所花费的时间摘要（框架后端，不包括缓存） | Per model   | Per request |
 |                    | Compute Output Time | nv_inference_compute_output_summary_us  | 请求处理推理输出所花费的时间摘要（框架后端，不包括缓存） | Per model   | Per request |
 
-#### 2、GPU Metrics
+### 2、GPU Metrics
 
 | Category | Metric        | Metric Name               | Description                     | Granularity | Frequency    |
 | -------- | ------------- | ------------------------- | ------------------------------- | ----------- | ------------ |

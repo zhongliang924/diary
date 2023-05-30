@@ -1,4 +1,4 @@
-### 使用Kubernetes创建集群
+# 使用Kubernetes创建集群
 
 Master节点和Node节点
 
@@ -28,7 +28,7 @@ kubectl get nodes
 
 其中master节点为主机节点，IP为10.24.83.40，node02节点为虚拟机节点，IP为192.168.24.129，可以发现所有的node均已Ready。
 
-#### 1、验收集群
+### 1、验收集群
 
 ​	使用以下命令可以创建一个最简单的nginx pod
 
@@ -48,7 +48,7 @@ kubectl apply -f https://k8s.io/examples/pods/simple-pod.yaml
 
 ![](03.assets/image-20230404202303906.png)
 
-#### 2、正式部署NGINX集群
+### 2、正式部署NGINX集群
 
 ##### 创建deployment
 
@@ -134,7 +134,7 @@ kubectl get svc -o wide
 
 测试完成，这时候正式nginx集群搭建完成。
 
-#### 3、部署Dashboard
+### 3、部署Dashboard
 
 ​	Dashboard是官方提供的一个UI，可用于基本管理K8s资源
 

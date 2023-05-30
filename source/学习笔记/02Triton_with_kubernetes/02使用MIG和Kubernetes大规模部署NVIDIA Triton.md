@@ -1,4 +1,4 @@
-### Kubernetes部署NVIDIA Triton
+# Kubernetes部署NVIDIA Triton
 
 ​	docker版本：20.10.21
 
@@ -14,7 +14,7 @@
 
 扩展到Kubernetest环境中部署，可以根据推理请求自动调整Triton推理服务器的数量，并且推理负载能够分布在所有服务器之间，实现负载均衡。
 
-#### 1、创建Kubernetes Deployment
+### 1、创建Kubernetes Deployment
 
 ​	第一步是为Triton推理服务器创建Kubernetes部署。部署为Pods和ReplicaSet提供声明性更新。Kubernetes中的ReplicaSet同时启动同一Pod的多个实例。
 
@@ -107,7 +107,7 @@ kubectl taint nodes --all node-role.kubernetes.io/master-
 kubectl delete deployment speech
 ```
 
-#### 2、创建Kubernetes Service
+### 2、创建Kubernetes Service
 
 ​	第二步是创建一个Kubernetes服务，将Triton推理服务器作为网络服务公开。创建服务时，使用Type字段选择自动创建外部负载均衡选项，其提供了一个外部可访问的IP地址，用于将流量发送到节点上的正确端口：
 
@@ -161,7 +161,7 @@ kubectl get svc
 
 至此，多个Triton推理服务器在Kubernetes环境中运行，对客户端发送的语音进行推理，可以手动更改服务器的数量。在接下来的部分中，对其进行改进，以便可以根据客户端请求自动调整服务器的数量。
 
-#### 3、安装Prometheus
+### 3、安装Prometheus
 
 ​	Prometheus是K8s集群内应用广泛的监控服务，要自动更改Kubernetest Pods上Trition推理服务器的数量，首先收集用于自定义度量NVIDIA Triton性能，因为有来自多个Kubernetes Pods下的NVIDIA Triton指标，所以需要部署一个PodMonitor，告诉Prometheus从所有的Pods中收集指标。
 
@@ -303,7 +303,7 @@ nodeName:
 	master
 ```
 
-#### 4、缩扩容服务
+### 4、缩扩容服务
 
 ​	Prometheus在监视服务器，接下来部署Prometheus适配器，它知道如何与Kubernetes和Prometheus通信，适配器能够使用Prometheus收集的指标作出缩放决策。
 
@@ -489,7 +489,7 @@ kubectl get --raw /apis/custom.metrics.k8s.io/v1beta1/namespaces/default/pods/*/
 
 ![](02.assets/image-20230327192704313.png)
 
-#### 5、部署HPA
+### 5、部署HPA
 
 ​	现在可以创建一个用于自定义度量的HPA，HPA可以根据观察到的指标自动缩放复制器中Pods的数量。HPA根据监测值和当前值的比率来控制Kubernetes中replicas Pods的数量。
 $$

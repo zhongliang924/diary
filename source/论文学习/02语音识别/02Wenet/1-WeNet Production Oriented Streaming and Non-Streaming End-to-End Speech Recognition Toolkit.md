@@ -1,4 +1,4 @@
-### 1-WeNet Production Oriented Streaming and Non-Streaming End-to-End Speech Recognition Toolkit
+# 1-WeNet Production Oriented Streaming and Non-Streaming End-to-End Speech Recognition Toolkit
 
 论文链接：https://arxiv.org/pdf/2102.01547.pdf
 

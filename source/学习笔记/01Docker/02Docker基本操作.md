@@ -1,6 +1,6 @@
-### Docker基本操作
+# Docker基本操作
 
-**修改Docker镜像默认存储位置**
+### 1、修改Docker镜像默认存储位置
 
 Docker容器默认存储位于`/var/lib/docker`下面，可以通过以下命令查看我们的Docker容器具体位置
 
@@ -42,7 +42,7 @@ systemctl restart docker
 
 这样，我们的docker的默认存储位置就由`/var/lib/docker`更改到`/ssd1/docker`目录下了
 
-**Docker镜像容器删除**
+### 2、Docker镜像容器删除
 
 - 删除名称为\<none>的镜像
 
@@ -62,7 +62,7 @@ docker rm $(docker ps -q -f status=exited)
 docker rmi $(docker images | grep calico | awk '{print $3}')
 ```
 
-**修改共享内存**
+### 3、修改共享内存
 
 ​	docker中的进程要与宿主机使用共享内存通信，共享内存过小可能导致在执行某些程序时发生内存溢出的现象，默认的共享内存大小为64MB，下面介绍如何在启动的docker容器中修改共享内存的大小。
 
@@ -90,7 +90,7 @@ service docker stop
 systemctl restart docker
 ```
 
-**添加端口映射**
+### 4、添加端口映射
 
 ​	与修改共享内存类似，进入容器目录修改hostconfig.json文件，找到“PortBindings"字段，新增2001，2002，2003号端口，
 

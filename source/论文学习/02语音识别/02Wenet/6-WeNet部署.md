@@ -1,8 +1,8 @@
-### 6-WeNet部署
+# 6-WeNet部署
 
 ​	本文介绍使用Triton Infernecr Server部署WeNet提供语音识别服务的方法
 
-#### 1.	非流式部署
+### 1.	非流式部署
 
 **1.1	转换预训练模型为onnx格式**
 
@@ -46,7 +46,7 @@ test_data_dir=/home/lzl/clients/wenet/
 python3 $path_dir/recognize.py --config=$model_dir/train.yaml --dict=$model_dir/units.txt --checkpoint=$model_dir/final.pt --test_data=$test_data_dir/wav.list --result_file=results.txt --gpu=0
 ```
 
-#### 2.	流式部署
+### 2.	流式部署
 
 **2.1	转换预训练模型为onnx格式**
 
@@ -93,7 +93,7 @@ python3 client.py --audio_file=test.wav --model_name=streaming_wenet --streaming
 python3 client.py --wavscp=wav.scp --model_name=streaming_wenet --streaming --trans=refer.txt --url=10.26.35.149:8001 
 ```
 
-#### 3.	实验细节
+### 3.	实验细节
 
 **3.1	Scripts——填写config.pbtxt文件内容（更换模型的时候需要填写）**
 
@@ -151,7 +151,7 @@ pip3 install soundfile
 pip3 install --upgrade clients/python/tritonclient-2.20.0-py3-none-manylinux2014_aarch64.whl[all]
 ```
 
-#### 4、性能测试
+### 4、性能测试
 
 - 离线输入模型
 

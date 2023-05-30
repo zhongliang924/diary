@@ -1,4 +1,4 @@
-### ChatGLM微调实验
+# ChatGLM微调实验
 
 微调实验参考链接：[https://github.com/liucongg/ChatGLM-Finetuning](https://github.com/liucongg/ChatGLM-Finetuning)
 

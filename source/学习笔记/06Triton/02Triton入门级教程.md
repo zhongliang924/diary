@@ -1,10 +1,10 @@
-### Triton入门级教程
+# Triton入门级教程
 
 整体架构：
 
 ![](figs.assets/image-20230104193001823.png)
 
-#### 1、Prepare the Model Repository
+### 1、Prepare the Model Repository
 
 ​	三级结构：
 
@@ -16,7 +16,7 @@
     - config文件
     - label files
 
-##### 1.1  model files
+#### 1.1  model files
 
 模型目录重要的Components：
 
@@ -31,17 +31,17 @@
 
 通过版本号找到正确版本的模型
 
-##### 1.2  Config File
+#### 1.2  Config File
 
 ​	定义模型和服务器的配置参数
 
-##### 1.3  Label File
+#### 1.3  Label File
 
 ​	对于分类模型，label file自动产生类别名的预测概率，方便我们读取分类模型的输出
 
-#### 2、Configure the Served Model
+### 2、Configure the Served Model
 
-##### 2.1  必须包含的信息
+#### 2.1  必须包含的信息
 
 ​	config.pbtxt文件中必须包含的信息
 
@@ -59,19 +59,19 @@
 
 ![](figs.assets/image-20230107154618573.png)
 
-##### 2.2  Version Policy
+#### 2.2  Version Policy
 
 ​	三个策略指定版本的信息：
 
 ![](figs.assets/image-20230107160207748.png)
 
-##### 2.3  Instance Groups
+#### 2.3  Instance Groups
 
 ​	同时跑多个Instance提高GPU利用率
 
 ![](figs.assets/image-20230107160654931.png)
 
-#####  2.4  调度策略
+####  2.4  调度策略
 
 **Default Scheduler**：
 
@@ -91,51 +91,76 @@
 
 **Ensemble Scheduler：**组合成pipeline
 
-##### 2.5  优化手段
+#### 2.5  优化手段
 
 针对ONNX模型，可以直接开启TensorRT加速，TRT backend for ONNX
 
 ![](figs.assets/image-20230107164145247.png)
 
-##### 2.6  Model Warmup
+#### 2.6  Model Warmup
 
 热身的过程使模型推理稳定，热身完之后模型被加载进来并提供服务，但是模型加载比较漫长
 
 ![](figs.assets/image-20230107164702954.png)
 
-#### 3、Launch Triton Server
+### 3、Launch Triton Server
 
 tritonserver --help：查看tritonserver所有的options
 
-检查Server健康状态：curl -v <Server IP>:8000/v2/health/ready
+检查Server健康状态：curl -v \<Server IP>:8000/v2/health/ready
 
-##### 3.1  常用选项
+#### 3.1  常用选项
 
---log-verbose <integer>
+--log-verbose \<integer>
 
---strict-model-config <boolean>
+--strict-model-config \<boolean>
 
---strict-readiness <boolean>：检查健康状态什么情况下显示ready
+--strict-readiness \<boolean>：检查健康状态什么情况下显示ready
 
---exit-on-error <boolean>：如果为true，所有模型必须load成功，否则模型开启不起来
+--exit-on-error \<boolean>：如果为true，所有模型必须load成功，否则模型开启不起来
 
---http(grpc, metrics)-port <integer>：使用端口
+--http(grpc, metrics)-port \<integer>：使用端口
 
---model-control-mode <string>：以什么模式管理模型库，Options包含"none", "poll"（动态更新）, "explicit"（在server启动初期是不加载模型的） --load-model resnet_50.onnx，在初期加载模型。curl -X POST http://localhost:8000/v2/repository/models/resnet50_pytorch/load (load换成unload就是卸载模型)
+--model-control-mode \<string>：以什么模式管理模型库，Options包含"none", "poll"（动态更新）, "explicit"（在server启动初期是不加载模型的） --load-model resnet_50.onnx，在初期加载模型。curl -X POST http://localhost:8000/v2/repository/models/resnet50_pytorch/load (load换成unload就是卸载模型)
 
---pinned-memory-pool-byte-size <integer>：模型推理有效提高CPU/GPU数据传输效率，256M
+--pinned-memory-pool-byte-size \<integer>：模型推理有效提高CPU/GPU数据传输效率，256M
 
---cuda-memory-pool-byte-size <integer>：可以访问的CUDA memory的大小，64M
+--cuda-memory-pool-byte-size \<integer>：可以访问的CUDA memory的大小，64M
 
 --backend-directory：找backend编译的动态库
 
 --repoagnet-directory：用于预处理模型库的程序（加密）
 
-#### 4、Configure an Ensemble Model
+### 4、Configure an Ensemble Model
 
 子模块需要准备好，放在model_repository里面，创建ensemble model，在语音识别模型中对应着attention_rescoring
 
-![](figs.assets/image-20230109151622685.png)
+```
+name: "attention_rescoring"
+platform: "ensemble"
+max_batch_size: 64 #MAX_BATCH
+
+input [
+  {
+    name: "WAV"
+    data_type: TYPE_FP32
+    dims: [-1]
+  },
+  {
+    name: "WAV_LENS"
+    data_type: TYPE_INT32
+    dims: [1]
+  }
+]
+
+output [
+  {
+    name: "TRANSCRIPTS"
+    data_type: TYPE_STRING
+    dims: [1]
+  }
+]
+```
 
 定义模块之间的连接关系
 
@@ -147,17 +172,96 @@ value：input_tensor和output_tensor在ensemble模型里面定义的名字，用
 
 **Feature extractor模块**
 
-![](figs.assets/image-20230109151721063.png)
+```
+ensemble_scheduling {
+step [
+{
+    model_name: "feature_extractor"
+    model_version: -1
+    input_map {
+    key: "wav"
+    value: "WAV"
+}
+input_map {
+    key: "wav_lens"
+    value: "WAV_LENS"
+}
+output_map {
+    key: "speech"
+    value: "SPEECH"
+}
+output_map {
+    key: "speech_lengths"
+    value: "SPEECH_LENGTHS"
+}
+},
+```
 
 **Encoder模块**
 
-![](figs.assets/image-20230109151733092.png)
+```
+{
+    model_name: "encoder"
+    model_version: -1
+    input_map {
+    key: "speech"
+    value: "SPEECH"
+}
+input_map {
+    key: "speech_lengths"
+    value: "SPEECH_LENGTHS"
+}
+output_map {
+    key: "encoder_out"
+    value: "encoder_out"
+}
+output_map {
+    key: "encoder_out_lens"
+    value: "encoder_out_lens"
+}
+output_map {
+    key: "beam_log_probs"
+    value: "beam_log_probs"
+}
+output_map {
+    key: "beam_log_probs_idx"
+    value: "beam_log_probs_idx"
+}
+},
+```
 
 **scoring模块**
 
-![](figs.assets/image-20230109151745806.png)
+```
+{
+    model_name: "scoring"
+    model_version: -1
+    input_map {
+    key: "encoder_out"
+    value: "encoder_out"
+}
+input_map {
+    key: "encoder_out_lens"
+    value: "encoder_out_lens"
+}
+input_map {
+    key: "batch_log_probs"
+    value: "beam_log_probs"
+}
+input_map {
+    key: "batch_log_probs_idx"
+    value: "beam_log_probs_idx"
+}
+output_map {
+    key: "OUTPUT0"
+    value: "TRANSCRIPTS"
+}
+}
+```
 
-#### 5、Send Requests to Triton Server
+
+
+### 5、Send Requests to Triton Server
 
  import tritonclient.grpc as grpcclient
 

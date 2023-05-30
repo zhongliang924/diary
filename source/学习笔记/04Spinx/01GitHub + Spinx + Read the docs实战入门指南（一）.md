@@ -1,4 +1,4 @@
-### GitHub + Spinx + Read the docs实战入门指南（一）
+# GitHub + Spinx + Read the docs实战入门指南（一）
 
 参考链接：[知乎博客](https://zhuanlan.zhihu.com/p/618869114)
 
@@ -16,7 +16,7 @@
 
 ![](01.assets/image-20230508121129552.png)
 
-#### 一、安装
+### 一、安装
 
 1. 安装spinx：
 
@@ -38,7 +38,7 @@
 
 4. 查看效果。在`build/html/index.html`下可以查看最基本的Sphinx文档系统搭建
 
-#### 二、定制化
+### 二、定制化
 
 定制化配置在`source/conf.py`中设置
 

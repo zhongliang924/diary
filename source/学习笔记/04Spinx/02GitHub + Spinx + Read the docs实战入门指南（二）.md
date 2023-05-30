@@ -1,4 +1,4 @@
-### GitHub + Spinx + Read the docs实战入门指南（二）
+# GitHub + Spinx + Read the docs实战入门指南（二）
 
 参考链接：[知乎博客](https://zhuanlan.zhihu.com/p/618886468)
 
@@ -15,7 +15,7 @@
 
 ![](02.assets/image-20230508205853729.png)
 
-#### 一、Sphinx渲染文档托管到Github
+### 一、Sphinx渲染文档托管到Github
 
 - 经过上一节，我们可以本地生成Sphinx渲染之后的html文档，但是只能本地查看，现需要将其托管到Github中，便于后续Read the docs部署
 
@@ -38,7 +38,7 @@
 
   ![](02.assets/image-20230508210952148.png)
 
-#### 二、部署到Read the docs网站
+### 二、部署到Read the docs网站
 
 ​	目前Sphinx渲染的文件已经托管到Github的main分支，接下来需要托管到Read the docs网站，便于查看和访问
 

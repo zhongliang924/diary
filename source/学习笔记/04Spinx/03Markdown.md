@@ -1,8 +1,8 @@
-### Markdown
+# Markdown
 
 ​	为支持基于 Markdown 的文档，Sphinx 可以使用 MyST Parser 。MyST-Parser 是一个用于解析 CommonMark Markdown 风格的 Python 包。
 
-#### 快速配置
+### 快速配置
 
 ​	要配置 Sphinx 以获取 Markdown 支持，请按以下步骤进行：
 
