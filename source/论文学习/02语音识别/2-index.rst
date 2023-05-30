@@ -14,3 +14,4 @@ Wenet
    02Wenet/3-WeNet-LM模型
    02Wenet/4-WeNet模型结构
    02Wenet/5-WeNet实验小结
+   02Wenet/6-WeNet部署

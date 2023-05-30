@@ -80,7 +80,7 @@ docker rmi $(docker images | grep calico | awk '{print $3}')
 service docker stop
 ```
 
-进入该容器目录`cd /ssd1/docker/containers/容器id`，修改`hostconfig.json`文件，找到`ShmSize`字段并进行更改我们需要的共享内存大小
+进入该容器目录`cd /ssd1/docker/containers/容器id`，修改hostconfig.json文件，找到“ShmSize”字段并进行更改我们需要的共享内存大小
 
 ![](figs.assets/image-20230510134334049.png)
 
@@ -89,4 +89,42 @@ service docker stop
 ```
 systemctl restart docker
 ```
+
+**添加端口映射**
+
+​	与修改共享内存类似，进入容器目录修改hostconfig.json文件，找到“PortBindings"字段，新增2001，2002，2003号端口，
+
+```
+"PortBindings":{
+	"2001/tcp": [{"HostIp":"","HostPort":"2001"}],
+	"2002/tcp": [{"HostIp":"","HostPort":"2002"}],
+	"2003/tcp": [{"HostIp":"","HostPort":"2003"}]
+}
+
+```
+
+![](figs.assets/image-20230524104312750.png)
+
+​	然后修改config.v2.json文件，找到”Port“字段，新增2001，2002，2003号端口的主机映射：
+
+```
+"Ports":{
+	"2001/tcp": [{"HostIp":"0.0.0.0","HostPort":"2001"},
+				{"HostIp":"::","HostPort":"2001"}],
+	"2002/tcp": [{"HostIp":"0.0.0.0","HostPort":"2002"},
+				{"HostIp":"::","HostPort":"2002"}],
+	"2003/tcp": [{"HostIp":"0.0.0.0","HostPort":"2003"},
+				{"HostIp":"::","HostPort":"2003"}],
+}
+```
+
+![](figs.assets/image-20230524104818596.png)
+
+重启容器完成端口映射，使用命令可以查看端口映射
+
+```
+docker port lzl
+```
+
+![](figs.assets/image-20230524105100650.png)
 

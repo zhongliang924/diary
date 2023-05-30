@@ -10,6 +10,7 @@
    :maxdepth: 1
 
    01语音识别综述/1-Recent Advance in End-to-End Automatic Speech Recognition
+   01语音识别综述/2-A Comparative Study On Transformer VS RNN In Speech Applications
 
 
 

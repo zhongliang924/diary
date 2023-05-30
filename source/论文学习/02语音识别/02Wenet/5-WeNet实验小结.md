@@ -24,9 +24,27 @@ OpenSLR: http://www.openslr.org/resources.php
 
 总共包含1021000条音频数据，443065394个帧，词汇表有7028个单元
 
-#### 3、实验结果
+#### 3、模型训练
 
-- 官方下载的multi-cn预训练模型结果，模型结构为Unified Conformer，chunk size为16
+​	训练完成的模型可以使用tensorboard查看，如果在容器内运行则需要添加端口映射
+
+```
+tensorboard --logdir=./tensorboard --host=0.0.0.0 --port 2001
+```
+
+可以获得训练时的训练损失、验证损失和lr。
+
+![](figs.assets/image-20230524110059842.png)
+
+![](figs.assets/image-20230524110120503.png)
+
+![](figs.assets/image-20230524110139018.png)
+
+
+
+#### 4、测试结果
+
+- 官方下载的multi-cn预训练模型结果，模型结构为Unified Conformer，chunk size为16，模型大小为213.4MB
 
 | Dataset    | attention decoder | ctc greedy search | ctc prefix beam search | attention rescoring |
 | ---------- | ----------------- | ----------------- | ---------------------- | ------------------- |
@@ -37,7 +55,7 @@ OpenSLR: http://www.openslr.org/resources.php
 
 thchs是带噪的测试语音，所以效果较差，且转录文本字数较多，平均一段音频对应30段中文字。
 
-LM模型，下载官方runtime模型final.zip，测试在不同数据集下的WER:
+如果使用LM模型，使用WFST进行解码，下载官方runtime模型final.zip，测试在不同数据集下的WER:
 
 | Dataset    | WFST   |
 | ---------- | ------ |
@@ -48,10 +66,32 @@ LM模型，下载官方runtime模型final.zip，测试在不同数据集下的WE
 
 词典里面没有英文，对英文的识别能力显著下降
 
-- 自己的预训练模型结果，模型结构为UnifiedConformer, chunk size为16
+- 自己的预训练模型结果，模型结构为UnifiedConformer, chunk size为16，找到最好的cv loss的模型，采用30次模型平均可以获得更好的效果，模型大小为189.057MB，选择的epoch为[177 171 165 172 164 175 170 176 155 173 157 178 179 147 166 152 149 144 169 174 141 138 163 162 167 150 154 148 146 168]，得到平均后的模型avg_30.pt，然后对其在测试集上进行测试：
 
+| Dataset    | attention decoder | ctc greedy search | ctc prefix beam search | attention rescoring |
+| ---------- | ----------------- | ----------------- | ---------------------- | ------------------- |
+| Aishell    | 4.37%             | 5.49%             | 5.50%                  | 4.57%               |
+| aidatatang | 4.02%             | 5.30%             | 5.30%                  | 4.36%               |
+| magicdata  | 2.53%             | 3.51%             | 3.50%                  | 2.77%               |
+| thchs      | 13.31%            | 14.47%            | 14.74%                 | 13.41%              |
 
-#### 4、心得记录
+自己的预训练模型不如下载的可能原因分析：建模单元少了3000（自己的词汇表为7028，官方的为11008），主要体现在对英文模型的建模能力弱了很多。
+
+- 模型平滑对性能的影响，解码方式选择attention_rescoring
+
+| 数据集  | with Average（30） | last epoch |
+| ------- | ------------------ | ---------- |
+| AISHELL | 4.57%              | 4.88%      |
+| THCHS   | 13.41%             | 14.22%     |
+
+- 量化模型对性能的影响（Runtime模式）JIT模型·：
+
+| 数据集  | quantization(int 8) | FP32 |
+| ------- | ------------------- | ---- |
+| AISHELL |                     |      |
+| THCHS   |                     |      |
+
+#### 5、心得记录
 
 **动态bath size和静态batch size**
 
