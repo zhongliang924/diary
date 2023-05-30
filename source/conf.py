@@ -7,7 +7,7 @@
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
 project = 'SphinxDiary'
-copyright = '2023, 李仲亮'
+copyright = '2023, 李仲'
 author = '李仲亮'
 release = 'v1.0'
 
