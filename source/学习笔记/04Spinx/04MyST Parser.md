@@ -89,19 +89,16 @@ myst:
     key2: |
       ```{note}
       {{ key1 }}
-      ```
+```
     key3: |
       ```{image} img/fun-fish.png
       :alt: fishy
       :width: 200px
       ```
     key4: example
----
-```
-
 可以使用内联或块使用 “{{}}” 这些替换
 
 #### 6、使用冒号对围栏进行编码
 
-​	添加 "colon_fence" 到 "myst_enable_extensions" 可以使用 ":::" 分隔符表示指令，而不是使用 "```"。
+添加 "colon_fence" 到 "myst_enable_extensions" 可以使用 ":::" 分隔符表示指令，而不是使用 "```"。
 

@@ -7,3 +7,4 @@ requests==2.29.0
 sphinx_copybutton
 myst_parser
 furo
+linkify-it-py
