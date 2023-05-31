@@ -2,7 +2,7 @@
 
 主机连接
 
-![](Docker.assets/image-20230316164731404.png)
+![](figs.assets/image-20230316164731404.png)
 
 密码：xmdx3090
 
@@ -83,8 +83,6 @@ if [ -f /root/start_ssh.sh ]; then
 fi
 4、保存后，等下次重启容器的时候，添加的服务也就跟着重启了。
 ```
-
-![](Docker.assets/image-20230316164904927.png)
 
 用户名和密码是dockerfile里面设置的
 
