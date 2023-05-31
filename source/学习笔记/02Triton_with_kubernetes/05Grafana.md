@@ -12,15 +12,15 @@
 
 ​	Grafana 每次要展现一个仪表盘的时候，会向 Prometheus 发送一个查询请求。
 
-![](05.assets/image-20230403195237547.png)
+![](../figs.assets/image-20230403195237547.png)
 
 最左边的docker服务会将服务的数据发送给Prometheus(Prometheus-exporter)，最右侧的Grafana查询Prometheus来展示仪表盘。
 
 #### 3、操作过程
 
-![](05.assets/image-20230403195834051.png)
+![](../figs.assets/image-20230403195834051.png)
 
-![](05.assets/image-20230403195928527.png)
+![](../figs.assets/image-20230403195928527.png)
 
 选择一个标准的仪表盘
 
@@ -28,7 +28,7 @@
 
 在出现的界面中填入`1860`，即我们需要导入的仪表盘编号
 
-![](05.assets/image-20230403200259597.png)
+![](../figs.assets/image-20230403200259597.png)
 
 Dashboard：
 
@@ -36,5 +36,5 @@ Dashboard：
 avg(delta(nv_inference_queue_duration_us[30s])/(1+delta(nv_inference_request_success[30s])))
 ```
 
-![](05.assets/image-20230403202053413.png)
+![](../figs.assets/image-20230403202053413.png)
 

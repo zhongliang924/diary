@@ -49,7 +49,7 @@ language = 'zh_CN'
 
 # html_theme = ''
 html_theme = "furo"
-html_logo = "logo1.png"
+html_logo = "logo.png"
 html_static_path = ['_static']
 
 html_theme_options = {

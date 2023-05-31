@@ -31,13 +31,13 @@
 
 ​	在解码过程中，CTC解码器在first pass中以流式方式运行，在second pass注意力解码器给出更准确的结果
 
-![](figs.assets/image-20230518155056886.png)
+![](../../figs.assets/image-20230518155056886.png)
 
 <center>图1 CTC/AED联合架构</center>
 
 ​	在训练阶段，训练损失是CTC和AED联合损失：
 
-![](figs.assets/image-20230518160154733.png)
+![](../../figs.assets/image-20230518160154733.png)
 
 采用dynamic chunk训练一个统一的流式和非流式模型。输入通过chunk size $C$被划分为多个块，每一个chunk关注其本身和之前的chunk。在训练中，chunk size从1到当前训练话语长度动态变化，训练后的模型能适应任何chunk size的预测。根据经验，较大的chunk可以在较高的时延下获得更好的结果，可以在运行时调整chunk size以轻松平衡准确率和延时。
 
@@ -54,7 +54,7 @@
 
 ​	底层完全基于PyTorch及其生态。在开发研究模型时，TorchScript用于开发模型，Torchaudio用于特征提取，DDP用于分布式训练，Torch Just in Time(JIT)用于模型导出，PyTorch用于量化模型，LibTorch用于生产运行时。
 
-![](figs.assets/image-20230518162635211.png)
+![](../../figs.assets/image-20230518162635211.png)
 
 <center>图2 WeNet设计栈</center>
 

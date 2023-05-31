@@ -2,7 +2,7 @@
 
 主机连接
 
-![](figs.assets/image-20230316164731404.png)
+![](../figs.assets/image-20230316164731404.png)
 
 密码：xmdx3090
 

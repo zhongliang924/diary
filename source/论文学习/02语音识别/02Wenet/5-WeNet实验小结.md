@@ -34,11 +34,11 @@ tensorboard --logdir=./tensorboard --host=0.0.0.0 --port 2001
 
 可以获得训练时的训练损失、验证损失和lr。
 
-![](figs.assets/image-20230524110059842.png)
+![](../../figs.assets/image-20230524110059842.png)
 
-![](figs.assets/image-20230524110120503.png)
+![](../../figs.assets/image-20230524110120503.png)
 
-![](figs.assets/image-20230524110139018.png)
+![](../../figs.assets/image-20230524110139018.png)
 
 
 
@@ -184,7 +184,7 @@ vim ~/anaconda3/envs/wenet/lib/python3.8/site-packages/wenet_path.pth
 
   首先去官网https://developer.nvidia.com/cuda-toolkit-archive下载对应版本的 CUDA Toolkit，采用runfile(local)方式
 
-  ![](figs.assets/image-20230514112053765.png)
+  ![](../../figs.assets/image-20230514112053765.png)
 
   可以得到`cuda**.run`文件
 
