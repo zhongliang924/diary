@@ -60,5 +60,5 @@ html_theme_options = {
         "font-stack--monospace": "Consolas, monospace",
         "font-size": "6px, 6px"
     },
-    "top_of_page_button": "edit",
+    "top_of_page_button": "edit"
 }
