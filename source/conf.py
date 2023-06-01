@@ -14,7 +14,7 @@ release = 'v1.0'
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
 
-extensions = ['myst_parser', 'sphinx_copybutton']
+extensions = ['myst_parser', 'sphinx_copybutton', 'sphinx_wagtail_theme']
 source_suffix = {
     '.rst': 'restructuredtext',
     '.txt': 'markdown',
@@ -48,17 +48,7 @@ language = 'zh_CN'
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
 
 # html_theme = ''
-html_theme = "furo"
-html_logo = "logo.png"
+html_theme = "sphinx_wagtail_theme"
+# html_logo = "logo.png"
 html_static_path = ['_static']
 
-html_theme_options = {
-    "light_css_variables": {
-        "color-brand-primary": "#7C4DFF",
-        "color-brand-content": "#7C4DFF",
-        "font-stack": "Bookman Old Style, Adobe 黑体 Std R",
-        "font-stack--monospace": "Consolas, monospace",
-        "font-size": "6px, 6px"
-    },
-    "top_of_page_button": "edit"
-}

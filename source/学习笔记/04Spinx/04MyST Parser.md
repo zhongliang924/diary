@@ -79,7 +79,7 @@ myst_enable_extensions = [
 
 ### 5、替换
 
-​	添加 "substitution" 到 "myst_enable_extensions"  将需要添加替换
+​	添加 "substitution" 到 "myst_enable_extensions" 将需要添加替换
 
 ```
 ---
@@ -98,7 +98,81 @@ myst:
     key4: example
 可以使用内联或块使用 “{{}}” 这些替换
 
-### 6、使用冒号对围栏进行编码
+### 6、冒号编码
 
-添加 "colon_fence" 到 "myst_enable_extensions" 可以使用 ":::" 分隔符表示指令，而不是使用 "```"。
+​	添加 "colon_fence" 到 "myst_enable_extensions" 可以使用 ":::" 分隔符表示指令，而不是使用 "```"。使用冒号也可以使内容正确呈现。与普通指令类似，这种指令可以嵌套
+
+### 7、自生成 header anchors
+
+​	MyST Parser 自动为 header anchors 生成标签 "slugs"，这样可以从 markdown 链接中引用它们。例如，可以本地使用 header bookmark 链接；\[](#header-anchor)；或交叉文件\[](path/to/file.md#header-anchor)。为了实现，请使用 `myst_heading_anchors=DEPTH` 配置选项，其中 Depth 表示要为其生成链接的头级别深度，
+
+​	例如设置 `myst_heading_anchors=3`  可以为 heading anchors 生成 h1,h2和h3 级别的标签，在 markdown 中对应于 #,##和###。可以将 markdown 链接直接插入到文档中的标题生成的 anchors。几个例子：
+
+[跳回顶部](#MyST Parser)
+
+[跳回第二节](#2、删除线)
+
+[跳到其它md文件](./03Markdown.md)
+
+### 8、Anchor slug 结构
+
+​	slugs 旨在针对 Github 部署进一步的优化：
+
+- 将所有字母转换为小写字母
+- 使用 `-` 替换所有空格
+- 删除所有特殊字符 
+
+​	要更改 slug 生成功能，设置 `myst_heading_slug_func` 函数。接受一个字符串并返回一个字符串。
+
+### 9、定义列表
+
+​	添加 "deflist" 到 "my_enable_extions" 能够使用自定义列表，自定义列表使用 `markdown-it-py deflist` 插件，其基于 Pandoc 定义列表规范：
+
+> 每个术语必须放在一行上，可以选择后面跟着一个空行，并且后面必须跟随着一个或多个定义，定义以冒号或波浪号开头，可以缩进一个或两个空格
+
+> 一个术语可以有多个定义，每个定义可以由一个或多个块元素组成（段落、代码块、列表等）。
+
+### 10、任务列表
+
+​	添加 "tasklist" 到 "myst_enable_extensions" 能够使用任务列表，任务列表同样使用 `markdown-it-py deflist` 插件，并应用于 [] 和 [x] 项。
+
+```
+- [ ] An item that needs doing
+- [x] An item that is complete
+```
+
+- [ ] An item that needs doing
+- [x] An item that is complete
+
+### 11、字段列表
+
+​	添加 "fieldlist" 到 "myst_enable_extensions" 能够使用字段列表，字段列表基于 reStructureText 语法从字段名称到字段正文的映射。
+
+```
+:name only:
+:name: body
+:*Nested syntax*: Both name and body may contain **nested syntax**.
+:Paragraphs: Since the field marker may be quite long, the second
+   and subsequent lines of a paragraph do not have to line up
+   with the first line.
+:Blocks:
+
+  As well as paragraphs, any block syntaxes may be used in a field body:
+
+  - Me
+  - Myself
+  - I
+
+  ```python
+  print("Hello, world!")
+```
+这一部分暂时在 Typora 里面无法可视化呈现。
+
+### 12、
+
+
+
+
+
+
 

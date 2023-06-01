@@ -3,12 +3,12 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to SphinxDemo's documentation!
+欢迎来到 SphinxDiary 文档!
 ======================================
 
 .. toctree::
    :maxdepth: 2
-   :caption: 学习笔记:
+   :caption: 笔记:
 
    学习笔记/1-index
    学习笔记/2-index
@@ -21,7 +21,7 @@ Welcome to SphinxDemo's documentation!
 
 .. toctree::
    :maxdepth: 2
-   :caption: 论文学习:
+   :caption: 论文:
 
    论文学习/1-index
    论文学习/2-index
