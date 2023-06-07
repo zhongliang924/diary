@@ -32,7 +32,7 @@ myst_enable_extensions = [
     "linkify",
     "replacements",
     "smartquotes",
-    "strikethrough",
+    # "strikethrough",
     "substitution",
     "tasklist",
 ]

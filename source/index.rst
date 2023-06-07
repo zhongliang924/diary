@@ -10,22 +10,22 @@
    :maxdepth: 2
    :caption: 笔记:
 
-   学习笔记/1-index
-   学习笔记/2-index
-   学习笔记/3-index
-   学习笔记/4-index
-   学习笔记/5-index
-   学习笔记/6-index
-   学习笔记/7-index
-   学习笔记/8-index
+   笔记/1-index
+   笔记/2-index
+   笔记/3-index
+   笔记/4-index
+   笔记/5-index
+   笔记/6-index
+   笔记/7-index
+   笔记/8-index
 
 .. toctree::
    :maxdepth: 2
    :caption: 论文:
 
-   论文学习/1-index
-   论文学习/2-index
-   论文学习/3-index
+   论文/1-index
+   论文/2-index
+   论文/3-index
 
 .. Indices and tables
  ==================
