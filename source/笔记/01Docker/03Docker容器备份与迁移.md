@@ -293,7 +293,7 @@ docker push 10.24.83.22:8080/registry:latest
 vim /etc/docker/daemon.json
 
 # 添加内容
-"insecure-mirrors": ["https://10.24.83.22:8080"],
+"insecure-registries": ["https://10.24.83.22:8080"],
 
 # 重加载
 systemctl daemon-reload

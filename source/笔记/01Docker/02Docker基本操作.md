@@ -128,3 +128,28 @@ docker port lzl
 
 ![](../figs.assets/image-20230524105100650.png)
 
+## 5、Windows 修改 Docker 镜像存储位置
+
+参考博客：https://blog.csdn.net/u013948858/article/details/111464534
+
+将`docker-desktop-data`导出到文件中(备份image及相关文件)，使用如下命令
+
+```
+wsl --export docker-desktop-data "E:\\docker-desktop-data.tar"
+```
+
+从wsl`取消注册`docker-desktop-data，请注意`C:\Users\李仲亮\AppData\Local\Docker\wsl\data\ext4.vhdx`文件将被自动删除。
+
+```
+wsl --unregister docker-desktop-data
+```
+
+将导出的`docker-desktop-data`再导入回wsl，并设置我们想要的路径，**即新的镜像及各种docker使用的文件的挂载目录**，我这里设置到`E:\\docker\\wsl`
+
+```
+wsl --import docker-desktop-data "E:\\docker\\wsl" "E:\\docker-desktop-data.tar" --version 2
+```
+
+命令执行完毕，就能再目录下看到文件了，这时次`启动Docker Desktop`，可以正常工作了
+
+通过检查文件大小可验证有效性，更改完删除`docker-desktop-data.tar`。
