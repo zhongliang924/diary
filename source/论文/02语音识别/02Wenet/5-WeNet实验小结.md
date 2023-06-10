@@ -150,6 +150,22 @@ thchs是带噪的测试语音，所以效果较差，且转录文本字数较多
 | AISHELL |                     |      |
 | THCHS   |                     |      |
 
+- 不同模型在 attention_rescoring 解码方式下的性能对比：
+
+| 模型       | AISHELL | Multi_CN small | Multi_CN medium |
+| ---------- | ------- | -------------- | --------------- |
+| Aishell    | 4.62%   | 5.59%          | 4.57%           |
+| aidatatang | 23.69%  | 5.62%          | 4.36%           |
+| magicdata  | 24.88%  | 3.71%          | 2.77%           |
+| thchs      | 20.13%  | 14.76%         | 13.41%          |
+
+- 不同模型 with-LM 的性能
+
+| 数据集  | AISHELL | Multi_CN small | Multi_CN medium |
+| ------- | ------- | -------------- | --------------- |
+| AISHELL |         |                |                 |
+| THCHS   |         |                |                 |
+
 ## 5、心得记录
 
 **动态bath size和静态batch size**
