@@ -28,15 +28,15 @@
 
 
 
-![](../../figs.assets/image-20230518204601520.png)
+![](../../../figs.assets/image-20230518204601520.png)
 
 <center> U2++框架，虚线表示解码期间second pass重评分</center>
 
 对于损失函数设计：
 
-![](../../figs.assets/image-20230518210101318.png)
+![](../../../figs.assets/image-20230518210101318.png)
 
-![](../../figs.assets/image-20230518210116986.png)
+![](../../../figs.assets/image-20230518210116986.png)
 
 输入被划分为多个chunk，在训练时，当前chunk执行双向chunk-level注意力，自身和前一个/后一个chunk进行双向注意力。
 
@@ -44,13 +44,13 @@
 
 ​	作为Unified的LM和无LM系统，CTC生成first pass的n个最佳结果；无LM时，CTC prefix beam search获得n个最佳候选；有LM时，WeNet 2.0将n-gram LM(G)、词典(L)和E2E建模CTC拓扑(T)编译为基于WFST的解码图(TLG)：
 
-![](../../figs.assets/image-20230518211306785.png)
+![](../../../figs.assets/image-20230518211306785.png)
 
 然后采用CTC WFST波束搜索获得n-best候选，最后通过注意力重评分模块，以找到最佳候选者
 
 本文采用Kaldi算法和代码进行解码，表述为WFST，采用了空白帧跳过技术加快解码速度。
 
-![](../../figs.assets/image-20230518210547875.png)
+![](../../../figs.assets/image-20230518210547875.png)
 
 <center>图2 语言模型解决方案</center>
 
@@ -65,15 +65,15 @@
 
 ​	当只匹配部分偏置单元而不是整个短语时，失败弧用于去除提升的分数
 
-![](../../figs.assets/image-20230518213307469.png)
+![](../../../figs.assets/image-20230518213307469.png)
 
 其中$P_C(\mathbf y)$表示偏置分数。特别地，当一些偏置短语共享相同的前缀时，采用贪婪匹配以简化其实现。
 
-![](../../figs.assets/image-20230518212920306.png)
+![](../../../figs.assets/image-20230518212920306.png)
 
 <center>图3(a) 字符级文本图-without LM model</center>
 
-![](../../figs.assets/image-20230518213011510.png)
+![](../../../figs.assets/image-20230518213011510.png)
 
 <center>图3(b) 词级文本图-with LM
 **UIO**
@@ -85,7 +85,7 @@
 
 本文提供了一个unified IO接口，为不同的存储(本地磁盘或云)和不同规模的数据集提供统一的接口
 
-![](../../figs.assets/image-20230518214036496.png)
+![](../../../figs.assets/image-20230518214036496.png)
 
 <center>图4 Unified IO</center>
 

@@ -93,7 +93,7 @@ sudo chown $(id -u):$(id -g) $HOME/.kube/config
 
 **11、切换至根目录下，将node节点加入集群**
 
-![](../figs.assets/image-20230319175053980.png)
+![](../../figs.assets/image-20230319175053980.png)
 
 ```
 kubeadm join 10.24.83.40:6443 --token mczjk1.5m5ypxfaunv4nd61 \
@@ -123,4 +123,4 @@ kubectl apply -f calico.yaml
 kubectl get nodes
 ```
 
-![](../figs.assets/image-20230319175534432.png)
+![](../../figs.assets/image-20230319175534432.png)

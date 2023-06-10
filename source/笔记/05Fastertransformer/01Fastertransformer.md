@@ -6,13 +6,13 @@
 
 ​	与深度学习训练的通用框架相比，FasterTransformer能够获得更快的推理管道，并且基于Transformer的神经网络具有更低的延迟和更高的吞吐量。
 
-<img src="../figs.assets/image-20230216211152721.png" style="zoom:80%;" />
+<img src="../../figs.assets/image-20230216211152721.png" style="zoom:80%;" />
 
 Triton推理服务器，具有多个后端，用于对使用不同框架训练的模型进行推理
 
 ​	带有FasterTransformer后端的Triton支持wenet、T5、swin、GPT等模型推理。
 
-<img src="../figs.assets/b4f5ffc8770141538ca906ff29f19cbb.png" style="zoom: 33%;" />
+<img src="../../figs.assets/b4f5ffc8770141538ca906ff29f19cbb.png" style="zoom: 33%;" />
 
 ## 二、WeNet 应用
 
@@ -20,17 +20,17 @@ Triton推理服务器，具有多个后端，用于对使用不同框架训练�
 
 ​	采用 `WenetEncoderPlugin` 集成了所有编码器模块
 
-<img src="../figs.assets/image-20230216212346060.png" style="zoom: 80%;" />
+<img src="../../figs.assets/image-20230216212346060.png" style="zoom: 80%;" />
 
-<img src="../figs.assets/image-20230216212400383.png" style="zoom: 80%;" />
+<img src="../../figs.assets/image-20230216212400383.png" style="zoom: 80%;" />
 
 ### 2.2 解码器 ONNX
 
 ​	采用 `WenetDecoderPlugin` 集成了所有编码器模块
 
-<img src="../figs.assets/image-20230216212550501.png" style="zoom: 80%;" />
+<img src="../../figs.assets/image-20230216212550501.png" style="zoom: 80%;" />
 
-<img src="../figs.assets/image-20230216212607069.png" style="zoom: 80%;" />
+<img src="../../figs.assets/image-20230216212607069.png" style="zoom: 80%;" />
 
 ## 3、性能分析
 

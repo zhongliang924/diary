@@ -2,7 +2,7 @@
 
 ## 1、概述
 
-![](../figs.assets/image-20230103170550670.png)
+![](../../figs.assets/image-20230103170550670.png)
 
 - 推理服务：客户端Client、服务端Server，基于K8S集群，K8S集群主要组成部分：
 

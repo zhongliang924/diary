@@ -8,11 +8,11 @@
 
 ​	DaCiDian是一个用于自动语音识别开源的字典，将单词映射到声学建模单元，例子如下：
 
-![](../../figs.assets/image-20230521101709814.png)
+![](../../../figs.assets/image-20230521101709814.png)
 
 同时可以把词映射到phone，例子如下：
 
-![](../../figs.assets/image-20230521101930179.png)
+![](../../../figs.assets/image-20230521101930179.png)
 
 
 
@@ -30,7 +30,7 @@ ngram-count -text $dir/train -order 3 -limit-vocab -vocab $dir/wordlist -unk -ma
 
 - -text：指向清洗分词完成后的训练文本，文本样例：
 
-  ![](../../figs.assets/image-20230521105005247.png)
+  ![](../../../figs.assets/image-20230521105005247.png)
 
 - -order：指向n-gram中的n，这里的3表示生成一个3元模型
 
@@ -38,7 +38,7 @@ ngram-count -text $dir/train -order 3 -limit-vocab -vocab $dir/wordlist -unk -ma
 
 - -vocab：词汇表文件，文本示例：
 
-  ![](../../figs.assets/image-20230521105443522.png)
+  ![](../../../figs.assets/image-20230521105443522.png)
 
 - -unk：在LM中保持\<unk>
 
@@ -73,7 +73,7 @@ ngram -lm $dir/lm.arpa -ppl $dir/heldout
    - G是语言模型，即将n-gram编译为WFST表示
 2. 第二个是解码器，与传统解码器相同，解码时使用标准Viterbi波束搜索算法
 
-![](../../figs.assets/image-20230521113152739.png)
+![](../../../figs.assets/image-20230521113152739.png)
 
 对于TLG：
 

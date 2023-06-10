@@ -2,7 +2,7 @@
 
 Triton Inference Server整体架构：
 
-![](../figs.assets/image-20230104193001823.png)
+![](../../figs.assets/image-20230104193001823.png)
 
 ## 1、准备模型仓库
 
@@ -12,7 +12,7 @@ Triton Inference Server整体架构：
 - config文件
 - label files
 
-![](../figs.assets/image-20230104193420838.png)
+![](../../figs.assets/image-20230104193420838.png)
 
 ### 1.1 模型文件
 
@@ -49,25 +49,25 @@ Triton Inference Server整体架构：
 
 > 在TensorRT, TensorFlow saved-model, ONNX models中config文件不是必须的，默认配置 --strict-model-config=false 表示在这些模型下可以不指定 config 文件
 
-![](../figs.assets/image-20230107154348311.png)
+![](../../figs.assets/image-20230107154348311.png)
 
 绿色的二者选其一，红色是必须指定。
 
 ​	max_batch_size & input & output：（-1代表可变长度），max_batch_size=0表示模型的dims必须是真实的dims。
 
-![](../figs.assets/image-20230107154618573.png)
+![](../../figs.assets/image-20230107154618573.png)
 
 ### 2.2 版本
 
 ​	三个策略指定版本的信息：
 
-![](../figs.assets/image-20230107160207748.png)
+![](../../figs.assets/image-20230107160207748.png)
 
 ### 2.3 实例组
 
 ​	同时跑多个Instance提高GPU利用率
 
-![](../figs.assets/image-20230107160654931.png)
+![](../../figs.assets/image-20230107160654931.png)
 
 ###  2.4 调度策略
 
@@ -85,7 +85,7 @@ Triton Inference Server整体架构：
 
 **Sequence Batcher：**
 
-![](../figs.assets/image-20230107164009460.png)
+![](../../figs.assets/image-20230107164009460.png)
 
 **Ensemble Scheduler：**组合成pipeline
 
@@ -93,13 +93,13 @@ Triton Inference Server整体架构：
 
 针对ONNX模型，可以直接开启TensorRT加速，TRT backend for ONNX
 
-![](../figs.assets/image-20230107164145247.png)
+![](../../figs.assets/image-20230107164145247.png)
 
 ### 2.6 Warmup
 
 热身的过程使模型推理稳定，热身完之后模型被加载进来并提供服务，但是模型加载比较漫长
 
-![](../figs.assets/image-20230107164702954.png)
+![](../../figs.assets/image-20230107164702954.png)
 
 ## 3、启动 Triton Server
 

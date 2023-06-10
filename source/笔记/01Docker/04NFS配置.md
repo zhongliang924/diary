@@ -63,24 +63,24 @@ mv `ls | grep -v shareFile | xargs` shareFile/10.24.83.41
 
 - 控制面板->程序->程序与功能->启动或关闭Windows功能
 
-![](../figs.assets/image-20230529113931100.png)
+![](../../figs.assets/image-20230529113931100.png)
 
 打开NFS服务：
 
-![](../figs.assets/image-20230529113955298.png)
+![](../../figs.assets/image-20230529113955298.png)
 
 - 在此电脑->映射网络驱动器
 
 
-![](../figs.assets/image-20230529114110779.png)
+![](../../figs.assets/image-20230529114110779.png)
 
 输入需要映射的地址
 
-![](../figs.assets/image-20230529114132530.png)
+![](../../figs.assets/image-20230529114132530.png)
 
 可以看到网络位置添加进去了
 
-![](../figs.assets/image-20230529120210014.png)
+![](../../figs.assets/image-20230529120210014.png)
 
 首次打开有点慢，第二次打开就好了。
 
@@ -88,6 +88,6 @@ mv `ls | grep -v shareFile | xargs` shareFile/10.24.83.41
 
 ​	此电脑，右键”添加一个网络位置“。一直选下一步，输入网络地址，格式如下：
 
-![](../figs.assets/image-20230529152931965.png)
+![](../../figs.assets/image-20230529152931965.png)
 
 点击下一步，完成网络位置的创建。

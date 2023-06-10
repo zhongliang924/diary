@@ -8,7 +8,7 @@
 
 对于我们创建的名为"nvidia_cuda"的容器，首先关闭容器
 
-![image-20230525105914579](../figs.assets/image-20230525105914579.png)
+![image-20230525105914579](../../figs.assets/image-20230525105914579.png)
 
 ```
 docker stop nvidia_cuda
@@ -22,7 +22,7 @@ docker commit -m "nvidia_cuda" nvidia_cuda my_container:1.0
 
 可以看到我们生成的镜像信息，已成功制作镜像my_container:1.0
 
-![](../figs.assets/image-20230525110240432.png)
+![](../../figs.assets/image-20230525110240432.png)
 
 ## 2、离线迁移
 
@@ -34,7 +34,7 @@ docker save -o my_container:1.0.tar my_container:1.0
 
 在当前目录下能生成7.8G的镜像压缩包my_container:1.0.tar
 
-![](../figs.assets/image-20230525111125136.png)
+![](../../figs.assets/image-20230525111125136.png)
 
 之后需要将文件传输到其它主机上，在局域网内可实现高速传输，在压缩包所在目录打开http端口
 
@@ -42,13 +42,13 @@ docker save -o my_container:1.0.tar my_container:1.0
 python3 -m http.server 9000
 ```
 
-![](../figs.assets/image-20230525111610114.png)
+![](../../figs.assets/image-20230525111610114.png)
 
 监听服务器的9000号端口，如果显示端口被占用，换一个数字即可。
 
 在浏览器中输入`10.24.83.40:9000`，找到我们的镜像压缩文件my_container:1.0.tar，右键复制链接地址
 
-![](../figs.assets/image-20230525111936287.png)
+![](../../figs.assets/image-20230525111936287.png)
 
 在另一台主机上执行
 
@@ -58,7 +58,7 @@ wget $刚才复制的地址
 
 文件开始传输（如果卡住刷新下浏览器就行，这种端口映射不支持并行传输）
 
-![](../figs.assets/image-20230525112142897.png)
+![](../../figs.assets/image-20230525112142897.png)
 
 至此，镜像压缩文件从一台主机传输到了另一台主机，之后需要从tar文件载入镜像。
 
@@ -68,11 +68,11 @@ Docker的load命令可以从tar文件载入镜像，执行示例：
 docker load -i my_container:1.0.tar
 ```
 
-![](../figs.assets/image-20230525113117139.png)
+![](../../figs.assets/image-20230525113117139.png)
 
 查看镜像是否添加进docker里面：
 
-![](../figs.assets/image-20230525113259286.png)
+![](../../figs.assets/image-20230525113259286.png)
 
 然后使用docker run创建容器
 
@@ -89,7 +89,7 @@ docker run -it --gpus all --name my_container -v /mnt/data:/data -p 40000:40000 
 
 容器启动成功：
 
-![](../figs.assets/image-20230525114529287.png)
+![](../../figs.assets/image-20230525114529287.png)
 
 在主机上运行设置容器自启动
 
@@ -105,7 +105,7 @@ docker update --restart=always my_container
 
 DockerHub官网：https://hub.docker.com/，需要科学上网才能进入，注册一个DockerHub账号，然后使用docker ID和密码登录：
 
-![](../figs.assets/image-20230525121319429.png)
+![](../../figs.assets/image-20230525121319429.png)
 
 推送镜像至仓库，我们将my_container:1.0镜像拉取至本地，然后再上传至DockerHub仓库中：
 
@@ -115,11 +115,11 @@ docker tag my_container:1.0 lizhongliang123/my_container:1.0
 docker push lizhongliang123/my_container:1.0
 ```
 
-![](../figs.assets/image-20230525121734445.png)
+![](../../figs.assets/image-20230525121734445.png)
 
 可以看到镜像已经被push上去了：
 
-![](../figs.assets/image-20230525121817211.png)
+![](../../figs.assets/image-20230525121817211.png)
 
 我们在另一台主机上拉取镜像，测试镜像能否被拉取
 
@@ -127,9 +127,9 @@ docker push lizhongliang123/my_container:1.0
 docker pull lizhongliang123/my_container:1.0
 ```
 
-![](../figs.assets/image-20230525122341950.png)
+![](../../figs.assets/image-20230525122341950.png)
 
-![](../figs.assets/image-20230525122637786.png)
+![](../../figs.assets/image-20230525122637786.png)
 
 使用完退出当前账号登录
 
@@ -241,11 +241,11 @@ htpasswd -Bbn admin admin > ./registry-config/htpasswd
 docker-compose -f credentials.yml up -d
 ```
 
-![](../figs.assets/image-20230527201345514.png)
+![](../../figs.assets/image-20230527201345514.png)
 
 registry映射到了8080号端口，访问`http://10.24.83.22:8080/`即可访问镜像仓库，默认用户名为admin，密码为admin
 
-![](../figs.assets/image-20230527201426665.png)
+![](../../figs.assets/image-20230527201426665.png)
 
 接下来需要向镜像仓库推送镜像，首先登录，用户名为admin，密码为admin
 
@@ -254,11 +254,11 @@ registry映射到了8080号端口，访问`http://10.24.83.22:8080/`即可访问
 docker login 10.24.83.22:8080
 ```
 
-![](../figs.assets/image-20230527214725358.png)
+![](../../figs.assets/image-20230527214725358.png)
 
 **一个bug：**输入用户名和密码后出现错误
 
-![](../figs.assets/image-20230527214838921.png)
+![](../../figs.assets/image-20230527214838921.png)
 解决方法：https://blog.csdn.net/qcdh1234/article/details/100639420，但是它是docker-compose的依赖库，需要login的时候就remove，不需要的时候就装回去：
 
  ```
@@ -270,7 +270,7 @@ docker login 10.24.83.22:8080
 
 接下来就是镜像推送，以registry镜像为例
 
-![](../figs.assets/image-20230527215109735.png)
+![](../../figs.assets/image-20230527215109735.png)
 
 首先打标签
 
@@ -284,7 +284,7 @@ docker tag registry:latest 10.24.83.22:8080/registry:latest
 docker push 10.24.83.22:8080/registry:latest
 ```
 
-![](../figs.assets/image-20230527201714494.png)
+![](../../figs.assets/image-20230527201714494.png)
 
 在局域网主机上使用docker pull可以从私有仓库中拉取镜像，在拉取镜像前，由于私服采用的是http协议，默认不被Docker信任，需要进行配置，改为https协议，使用docker pull的主机都需要修改
 

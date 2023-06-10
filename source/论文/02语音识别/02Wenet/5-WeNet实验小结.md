@@ -36,19 +36,19 @@ tensorboard --logdir=./tensorboard --host=0.0.0.0 --port 2001
 
 Multi_CN-Small 模型：
 
-![](../../figs.assets/image-20230607095511524.png)
+![](../../../figs.assets/image-20230607095511524.png)
 
-![](../../figs.assets/image-20230607095522791.png)
+![](../../../figs.assets/image-20230607095522791.png)
 
-![](../../figs.assets/image-20230607095533549.png)
+![](../../../figs.assets/image-20230607095533549.png)
 
 Multi_CN-Medium 模型：
 
-![](../../figs.assets/image-20230524110059842.png)
+![](../../../figs.assets/image-20230524110059842.png)
 
-![](../../figs.assets/image-20230524110120503.png)
+![](../../../figs.assets/image-20230524110120503.png)
 
-![](../../figs.assets/image-20230524110139018.png)
+![](../../../figs.assets/image-20230524110139018.png)
 
 
 
@@ -97,7 +97,7 @@ Multi_CN 模型：
 
 thchs是带噪的测试语音，所以效果较差，且转录文本字数较多，平均一段音频对应30段中文字，而且句子也特别复杂，下面是示例：
 
-![](../../figs.assets/image-20230607104444793.png)
+![](../../../figs.assets/image-20230607104444793.png)
 
 如果使用LM模型，使用WFST进行解码，下载官方runtime模型final.zip，测试在不同数据集下的WER:
 
@@ -259,7 +259,7 @@ vim ~/anaconda3/envs/wenet/lib/python3.8/site-packages/wenet_path.pth
 
   首先去官网https://developer.nvidia.com/cuda-toolkit-archive下载对应版本的 CUDA Toolkit，采用runfile(local)方式
 
-  ![](../../figs.assets/image-20230514112053765.png)
+  ![](../../../figs.assets/image-20230514112053765.png)
 
   可以得到`cuda**.run`文件
 

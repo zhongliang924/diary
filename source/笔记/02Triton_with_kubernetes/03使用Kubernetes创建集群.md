@@ -4,7 +4,7 @@ Master节点和Node节点
 
 操作根据 **在Ubuntu18.04上搭建kubernetes** 上的文档进行操作，在master节点执行完kubeadm之后，出现信息
 
-![](../figs.assets/image-20230404200323062.png)
+![](../../figs.assets/image-20230404200323062.png)
 
 在从节点上执行
 
@@ -24,7 +24,7 @@ kubeadm token create --print-join-command
 kubectl get nodes
 ```
 
-![](../figs.assets/image-20230404200903123.png)
+![](../../figs.assets/image-20230404200903123.png)
 
 其中master节点为主机节点，IP为10.24.83.40，node02节点为虚拟机节点，IP为192.168.24.129，可以发现所有的node均已Ready。
 
@@ -38,15 +38,15 @@ kubectl apply -f https://k8s.io/examples/pods/simple-pod.yaml
 
 创建后可以发现Pod处于Running状态：
 
-![](../figs.assets/image-20230404201546481.png)
+![](../../figs.assets/image-20230404201546481.png)
 
 在Node02上，添加`-o wide`可以查看pod的ip，再使用curl，可以访问这个nginx服务
 
-![](../figs.assets/image-20230404202803267.png)
+![](../../figs.assets/image-20230404202803267.png)
 
 如无特殊设置，k8s会通过服务器负载均衡自动部署到合适的node节点上，pods的内部IP为192.168.140.65，端口号为80.
 
-![](../figs.assets/image-20230404202303906.png)
+![](../../figs.assets/image-20230404202303906.png)
 
 ## 2、正式部署NGINX集群
 
@@ -82,7 +82,7 @@ apply：根据配置文件列出来的内容，升级现有的，直接覆盖原
 kubectl get pods -o wide
 ```
 
-![](../figs.assets/image-20230404205604591.png)
+![](../../figs.assets/image-20230404205604591.png)
 
 三个pods全部部署在了node02节点上
 
@@ -120,7 +120,7 @@ kubectl apply -f nginx-service.yml
 kubectl get svc -o wide
 ```
 
-![](../figs.assets/image-20230404210010885.png)
+![](../../figs.assets/image-20230404210010885.png)
 
 可以发现服务能正常启动
 
@@ -188,7 +188,7 @@ kubectl describe secrets -n kube-system $(kubectl -n kube-system get secret | aw
 
 使用输出的token登录到Dashboard
 
-![](../figs.assets/image-20230406111500864.png)
+![](../../figs.assets/image-20230406111500864.png)
 
 
 

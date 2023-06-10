@@ -68,11 +68,11 @@ docker rmi $(docker images | grep calico | awk '{print $3}')
 
 进入容器，输入df可以看到共享内存的大小：
 
-![](../figs.assets/image-20230510133912899.png)
+![](../../figs.assets/image-20230510133912899.png)
 
 首先在主机上使用`docker ps -a`查看容器id：
 
-![](../figs.assets/image-20230510134044004.png)
+![](../../figs.assets/image-20230510134044004.png)
 
 接下来关闭docker服务
 
@@ -82,7 +82,7 @@ service docker stop
 
 进入该容器目录`cd /ssd1/docker/containers/容器id`，修改hostconfig.json文件，找到“ShmSize”字段并进行更改我们需要的共享内存大小
 
-![](../figs.assets/image-20230510134334049.png)
+![](../../figs.assets/image-20230510134334049.png)
 
 最后重启docker服务
 
@@ -103,7 +103,7 @@ systemctl restart docker
 
 ```
 
-![](../figs.assets/image-20230524104312750.png)
+![](../../figs.assets/image-20230524104312750.png)
 
 ​	然后修改config.v2.json文件，找到”Port“字段，新增2001，2002，2003号端口的主机映射：
 
@@ -118,7 +118,7 @@ systemctl restart docker
 }
 ```
 
-![](../figs.assets/image-20230524104818596.png)
+![](../../figs.assets/image-20230524104818596.png)
 
 重启容器完成端口映射，使用命令可以查看端口映射
 
@@ -126,7 +126,7 @@ systemctl restart docker
 docker port lzl
 ```
 
-![](../figs.assets/image-20230524105100650.png)
+![](../../figs.assets/image-20230524105100650.png)
 
 ## 5、Windows 修改 Docker 镜像存储位置
 

@@ -688,7 +688,6 @@ def forward(self, x, mask_pad, cache)：
     if mask_pad.size(2) > 0:  # time > 0
         x.masked_fill_(~mask_pad, 0.0)
     return x.transpose(1, 2), new_cache
-
 ```
 
 ### 5.6 CMVN

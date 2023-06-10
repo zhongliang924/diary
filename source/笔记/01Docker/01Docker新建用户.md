@@ -95,7 +95,7 @@ docker update --restart=always ${user}
 
 下载 docker-desktop，下载网址：https://www.docker.com/products/docker-desktop/，下载好后的 docker 图标：
 
-![](../figs.assets/image-20230609203049447.png)
+![](../../figs.assets/image-20230609203049447.png)
 
 cmd 打开 Windows 终端，接下来要连接到我们的私有镜像仓库 10.24.83.22:8080，由于私服采用的是http协议，默认不被Docker信任，需要进行配置，改为https协议，打开 docker-desktop 的设置界面，点击 `Docker Engine` 按钮，在右边的面板中编辑：
 
@@ -111,11 +111,11 @@ cmd 打开 Windows 终端，接下来要连接到我们的私有镜像仓库 10.
 
 点击 Replay&Restart 应用：
 
-![](../figs.assets/image-20230609203319436.png)
+![](../../figs.assets/image-20230609203319436.png)
 
 打开 cmd，登录到我们的私有镜像仓库，用户名为 admin，密码为 admin。
 
-![](../figs.assets/image-20230609203759155.png)
+![](../../figs.assets/image-20230609203759155.png)
 
 显示 `Login Succeeded` 则表明登录成功
 
@@ -141,7 +141,7 @@ docker run -it --name lzl -v E:\Docker_files:/files -p 2000:22 10.24.83.22:8080/
 
 创建完容器，容器就能处于运行状态了，有五栏可以查看容器的状态，常用的是 Terminal 和 Files。
 
-![](../figs.assets/image-20230609204219008.png)
+![](../../figs.assets/image-20230609204219008.png)
 
 换源，打开文件，在 `\etc\apt\source.list` 目录下更换阿里源，以下是阿里源 18.04 内容（20.04的源需要去网上找一下）：
 
@@ -193,14 +193,14 @@ passwd: password updated successfully
 
 使用 MobaXterm 连接，主机名输入 localhost，用户名为 root，密码为123456，可以在命令台控制容器。
 
-![](../figs.assets/image-20230609204418270.png)
+![](../../figs.assets/image-20230609204418270.png)
 
 挂载的文件位于 `/files` 目录下，这样就在 Windows 里面用容器化技术创建了一个 Ubuntu 容器，相较于虚拟机更加高效。
 
-
+关于开机自启动 SSH 可以参考第一节的内容。
 
 **额外内容**
 
 主机没办法直接查看容器文件，在 Linux 系统中，容器默认存储在 `/var/docker` 里面，如果在 Windows 里面需要修改容器的一些配置时（如挂载目录、端口映射、共享内存等），需要在文件夹中使用路径 `\\wsl$\docker-desktop-data\data\docker` 打开，和 Linux 系统的 `/var/docker` 具有同样的内容：
 
-![](../figs.assets/image-20230609204825068.png)
+![](../../figs.assets/image-20230609204825068.png)

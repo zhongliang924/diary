@@ -13,7 +13,7 @@
 
 以下是主要的技术路线：
 
-![](../figs.assets/image-20230508205853729.png)
+![](../../figs.assets/image-20230508205853729.png)
 
 ## 一、Sphinx渲染文档托管到Github
 
@@ -21,7 +21,7 @@
 
 - 第一节在执行`sphinx-quickstart`后，我们的代码目录位于`D:\ProgramFile\TestProject`，接下来我们要将其部署到Github中。首先在Github上创建一个diary仓库
 
-  ![](../figs.assets/image-20230508210621585.png)
+  ![](../../figs.assets/image-20230508210621585.png)
 
 - 接下来在目标文件夹下，依次执行以下命令：
 
@@ -36,7 +36,7 @@
 
 - 去Github界面查看，示例图如下：
 
-  ![](../figs.assets/image-20230508210952148.png)
+  ![](../../figs.assets/image-20230508210952148.png)
 
 ## 二、部署到Read the docs网站
 
@@ -54,7 +54,7 @@
 
 - 成功后，点击右上角阅读文档即可查看
 
-  ![](../figs.assets/image-20230508212613423.png)
+  ![](../../figs.assets/image-20230508212613423.png)
 
 - 至此，整个Sphinx渲染的内容就已经部署到Read the docs网站了
 

@@ -8,7 +8,7 @@ docker pull filebrowser/filebrowser:s6
 
 可以在 Docker Desktop 中查看拉取的镜像：
 
-![](../figs.assets/image-20230607171857479.png)
+![](../../figs.assets/image-20230607171857479.png)
 
 在镜像界面点击运行按钮，进行容器配置：
 
@@ -44,8 +44,8 @@ filebrowser.db 从 10.24.83.22 主机获取。
 
 点击 RUN 启动容器，容器启动界面：
 
-![](../figs.assets/image-20230607172655204.png)
+![](../../figs.assets/image-20230607172655204.png)
 
 可以看到容器已经映射到 8000 号端口上了，在浏览器输入 [10.26.35.38:8000](http://10.26.35.38:8000) 即可打开共享文件管理目录，默认的用户名和密码均为 "admin"。
 
-![](../figs.assets/image-20230607172919446.png)
+![](../../figs.assets/image-20230607172919446.png)
