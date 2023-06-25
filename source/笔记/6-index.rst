@@ -3,14 +3,16 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Triton
+小工具
 ======================================
 
 .. toctree::
    :maxdepth: 1
 
-   06Triton/01Triton_Inference_Server入门
-   06Triton/02Triton入门级教程
-
-
-
+   06小工具/01Git
+   06小工具/2-index
+   06小工具/03Fastertransformer
+   06小工具/04FileBrowser
+   06小工具/05NFS配置
+   06小工具/06服务器文件管理工具
+   06小工具/07StableDiffusion

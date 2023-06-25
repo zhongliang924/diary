@@ -204,7 +204,7 @@ self.embed = subsampling_class(
 )
 ```
 
-其中 `pos_enc_class` 默认为相对位置编码，相对位置编码实现可参考[RelPositionalEncoding](##5.2 位置编码)。
+其中 `pos_enc_class` 默认为相对位置编码，相对位置编码实现可参考[RelPositionalEncoding](###5.2 位置编码)。
 
 ### 3.3 层归一化
 
@@ -316,7 +316,7 @@ self.embed = torch.nn.Sequential(
 )
 ```
 
-其中由 Embedding 模块和 PositionEncoding 两个模块组成，位置编码参考编码器中[位置编码](##5.2 位置编码)实现。
+其中由 Embedding 模块和 PositionEncoding 两个模块组成，位置编码参考编码器中[位置编码](###5.2 位置编码)实现。
 
 ### 4.2 层归一化
 
@@ -666,8 +666,8 @@ def __init__(self, channels, kernel_size, activation, norm, causal, bias):
     self.norm = nn.LayerNorm(channels)
     self.pointwise_conv2 = nn.Conv1d(channels, channels, kernel_size=1, stride=1, padding=0, bias=bias)
     self.activation = activation
-
-
+    
+    
 def forward(self, x, mask_pad, cache)：
 	x = x.transpose(1, 2)
     if mask_pad.size(2) > 0:  # time > 0
@@ -736,3 +736,4 @@ smoothing=0.1 \\
 				[0.05,0.05,0.9],		
 			}\end{aligned}
 $$
+

@@ -17,8 +17,6 @@
    笔记/5-index
    笔记/6-index
    笔记/7-index
-   笔记/8-index
-   笔记/9-index
 
 .. toctree::
    :maxdepth: 2
@@ -27,6 +25,7 @@
    论文/1-index
    论文/2-index
    论文/3-index
+   论文/4-index
 
 .. Indices and tables
  ==================

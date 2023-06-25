@@ -20,25 +20,20 @@ source_suffix = {
     '.txt': 'markdown',
     '.md': 'markdown',
 }
+
 myst_enable_extensions = [
     "dollarmath",
-    "attrs_inline",
-    "colon_fence",
     "deflist",
     "dollarmath",
     "fieldlist",
-    "html_admonition",
-    "html_image",
     "linkify",
+    "html_image",
     "replacements",
     "smartquotes",
-    # "strikethrough",
-    "substitution",
     "tasklist",
 ]
 
 # extensions = ['recommonmark', 'sphinx_markdown_tables', 'sphinx_copybutton', 'sphinx.ext.mathjax']
-
 templates_path = ['_templates']
 exclude_patterns = []
 

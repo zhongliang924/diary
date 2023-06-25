@@ -105,16 +105,14 @@ systemctl restart docker
 
 ![](../../figs.assets/image-20230524104312750.png)
 
-​	然后修改config.v2.json文件，找到”Port“字段，新增2001，2002，2003号端口的主机映射：
+​	然后修改config.v2.json文件，找到”ExposedPorts“字段，新增2001，2002，2003号端口的主机映射：
 
 ```
-"Ports":{
-	"2001/tcp": [{"HostIp":"0.0.0.0","HostPort":"2001"},
-				{"HostIp":"::","HostPort":"2001"}],
-	"2002/tcp": [{"HostIp":"0.0.0.0","HostPort":"2002"},
-				{"HostIp":"::","HostPort":"2002"}],
-	"2003/tcp": [{"HostIp":"0.0.0.0","HostPort":"2003"},
-				{"HostIp":"::","HostPort":"2003"}],
+"ExposedPorts":{
+	"22/tcp": {},
+	"2001/tcp": {},
+	"2002/tcp": {},
+	"2003/tcp": {}
 }
 ```
 

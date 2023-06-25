@@ -3,10 +3,12 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Git
+Triton
 ======================================
 
 .. toctree::
    :maxdepth: 1
 
-   03Git/01Git操作指南
+   03Triton/01Triton_Inference_Server入门
+   03Triton/02Triton入门级教程
+   03Triton/03Triton_Backend详解
