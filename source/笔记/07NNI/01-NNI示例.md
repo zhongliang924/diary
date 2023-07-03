@@ -127,6 +127,121 @@ config_list = [{
 
 原始模型的识别准确率为：98%，剪枝后模型的识别准确率为：91%，具有较大的损失，后续需要结合模型微调。
 
+### 1.2 剪枝 Transformer
 
+#### 工作流
 
-### 二、NNI模型量化
+整个剪枝过程可分为以下步骤：
+
+1. 对下游任务的预训练模型进行微调。根据我们的经验，在微调模型上修剪的最终性能比直接在预训练模型上修剪要好。同时，在这一步骤中获得的微调模型也将用作后续蒸馏训练的教师模型
+2. 首先修剪注意力层。在这里，我们在注意力层权重上应用块稀疏，如果头部被完全掩蔽，则直接修剪头部（压缩权重）。如果头部被部分遮盖，我们将不会对其进行修剪并恢复其权重
+3. 用蒸馏法重新训练修剪过的模型。在修剪FFN层之前恢复模型精度
+4. 修剪FFN层。这里，我们在第一FFN层上应用输出通道修剪，并且第二FFN层输入通道将由于第一层输出信道的修剪而被修剪。
+5. 使用蒸馏来重新训练得到最终修剪后的模型
+
+在修剪 Transformer 的过程中，我们获得了以下经验
+
+- 我们在步骤 2 中使用 Movement 修剪器，在步骤4中使用 Taylor FO 权重修剪器。Movement 修剪器在注意层上具有良好的性能，Taylor FO 权重修剪器在 FFN 层上具有较好的性能。这两个修剪器都是一些基于梯度的修剪算法，我们也尝试了基于权重的修剪算法（如 L1 范数修剪器），但在这种情况下似乎效果不佳
+- 蒸馏是恢复模型精度的好方法。就结果而言，当我们对 MNLI 任务进行修剪时，通常可以在精度上提高 1~2%。
+- 有必要逐渐增加稀疏性，而不是一次达到非常高的稀疏性
+
+##### 实验准备
+
+完整的剪枝过程将在 A100 上花费 8 小时
+
+本节将获得关于下游任务的微调模型：
+
+下载 bert-base-uncased，目录位于`./bert-base-uncased`：
+
+```
+git lfs install
+git clone https://huggingface.co/bert-base-uncased
+```
+
+下载 GLUE 数据集，任务名称为 MNLI，目录位于 `/data`
+
+```
+git clone https://huggingface.co/datasets/glue
+```
+
+代码：
+
+- `bert/dataLoader.py`
+  - `prepare_dataloaders`：用于加载 bert 模型和 MNLI 任务数据集，返回 train_dataloader 和 validation_dataloader
+- `bert/train.py`
+  - `training`：训练 bert 模型用于模型微调
+  - `distillation_training`：用于 FFN 剪枝的蒸馏重训练
+- `bert/eval.py`
+  - `evaluation`：使用 validation_dataloaders 用于评估模型
+- `bert/load_model.py`
+  - `create_pretrained_model`：用于加载 bert 预训练模型
+  - `create_pretrained_model`：将加载的预训练模型用于模型微调
+- `bert/loss.py`
+  - `fake_criterion`：
+  - `distil_loss_func`：计算蒸馏损失
+- `bert/pruner.py`
+  - `movement_pruner`：对注意力模块执行 movement 剪枝，提取注意力掩码矩阵
+  - `attention_pruner`：对已剪枝的注意力模块进行蒸馏重训练
+
+> 在评估过程中使用了 functools 函数，其基于已有函数定义新的函数，其输入是函数，输出也是函数。其 partial 方法使用可以固定函数的某些输入参数，新定义的函数仅需要输入原始函数的部分参数
+
+微调测试结果位于：`pruning_log/bert-base-uncased/mnli/pruning_bert_mnli/finetuning_on_downstream.log`
+
+生成的微调模型位于：`models/bert-base/uncased/mnli/finetuned_model_state.pth`
+
+##### 模型剪枝
+
+根据经验，分阶段剪枝注意力部分和 FFN 部分能更容易获得良好的效果。当然，一起剪枝也可以达到类似的效果，但需要更多的参数调整测试，在本节使用分阶段修剪方式：
+
+首先，使用 Movement Pruner 修剪注意力层：
+
+加载已有的微调模型：
+
+```
+finetuned_model.load_state_dict(torch.load(finetuned_model_state_path, map_location='cpu'))
+```
+
+设置 Movement 剪枝器，对注意力层进行剪枝，剪枝配置器：
+
+```
+config_list = [{
+	'op_types': ['Linear'],
+	'op_partial_names': ['bert.encoder.layer.{}.attention'.format(i) for i in range(layers_num)],
+	'sparsity': 0.1
+}]
+```
+
+加载一个新的微调模型来进行加速，可以视为使用微调状态来初始化修建后的模型权重。注意，NNI 加速不支持替换注意力模块，需要手动替换注意力模块。
+
+如果头部是完全掩蔽的，则进行物理修剪，并为 FFN 创建 config_list
+
+```
+ffn_config_list.append({
+	'op_names': [f'bert.encoder.layer{len(layer_remained_idxs)}.intermediate.dense'],
+	'sparsity': sparsity_per_iter
+})
+```
+
+加载注意力掩码矩阵并确定需要裁剪的注意力头部编号，bert 网络有 12 个注意力头：
+
+```
+layer 0 prune 4 head: [2, 4, 9, 11]
+layer 1 prune 7 head: [0, 2, 3, 5, 6, 8, 9]
+layer 2 prune 7 head: [1, 2, 3, 4, 5, 7, 8]
+layer 3 prune 5 head: [2, 3, 4, 6, 8]
+layer 4 prune 7 head: [0, 1, 2, 6, 8, 10, 11]
+layer 5 prune 5 head: [1, 5, 6, 9, 11]
+layer 6 prune 6 head: [2, 3, 4, 6, 10, 11]
+layer 7 prune 7 head: [2, 3, 4, 6, 7, 9, 11]
+layer 8 prune 9 head: [0, 2, 3, 4, 5, 6, 7, 8, 10]
+layer 9 prune 8 head: [0, 1, 2, 3, 4, 5, 7, 9]
+layer 10 prune 9 head: [0, 1, 2, 4, 5, 6, 7, 8, 9]
+layer 11 prune 7 head: [0, 3, 5, 6, 7, 8, 11]
+```
+
+使用 TaylorWeightPruner 在 12 次迭代中对 FFN 进行修剪，在每次修剪迭代后微调3000步，然后再修剪完成后微调 2 个 epochs
+
+NNI 将来将支持逐步修剪调度，然后可以使用修剪器替换掉代码：
+
+## 二、NNI模型量化
+
