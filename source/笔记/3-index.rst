@@ -12,3 +12,5 @@ Triton
    03Triton/01Triton_Inference_Server入门
    03Triton/02Triton入门级教程
    03Triton/03Triton_Backend详解
+   03Triton/04Triton队列机制
+   03Triton/05Triton客户端

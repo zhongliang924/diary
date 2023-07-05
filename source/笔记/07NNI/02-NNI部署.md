@@ -1,5 +1,9 @@
 # NNI 部署
 
+文章链接：https://www.msra.cn/zh-cn/news/features/nni-pruning
+
+代码链接：https://nni.readthedocs.io/zh/stable/tutorials/pruning_bert_glue.html
+
 ## 剪枝流程
 
 以 Transformer 系列的预训练模型为例，其剪枝流程共包含四步：首先准备数据/模型，接着针对多头注意力机制（Multi-head Attention）、嵌入层（embedding）和前馈神经网络（FFN）分别剪枝和再训练模型：
@@ -48,3 +52,6 @@ NNI 的 SpeedUp 模块可以将 mask 中的参数和计算删除，具体删除�
 
 ### 3、嵌入层和前馈神经网络的剪枝和基于动态蒸馏机制的模型再训练
 
+嵌入层和前馈神经网络的剪枝过程与多头自注意力的剪枝过程相似。此处使用 Taylor 剪枝算法对嵌入层和前馈神经网络进行剪枝，需要定义 `config_list, evaluator, taylor_pruner_steps`参数。由于嵌入层维度和后续模型的维度具有相关性，在嵌入层剪枝过程中将剪枝模式 mode 定义为 `dependency-aware` 模式，并传入模型的输入 `dummy_input` 以帮助剪枝器捕捉和嵌入层具有依赖关系的子模型。
+
+对前馈神经网络和嵌入层剪枝与自注意力模块剪枝的不同之处在于，此处使用迭代剪枝法，在模型基于动态蒸馏训练过程中每 2000 步分别使用剪枝器对前馈神经网络和嵌入层剪枝一次，每次剪枝后，使用 `ModelSpeedUp` 对前馈神经网络层进行加速，实现真正意义上的参数修剪，而不是将需要修剪的参数用 0 替换

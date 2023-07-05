@@ -48,7 +48,29 @@ Android 端的流式 ASR 模型，目前是模型部署在手机上，模型大�
 
 - VoiceRectView.java：定义了 `View` 类，用于实现音频模拟条形图，呈现了音频数据的可视化效果，创建了一个简单有趣的音频矩形条形图
 
-## 三、问题
+## 三、adb 命令
+
+与语音面板的连接：
+
+```
+adb connect 192.168.31.183
+```
+
+启动应用程序：
+
+```
+adb shell am start com.mobvoi.wenet/com.mobvoi.wenet.MainActivity
+```
+
+关闭应用程序：
+
+```
+adb shell am force-stop com.mobvoi.wenet
+```
+
+
+
+## 四、问题
 
 **No variants found for ‘:app‘. Check build files to ensure at least one variant exists.**
 
