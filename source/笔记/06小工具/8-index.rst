@@ -3,13 +3,11 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Android
+树莓派
 ======================================
 
 .. toctree::
    :maxdepth: 1
 
-   08Android/01Android命令
-   08Android/02Android WeNet示例
-   08Android/03Android HTTP
-   08Android/04Android GRPC
+   08树莓派/01树莓派系统安装
+   08树莓派/02树莓派Triton环境安装

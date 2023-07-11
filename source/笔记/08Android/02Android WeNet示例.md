@@ -1,4 +1,4 @@
-# WeNet Android
+# WeNet Android 示例
 
 ## 一、Android 项目
 
