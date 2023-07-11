@@ -11,3 +11,4 @@ NNI
 
    07NNI/01-NNI示例
    07NNI/02-NNI部署
+   07NNI/03-NNI WeNet 剪枝
