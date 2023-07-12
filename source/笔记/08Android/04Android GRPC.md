@@ -130,17 +130,17 @@ gRPC 如何处理关闭通道取决于语言，某些语言允许查询通道状
 
 > gRPC Java 不支持在安卓设备上运行服务器。为了快速启动，安卓客户端应用程序将连接到本地计算机上运行的服务器
 
-设置 JAVA 环境变量，查看已有的 JDK 版本（以 JDK 17 为例），里面给出了 JDK 安装的具体路径：
+设置 JAVA 环境变量，查看已有的 JDK 版本（以 JDK 11 为例），里面给出了 JDK 安装的具体路径：
 
-![](../../figs.assets/image-20230711171712933.png)
+![](../../figs.assets/image-20230712105203118.png)
 
 在设置系统环境变量界面，新建一个 JAVA_HOME 的环境变量，变量值就是上面的地址：
 
-![](../../figs.assets/image-20230711171955544.png)
+![](../../figs.assets/image-20230712105048622.png)
 
 然后在系统环境变量 Path 中添加路径，路径名为前面的路径 + \bin：
 
-![](../../figs.assets/image-20230711172138616.png)
+![](../../figs.assets/image-20230712105119183.png)
 
 新建一个 CMD，验证环境变量添加成功：
 
@@ -184,7 +184,7 @@ gRPC 如何处理关闭通道取决于语言，某些语言允许查询通道状
    ./build/install/examples/bin/hello-world-server
    ```
 
-   服务端开启成功，映射端口为 50051
+   服务端开启成功，电脑的 ip 地址为 **10.0.0.241**，映射端口为 **50051**
 
    ![](../../figs.assets/image-20230711205048644.png)
 
@@ -197,20 +197,162 @@ gRPC 如何处理关闭通道取决于语言，某些语言允许查询通道状
 
    出现 bug：`Unable to make field private final java.lang.String java.io.File.path accessible: module java.base does not "opens java.io" to unnamed module @7b1a39c8`，应该是版本问题，对 JDK 版本和 Gradle 版本进行设置
 
-   JDK 版本：corretto-1.8
+   JDK 版本：**corretto-11**
 
-   Gradle 版本：6.7.1
+   Gradle 版本：**7.2**
+
+   Gradle 插件版本：**7.1.3**
 
    客户端编译成功：
 
    ![](../../figs.assets/image-20230711212005838.png)
 
-   能够在手机上安装 APP：
+   能够在手机上安装 APP
 
-   ![](../../figs.assets/image-20230711212101367.png)
+6. 输入文本和相应的地址，能够得响应
 
-6. 输入文本和相应的地址，能够获得响应
+   ![](../../figs.assets/image-20230712111217609.png)
 
+   
 
+### 更新 gRPC 服务
 
- 
+本节中，将通过添加一个额外的服务器方法来更新应用程序。gRPC 服务使用协议缓冲区定义，要了解如何在 .proto 中定义服务，参照 `Basics tutorial`。目前，只需要知道服务器和客户端 stub 都有一个 `SayHello()` 的 RPC 方法，该方法从客户端获取 `HelloRequest` 参数并从服务器返回 `HelloReply`，该方法定义如下，目录位于 `src/main/proto/helloworld.proto`：
+
+```
+// The greeting service definition.
+service Greeter {
+  // Sends a greeting
+  rpc SayHello (HelloRequest) returns (HelloReply) {}
+}
+
+// The request message containing the user's name.
+message HelloRequest {
+  string name = 1;
+}
+
+// The response message containing the greetings
+message HelloReply {
+  string message = 1;
+}
+```
+
+ 现在做一些改变：
+
+在目录`src/main/proto/helloworld.proto`下添加一个新的方法`SayHelloAgain()`，该方法同`SayHello()`一样，具有相同的请求和响应类型：
+
+```
+// The greeting service definition.
+service Greeter {
+  // Sends a greeting
+  rpc SayHello (HelloRequest) returns (HelloReply) {}
+  // Sends another greeting
+  rpc SayHelloAgain (HelloRequest) returns (HelloReply) {}
+}
+
+// The request message containing the user's name.
+message HelloRequest {
+  string name = 1;
+}
+
+// The response message containing the greetings
+message HelloReply {
+  string message = 1;
+}
+```
+
+在目录 `android/helloworld/app/src/main/proto/helloworld.proto`进行相同的修改，然后保存文件
+
+当构建示例时，构建过程会重新生成`GreeterGrpc.java`，位于`build/generated/source/proto/main/grpc/io/grpc/examples/helloworld/GreeterGrpc`，其中包含生成的 gRPC 客户端和服务器类，还重新生成了用于填充、序列化以及检索请求和响应类型的类。
+
+然而，仍然需要在示例应用程序的手写部分中实现和调用新方法
+
+#### 更新服务端
+
+在服务端实现以下方法，文件位于`src/main/java/io/grpc/examples/helloworld/HelloWorldServer.java`：
+
+```
+  static class GreeterImpl extends GreeterGrpc.GreeterImplBase {
+
+    @Override
+    public void sayHello(HelloRequest req, StreamObserver<HelloReply> responseObserver) {
+      HelloReply reply = HelloReply.newBuilder().setMessage("Hello " + req.getName()).build();
+      responseObserver.onNext(reply);
+      responseObserver.onCompleted();
+    }
+    
+    @Override
+    public void sayHelloAgain(HelloRequest req, StreamObserver<HelloReply> responseObserver){
+      HelloReply reply = HelloReply.newBuilder().setMessage("Hello, again" + req.getName()).build();
+      responseObserver.onNext(reply);
+      responseObserver.onCompleted();
+    }
+  }
+```
+
+在客户端实现以下方法，文件位于`src/main/java/io/grpc/examples/helloworld/HelloWorldClinet.java`，调用新的方法：
+
+```
+  public void greet(String name) {
+    logger.info("Will try to greet " + name + " ...");
+    HelloRequest request = HelloRequest.newBuilder().setName(name).build();
+    HelloReply response;
+    try {
+      response = blockingStub.sayHello(request);
+    } catch (StatusRuntimeException e) {
+      logger.log(Level.WARNING, "RPC failed: {0}", e.getStatus());
+      return;
+    }
+    logger.info("Greeting: " + response.getMessage());
+    try {
+      response = blockingStub.sayHelloAgain(request);
+    } catch (StatusRuntimeException e) {
+      logger.log(Level.WARNING, "RPC failed: {}", e.getStatus());
+      return;
+    }
+    logger.info("Greeting: " + response.getMessage());
+```
+
+两个文件更改完了后重新编译：
+
+```
+./gradlew installDist
+```
+
+开启服务端：
+
+```
+./build/install/examples/bin/hello-world-server
+```
+
+#### 更新客户端
+
+遵循以下步骤：
+
+1. 打开 `HelloWorldActivity.java`，路径位于 `android/helloworld/app/src/main/java/io/grpc/helloworld`文件夹下
+
+2. 找到方法调用 `sayHello()`，在 90-91 行将看到下面代码：
+
+   ```
+   HelloReply reply = stub.sayHello(request);
+   return reply.getMessage();
+   ```
+
+3. 在 `return`中添加调用`sayHelloAgain()`：
+
+   ```
+   HelloReply reply = stub.sayHello(request);
+   HelloReply reply1 = stub.sayHelloAgain(request);
+   return reply.getMessage() + '\n' + reply1.getMessage();
+   ```
+
+构建客户端并添加到设备上：
+
+```
+../../gradlew installDebug
+```
+
+连接到服务器：`10.0.0.241:50051`，然后可以看到消息框出现两次内容：
+
+![](../../figs.assets/image-20230712165235512.png)
+
