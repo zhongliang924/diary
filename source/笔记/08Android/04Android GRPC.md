@@ -1,5 +1,11 @@
 # Android GRPC
 
+参考链接：https://grpc.io/docs
+
+官方支持的 gRPC 语言、平台和操作系统：
+
+![](../../figs.assets/image-20230712170149996.png)
+
 ## 什么是 GRPC
 
 在 gRPC 中，客户端应用程序可以直接调用另一台计算机上服务器应用程序上的方法，这样更容易创建分布式应用程序和服务。与许多 RPC 系统一样，gRPC 基于定义服务的思想，指定可以通过参数和返回类型远程调用的方法。在服务器端，服务器实现了这个接口，并运行一个 gRPC 服务器来处理客户端调用；在客户端，客户端有一个存根 stub（某些语言称为 just），它提供与服务器相同的方法。
@@ -356,3 +362,74 @@ message HelloReply {
 
 ![](../../figs.assets/image-20230712165235512.png)
 
+## Basics tutorial
+
+Android Java 中 gRPC 的基础教程介绍
+
+本教程提供了 Android Java 程序员使用 gRPC 的基本介绍
+
+通过浏览此示例，将会学习如何：
+
+1. 使用 .proto 文件定义一个服务
+2. 使用协议缓冲编译器生成客户端代码
+3. 使用 Java gRPC API 为您的服务编写一个简单的移动客户端
+
+本指南不涉及服务端的任何内容
+
+### 为什么使用 gRPC
+
+我们的示例是一个简单的路由映射应用，客户端获取其路由特性的信息，创建路由摘要，并与服务器和其它客户端交换路由信息，如流量更新
+
+在 gRPC 下，我们可以在 .proto 文件中定义我们的服务，并用 gRPC 支持的语言生成客户端和服务器，可以在大型数据中心和个人电脑的各种环境中运行，不同语言和环境之间的通信由 gRPC 处理。拥有协议缓冲的所有优点，包括高效的序列化、简单的 IDL 和易于更新的接口。
+
+### 代码和设置
+
+我们的教程示例代码在 grpc-java 的 `examples/android` 环境中，克隆仓库以下载代码（之前下载过了就不用下载了）：
+
+```
+git clone -b v1.56.0 https://github.com/grpc/grpc-java.git
+```
+
+使用 `cd grpc-java/examples/androids` 目录
+
+### 定义服务
+
+在`android/routeguide` 目录下，第一步是使用协议缓冲区定义 gRPC 服务以及 request 和 response 方法，在 `routeguide/app/src/main/proto/route_guide.proto` 中完成 `.proto` 文件的编写
+
+在本例中生成 Java 代码时，我们在 `.proto` 中指定了一个 `java_package` 选项：
+
+```
+option java_package = "io.grpc.routeguideexample";
+```
+
+这指定了我们要用于生成的 Java 类的包。如果 `.proto` 文件中没有给出明确的 `java_package` 选项，默认情况下使用 proto 包（使用 "package" 关键字指定）。然而，proto 包通常不如 java 包，因为 proto 包不应以反向域名开头。如果我们从这个 `.proto` 中生成另一种语言的代码，`java_package` 选项将无效。
+
+要定义服务，我们在 `.proto` 文件中命名一个 `service`：
+
+```
+service RouteGuide {
+	...
+}
+```
+
+然后，我们在服务定义中定义 `rpc` 方法，指定他们的请求和响应类型。gRPC 允许您定义四种服务方法，所有这些方法都在 `RouteGuide` 服务中使用：
+
+- `simple RPC`：客户端使用 stub 向服务器发送请求，并等待响应返回，就像普通的函数调用一样：
+
+  ```
+  // 获得给定位置的特征
+  rpc GetFeature(Point) returns (Feature) {}
+  ```
+
+  
+
+- `server-side streaming RPC`：客户端向服务器发送一个请求，并获得一个流来读取一系列的消息。客户端从返回的流中提取，直到不再有消息为止。正如我们示例中看到的，可以通过将 `stream` 关键字放在 `response` 之前来指定服务器端流方法
+
+  ```
+  // 获得给定矩形内可用功能，结果是流式传输的，而不是一次返回的
+  rpc ListFeatures(Rectangle) returns (stream Feature) {}
+  ```
+
+  
+
+- `client-side streaming RPC`：客户端使用提供的流，写一系列消息并发送到服务器。一旦客户端完成了消息的编写，它会等待服务器读取所有消息并返回响应
