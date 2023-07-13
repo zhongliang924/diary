@@ -378,7 +378,7 @@ Android Java 中 gRPC 的基础教程介绍
 
 ### 为什么使用 gRPC
 
-我们的示例是一个简单的路由映射应用，客户端获取其路由特性的信息，创建路由摘要，并与服务器和其它客户端交换路由信息，如流量更新
+我们的示例是一个简单的路线映射应用，客户端获取其路线特性的信息，创建路线摘要，并与服务器和其它客户端交换路线信息，如流量更新
 
 在 gRPC 下，我们可以在 .proto 文件中定义我们的服务，并用 gRPC 支持的语言生成客户端和服务器，可以在大型数据中心和个人电脑的各种环境中运行，不同语言和环境之间的通信由 gRPC 处理。拥有协议缓冲的所有优点，包括高效的序列化、简单的 IDL 和易于更新的接口。
 
@@ -432,4 +432,272 @@ service RouteGuide {
 
   
 
-- `client-side streaming RPC`：客户端使用提供的流，写一系列消息并发送到服务器。一旦客户端完成了消息的编写，它会等待服务器读取所有消息并返回响应
+- `client-side streaming RPC`：客户端使用提供的流，写一系列消息并发送到服务器。一旦客户端完成了消息的编写，它会等待服务器读取所有消息并返回响应。可以通过将 `stream` 关键字放在 `request` 类型之前来指定客户端流方法
+
+  ```
+  // 接受正在穿越路线上的 Points 流，穿越完成后返回一个 RouteSummary
+  rpc RecordRoute(stream Point) returns (RouteSummary) {}
+  ```
+
+  
+
+- `bidirectional streaming RPC`：双方使用读写流发送消息序列。这两个流独立运行，因此客户端和服务器可以按照他们喜好的任何顺序进行读写。例如，服务器可以等待接收客户端消息后再写入响应，或者可以交替读取消息然后写入消息，或者其它读写组合，每个流中消息的顺序会保留下来。可以在请求和响应之前使用 `stream` 关键字指定这种类型方法
+
+  ```
+  // 当路线经过时接收 RouteNotes 流，同时接收其它的 RouteNotes
+  rpc RouteChat(stream RouteNote) returns (stream RouteNote) {}
+  ```
+
+我们的 `.proto` 文件中还包含我们的服务方法中使用的所有请求和响应类型的协议缓冲消息类型定义。例如，以下时 `Point` 消息类型：
+
+```
+message Point {
+  int32 latitude = 1;
+  int32 longitude = 2;
+}
+```
+
+### 生成客户端代码
+
+本节中将研究为 `RouteGuide` 服务创建一个 Java 客户端，可在 `routeguide/app/src/main/java/io/grpc/routeguideexample/RouteGuideActivity.java` 中看到完整的客户端代码示例。
+
+#### 创建一个 stub
+
+为了调用服务方法，需要创建 `stub`：
+
+- 阻塞/同步 stub：这意味着 RPC 调用等待服务器响应，并返回响应或引发异常
+- 非阻塞/异步 stub：对服务器进行非阻塞调用，在服务器上异步返回响应，可以仅使用异步 stub 对某些类型进行流式调用
+
+首先，我们需要为 stub 创建一个 gRPC 通道，指定要连接的服务器地址和端口：使用 `ManagedChannelBuilder` 创建通道：
+
+```
+channel = ManagedChannelBuilder.forAddress(host, port).usePlaintext().build();
+```
+
+现在，可以使用我们从 `.proto` 生成的 `RouteGuideGrpc` 类中提供的 `newStub` 和 `newBlockingStub` 方法，使用通道创建 stubs。 
+
+```
+grpcRunnable.run(RouteGuideGrpc.newBlockingStub(channel), RouteGuideGrpc.newStub(channel));
+```
+
+#### 调用服务方法
+
+现在调用我们的服务方法：
+
+##### 简单 RPC
+
+在阻塞 stub 上调用简单的 RPC `GetFeature`：
+
+```
+Point request = Point.newBuilder().setLatitude(lat).setLongitude(lon).build();
+Feature feature;
+feature = blockingStub.getFeature(request);
+```
+
+我们创建并填充一个请求协议缓冲对象 `Point`，将其传递给 blockingStub 上的 `getFeature` 方法，然后返回一个 `Feature`。 
+
+##### 服务器侧流式 RPC
+
+服务器流式调用 `ListFeatures`，它返回一个地理特征流：
+
+```
+Rectangle request =
+	Rectangle.newBuilder()
+		.setLo(Point.newBuilder().setLatitude(lowLat).setLongitude(lowLon).build())
+		.setHi(Point.newBuilder().setLatitude(hiLat).setLongitude(hiLon).build())
+		.build();
+Iterator<Feature> features;
+features = blockingStub.listFeatures(request);
+```
+
+正如我们所看到的，它与我们刚才看的 RPC 非常相似，只是该方法没有返回单个 `Feature`，而是返回一个 `Iterator`，客户端可以使用它读取返回所有的 `Features`。
+
+##### 客户端侧流式 RPC
+
+现在有一个更复杂的方法：客户端流式传输方法 `RecordRoute`，我们向服务器发送一个 `Points` 流，然后返回一个 `RouteSummary`。对于这种方法，我们需要使用异步 stub：
+
+```java
+private String recordRoute(List<Point> points, int numPoints, RouteGuideStub asyncStub)
+        throws InterruptedException, RuntimeException {
+    final StringBuffer logs = new StringBuffer();
+    appendLogs(logs, "*** RecordRoute");
+
+    final CountDownLatch finishLatch = new CountDownLatch(1);
+    StreamObserver<RouteSummary> responseObserver =
+        new StreamObserver<RouteSummary>() {
+          @Override
+          public void onNext(RouteSummary summary) {
+            appendLogs(
+                logs,
+                "Finished trip with {0} points. Passed {1} features. "
+                    + "Travelled {2} meters. It took {3} seconds.",
+                summary.getPointCount(),
+                summary.getFeatureCount(),
+                summary.getDistance(),
+                summary.getElapsedTime());
+          }
+
+          @Override
+          public void onError(Throwable t) {
+            failed = t;
+            finishLatch.countDown();
+          }
+
+          @Override
+          public void onCompleted() {
+            appendLogs(logs, "Finished RecordRoute");
+            finishLatch.countDown();
+          }
+        };
+
+    StreamObserver<Point> requestObserver = asyncStub.recordRoute(responseObserver);
+    try {
+      // Send numPoints points randomly selected from the points list.
+      Random rand = new Random();
+      for (int i = 0; i < numPoints; ++i) {
+        int index = rand.nextInt(points.size());
+        Point point = points.get(index);
+        appendLogs(
+            logs,
+            "Visiting point {0}, {1}",
+            RouteGuideUtil.getLatitude(point),
+            RouteGuideUtil.getLongitude(point));
+        requestObserver.onNext(point);
+        // Sleep for a bit before sending the next one.
+        Thread.sleep(rand.nextInt(1000) + 500);
+        if (finishLatch.getCount() == 0) {
+          // RPC completed or errored before we finished sending.
+          // Sending further requests won't error, but they will just be thrown away.
+          break;
+        }
+      }
+    } catch (RuntimeException e) {
+      // Cancel RPC
+      requestObserver.onError(e);
+      throw e;
+    }
+    // Mark the end of requests
+    requestObserver.onCompleted();
+
+    // Receiving happens asynchronously
+    if (!finishLatch.await(1, TimeUnit.MINUTES)) {
+      throw new RuntimeException(
+          "Could not finish rpc within 1 minute, the server is likely down");
+    }
+
+    if (failed != null) {
+      throw new RuntimeException(failed);
+    }
+    return logs.toString();
+  }
+```
+
+要调用此方法，我们需要创建一个 StreamObserver 对象，它为服务器实现了一个特殊的接口，以便使用其 RouteSummary 响应进行调用，在我们的 StreamObserver 中：
+
+- 当服务器向消息流写入 RouteSummary 时，重写 `onNext()` 方法，该方法打印出返回的信息
+- 重写 `onCompleted()` 方法（当服务器在其一侧完成调用时调用），设置 `SettableFuture`，可以检查改方法查看服务器是否已完成写入
+
+然后，我们将 `StreamObserver` 传递给异步 stubs 的 `recordRoute()` 方法，并返回我们自己的 `StreamObserver` 请求 observer 来编写我们的 `Points` 以发送到服务器。一旦我们完成了 `Points` 的编写，我们使用请求观察器的 `onCompleted()` 方法，告诉 gRPC 我们已经完成了客户端的编写。完成后，我们检查 `SettableFuture` 以检查服务器是否已完成。
+
+##### 双向流式 RPC 
+
+最后，看看双向流式 RPC 的 `RouteChat()`：
+
+```java
+private String routeChat(RouteGuideStub asyncStub)
+        throws InterruptedException, RuntimeException {
+      final StringBuffer logs = new StringBuffer();
+      appendLogs(logs, "*** RouteChat");
+      final CountDownLatch finishLatch = new CountDownLatch(1);
+      StreamObserver<RouteNote> requestObserver =
+          asyncStub.routeChat(
+              new StreamObserver<RouteNote>() {
+                @Override
+                public void onNext(RouteNote note) {
+                  appendLogs(
+                      logs,
+                      "Got message \"{0}\" at {1}, {2}",
+                      note.getMessage(),
+                      note.getLocation().getLatitude(),
+                      note.getLocation().getLongitude());
+                }
+
+                @Override
+                public void onError(Throwable t) {
+                  failed = t;
+                  finishLatch.countDown();
+                }
+
+                @Override
+                public void onCompleted() {
+                  appendLogs(logs, "Finished RouteChat");
+                  finishLatch.countDown();
+                }
+              });
+
+      try {
+        RouteNote[] requests = {
+          newNote("First message", 0, 0),
+          newNote("Second message", 0, 1),
+          newNote("Third message", 1, 0),
+          newNote("Fourth message", 1, 1)
+        };
+
+        for (RouteNote request : requests) {
+          appendLogs(
+              logs,
+              "Sending message \"{0}\" at {1}, {2}",
+              request.getMessage(),
+              request.getLocation().getLatitude(),
+              request.getLocation().getLongitude());
+          requestObserver.onNext(request);
+        }
+      } catch (RuntimeException e) {
+        // Cancel RPC
+        requestObserver.onError(e);
+        throw e;
+      }
+      // Mark the end of requests
+      requestObserver.onCompleted();
+
+      // Receiving happens asynchronously
+      if (!finishLatch.await(1, TimeUnit.MINUTES)) {
+        throw new RuntimeException(
+            "Could not finish rpc within 1 minute, the server is likely down");
+      }
+
+      if (failed != null) {
+        throw new RuntimeException(failed);
+      }
+
+      return logs.toString();
+    }
+  }
+```
+
+与我们的客户端侧流式示例一样，我们都获得并返回一个 `StreamObserver` 响应观察器，只是这次是我们在服务器仍在向其消息流写入消息时通过方法响应观察器来发送值，这里的读写语法与我们的客户端流方法完全相同。尽管双方按照消息的编写顺序获得对方的消息，但是客户端和服务器都可以按照任意的顺序进行读写——两个流是完全独立运行的
+
+### 演示
+
+采用与 [Quick start](##Quick start) 相同的 SDK 设置：
+
+JDK 版本：**corretto-11**
+
+Gradle 版本：**7.2**
+
+Gradle 插件版本：**7.1.3**
+
+在服务端配置下：
+
+```
+./build/install/examples/bin/route-guide-server
+```
+
+开启服务端，端口为 8980：
+
+![](../../figs.assets/image-20230713152648112.png)
+
+客户端按上述的编译环境编译后下载 APP 到手机上：输入 URL 地址为：10.0.0.241:8980，点击 START ROUTE GUIDE，有四个功能分别对应四种调用服务方法：
+
+![](../../figs.assets/image-20230713153018776.png)
+
