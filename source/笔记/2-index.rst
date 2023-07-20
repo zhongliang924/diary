@@ -14,3 +14,4 @@ Kubernetes
    02Triton_with_kubernetes/03使用Kubernetes创建集群
    02Triton_with_kubernetes/04Triton Metrics
    02Triton_with_kubernetes/05Grafana
+   02Triton_with_kubernetes/06Centos部署指南

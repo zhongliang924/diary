@@ -36,5 +36,11 @@ adb shell pm list packages
 adb uninstall com.examples.text2
 ```
 
+使用 adb 为设备安装 apk：
 
+```
+adb -s 192.168.31.88:5555 install sndcpy.apk
+```
+
+其中，`-s` 选择项是 `adb devices` 对应的设备地址
 
