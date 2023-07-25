@@ -102,3 +102,229 @@ yum remove docker-ce
 rm -rf /var/lib/docker
 ```
 
+## 安装 kubernetes
+
+### 准备工作
+
+主机关闭防火墙，关闭 selinux，关闭 swap：
+
+```
+systemctl stop firewalld ; systemctl disable firewalld
+
+sed -i 's/enforcing/disabled/' /etc/selinux/config
+setenforce 0
+
+swapoff -a  # 临时关闭
+vim /etc/fstab 注释到swap那一行 # 永久关闭
+```
+
+将桥接的 IPv4 流量传递到 iptables 的链
+
+```
+cat > /etc/sysctl.d/k8s.conf << EOF
+> net.bridge.bridge-nf-call-ip6tables = 1
+> net.bridge.bridge-nf-call-iptables = 1
+> EOF
+```
+
+应用
+
+```
+itser]# sysctl --system
+* Applying /usr/lib/sysctl.d/00-system.conf ...
+net.bridge.bridge-nf-call-ip6tables = 0
+net.bridge.bridge-nf-call-iptables = 0
+net.bridge.bridge-nf-call-arptables = 0
+* Applying /usr/lib/sysctl.d/10-default-yama-scope.conf ...
+kernel.yama.ptrace_scope = 0
+* Applying /usr/lib/sysctl.d/50-default.conf ...
+kernel.sysrq = 16
+kernel.core_uses_pid = 1
+kernel.kptr_restrict = 1
+net.ipv4.conf.default.rp_filter = 1
+net.ipv4.conf.all.rp_filter = 1
+net.ipv4.conf.default.accept_source_route = 0
+net.ipv4.conf.all.accept_source_route = 0
+net.ipv4.conf.default.promote_secondaries = 1
+net.ipv4.conf.all.promote_secondaries = 1
+fs.protected_hardlinks = 1
+fs.protected_symlinks = 1
+* Applying /etc/sysctl.d/99-sysctl.conf ...
+* Applying /etc/sysctl.d/k8s.conf ...
+net.bridge.bridge-nf-call-ip6tables = 1
+net.bridge.bridge-nf-call-iptables = 1
+* Applying /etc/sysctl.conf ...
+```
+
+修改主机名，新建一个窗口生效
+
+```
+hostnamectl set-hostname master
+```
+
+### 安装 Docker/kubeadm/kubelet
+
+添加阿里云 yum 源：
+
+```
+itser]# cat > /etc/yum.repos.d/kubernetes.repo << EOF
+> [kubernetes]
+> name=Kubernetes
+> baseurl=https://mirrors.aliyun.com/kubernetes/yum/repos/kubernetes-el7-x86_64
+> enabled=1
+> gpgcheck=0
+> repo_gpgcheck=0
+> gpgkey=https://mirrors.aliyun.com/kubernetes/yum/doc/yum-key.gpg https://mirrors.aliyun.com/kubernetes/yum/doc/rpm-package-key.gpg
+> EOF
+```
+
+执行命令查看哪个版本的 Kubernetes 可用：
+
+```
+yum list kubelet --showduplicates | sort -r
+```
+
+我们选择 1.21 版本：
+
+![](../../figs.assets/image-20230725145649658.png)
+
+安装 kubeadm, kubelet 和 kubectl，安装版本为 `1.21.3`，注意版本指定时中间是 `-` 不是 `=` ：
+
+```
+yum install -y kubelet-1.21.3-0 kubeadm-1.21.3-0 kubectl-1.21.3-0
+```
+
+### 部署 Kubernetes Master
+
+#### 主节点初始化
+
+在 `10.130.60.165` 主节点执行：
+
+```
+# kubeadm init \
+  --apiserver-advertise-address=10.130.60.165 \
+  --image-repository registry.aliyuncs.com/google_containers \
+  --kubernetes-version v1.21.3 \
+  --service-cidr=10.96.0.0/12 \
+  --pod-network-cidr=10.244.0.0/16 \
+  --ignore-preflight-errors=all
+```
+
+部署过程中会有很多警告：
+
+**警告 1**：[WARNING IsDockerSystemdCheck]: detected "cgroupfs" as the Docker cgroup driver. The recommended driver is "systemd". Please follow the guide at https://kubernetes.io/docs/setup/cri/
+
+​	kubeadm 初始化时默认采用 cgroupfs 作为驱动，推荐使用 `systemd`，需要更换 docker 驱动
+
+```
+]# vim /etc/docker/daemon.json
+{
+    "exec-opts": ["native.cgroupdriver=systemd"],
+    "registry-mirrors": ["http://hub-mirror.c.163.com"]
+}
+
+systemctl daemon-reload && systemctl restart docker
+```
+
+**警告 2**：[WARNING SystemVerification]: this Docker version is not on the list of validated versions: 24.0.5. Latest validated version: 20.10
+
+​	卸载已存在的版本：
+
+```
+ yum remove docker-ce docker-ce-cli containerd.io
+ 
+ yum remove docker \
+                   docker-client \
+                   docker-client-latest \
+                   docker-common \
+                   docker-latest \
+                   docker-latest-logrotate \
+                   docker-logrotate \
+                   docker-engine
+```
+
+​	从高到低列出 yum 源各个版本的 docker：
+
+```
+yum list docker-ce --showduplicates | sort -r
+```
+
+![](../../figs.assets/image-20230725154951590.png)
+
+这里我们安装 `20.10.0-3.el7`，这个版本能符合 kubernetes 安装要求：
+
+```
+yum install docker-ce-20.10.0-3.el7 docker-ce-cli-20.10.0-3.el7 containerd.io
+```
+
+查看 docker 版本：
+
+![](../../figs.assets/image-20230725155818781.png)
+
+**警告 3**：[WARNING Hostname]: hostname "master" could not be reached
+
+**警告 4**：[WARNING Hostname]: hostname "master": lookup master on 192.168.4.242:53: server misbehaving
+
+​	修改 host 文件：
+
+```
+]# cat /etc/hosts
+127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4
+::1         localhost localhost.localdomain localhost6 localhost6.localdomain6
+10.130.60.165 master
+```
+
+**警告 5**：[WARNING Service-Kubelet]: kubelet service is not enabled, please run 'systemctl enable kubelet.service'
+
+​	需要启动 kubelet 服务：
+
+```
+systemctl enable kubelet.service
+```
+
+
+
+解决所有警告后初始化成功：
+
+![](../../figs.assets/image-20230725161551783.png)
+
+其它节点使用以下命令加入集群
+
+```
+kubeadm join 10.130.60.165:6443 --token 1oao2o.kqk06w3o936imrxp \ --discovery-token-ca-cert-hash sha256:5a0d2ac8559432d1f8ad95354e1313dc50969b12b16b586a198ff81e18eb316c
+```
+
+跟随指导依次执行：
+
+```
+mkdir -p $HOME/.kube
+cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+chown $(id -u):$(id -g) $HOME/.kube/config
+
+export KUBECONFIG=/etc/kubernetes/admin.conf
+```
+
+完成了 Kubernetes 主节点的初始化。
+
+**k8S 报错**：coredns 的状态是 pending：
+
+![](../../figs.assets/image-20230725162720878.png)
+
+经查阅资料发现 coredns 最大可能是缺少网络插件导致，选择 calico 网络插件，下载地址：
+
+```
+wget http://docs.projectcalico.org/v3.8/manifests/calico.yaml
+```
+
+安装：
+
+```
+kubectl apply -f calico.yaml
+```
+
+查看节点状态：
+
+![](../../figs.assets/image-20230725211722404.png)
+
+#### 工作节点加入集群
+
