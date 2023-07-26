@@ -161,7 +161,7 @@ kubectl get svc
 
 ## 3、安装Prometheus
 
-Prometheus 的安装过程迁移到：
+Prometheus 的安装过程迁移到 [Prometheus 安装教程](https://notebook-lzl.readthedocs.io/zh/latest/%E7%AC%94%E8%AE%B0/02Kubernetes/04%E6%95%B0%E6%8D%AE%E5%8F%AF%E8%A7%86%E5%8C%96.html#prometheus)
 
 ## 4、缩扩容服务
 
