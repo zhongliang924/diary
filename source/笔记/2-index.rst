@@ -9,9 +9,8 @@ Kubernetes
 .. toctree::
    :maxdepth: 1
 
-   02Triton_with_kubernetes/01在Ubuntu18.04上搭建kubernetes
-   02Triton_with_kubernetes/02使用MIG和Kubernetes大规模部署NVIDIA Triton
-   02Triton_with_kubernetes/03使用Kubernetes创建集群
-   02Triton_with_kubernetes/04Triton Metrics
-   02Triton_with_kubernetes/05Grafana
-   02Triton_with_kubernetes/06Centos部署指南
+   02Kubernetes/01Kubernetes安装
+   02Kubernetes/02Kubernetes部署NVIDIA Triton
+   02Kubernetes/03Kubernetes创建集群
+   02Kubernetes/04数据可视化
+   02Kubernetes/05Centos部署指南

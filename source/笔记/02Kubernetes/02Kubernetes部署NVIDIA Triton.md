@@ -1,16 +1,14 @@
 # Kubernetes部署NVIDIA Triton
 
-​	docker版本：20.10.21
+docker版本：20.10.21
 
-​	k8s版本：1.21.3
+k8s版本：1.21.3
 
-​	多实例GPU(multi-instance GPU, MIG)可以通过并行运行多个工作负载，最大限度提高RTX 3090 Ti GPU利用率，MIG功能可以将单个GPU划分为多个称为GPU实例的GPU分区，每个分区有专用的内存和计算资源，因此硬件级隔离可确保同时运行工作负载，同时保证服务质量和故障隔离。
+多实例GPU(multi-instance GPU, MIG)可以通过并行运行多个工作负载，最大限度提高RTX 3090 Ti GPU利用率，MIG功能可以将单个GPU划分为多个称为GPU实例的GPU分区，每个分区有专用的内存和计算资源，因此硬件级隔离可确保同时运行工作负载，同时保证服务质量和故障隔离。
 
 - 在RTX 3090 Ti上使用MIG并行部署多个Triton推理服务器
 - 使用Kubernetes和Prometheus监控堆栈，根据推理请求的数量自动扩展Triton推理服务器的数量
 - 使用NGINX PLUS负载均衡器在不同的Triton推理服务器之间平均分配推理负载
-
-
 
 扩展到Kubernetest环境中部署，可以根据推理请求自动调整Triton推理服务器的数量，并且推理负载能够分布在所有服务器之间，实现负载均衡。
 
@@ -163,149 +161,11 @@ kubectl get svc
 
 ## 3、安装Prometheus
 
-​	Prometheus是K8s集群内应用广泛的监控服务，要自动更改Kubernetest Pods上Trition推理服务器的数量，首先收集用于自定义度量NVIDIA Triton性能，因为有来自多个Kubernetes Pods下的NVIDIA Triton指标，所以需要部署一个PodMonitor，告诉Prometheus从所有的Pods中收集指标。
-
-​	Prometheus是一款开源的系统监控和报警工具包，提供由度量名称键值对标识的时间序列数据。PromQL是一种灵活的查询语言，用于查询Prometheus的度量。
-
-### 3.1 安装Prometheus
-
-下载地址：
-
-```
-https://github.com/prometheus-operator/kube-prometheus/archive/refs/tags/v0.9.0.tar.gz
-```
-
-解压后，执行
-
-```
-kubectl create -f manifests/setup
-until kubectl get servicemonitors --all-namespaces ; do date; sleep 1; echo ""; done
-kubectl create -f manifests/
-```
-
-删除指令：
-
-```
-kubectl delete --ignore-not-found=true -f manifests/ -f manifests/setup
-```
-
-验证：
-
-![](../../figs.assets/image-20230321154509028.png)
-
-```
-kubectl --namespace monitoring port-forward svc/prometheus-k8s 9090
-```
-
-**两个镜像**
-
-1、kube-state-metrics
-
-位于manifests/kube-state-metrics-deployment.yaml
-
-```
-registry.cn-hangzhou.aliyuncs.com/chenby/kube-state-metrics:v2.1.1
-```
-
-2、prometheus-adapter
-
-位于manifests/prometheus-adapter-deployment.yaml
-
-```
-registry.cn-hangzhou.aliyuncs.com/chenby/prometheus-adapter:v0.9.0
-```
-
-**暴露prometheus和grafana端口**
-
-目录：manifests/prometheus-service.yaml，端口映射到32101
-
-```
-apiVersion: v1
-kind: Service
-metadata:
-  labels:
-    app.kubernetes.io/component: prometheus
-    app.kubernetes.io/name: prometheus
-    app.kubernetes.io/part-of: kube-prometheus
-    app.kubernetes.io/version: 2.29.1
-    prometheus: k8s
-  name: prometheus-k8s
-  namespace: monitoring
-spec:
-  type: NodePort
-  ports:
-  - name: web
-    port: 9090
-    targetPort: web
-    nodePort: 32101
-  selector:
-    app: prometheus
-    app.kubernetes.io/component: prometheus
-    app.kubernetes.io/name: prometheus
-    app.kubernetes.io/part-of: kube-prometheus
-    prometheus: k8s
-  sessionAffinity: ClientIP
-```
-
-目录：manifests/grafana-service.yaml，端口映射到32102
-
-```
-apiVersion: v1
-kind: Service
-metadata:
-  labels:
-    app.kubernetes.io/component: grafana
-    app.kubernetes.io/name: grafana
-    app.kubernetes.io/part-of: kube-prometheus
-    app.kubernetes.io/version: 8.1.1
-  name: grafana
-  namespace: monitoring
-spec:
-  type: NodePort
-  ports:
-  - name: http
-    port: 3000
-    targetPort: http
-    nodePort: 32102
-  selector:
-    app.kubernetes.io/component: grafana
-    app.kubernetes.io/name: grafana
-    app.kubernetes.io/part-of: kube-prometheus
-```
-
-### 3.2 修改Prometheus配置文件
-
-为了使Prometheus监控服务全部部署在主节点上，需要指定服务的部署节点，需要修改以下文件
-
-| 服务类型          | 服务名称           | 服务文件                            |
-| ----------------- | ------------------ | ----------------------------------- |
-| Prometheus Server | prometheus         | prometheis-prometheus.yaml          |
-| Setup             | setup              | prometheus-operator-deployment.yaml |
-| Prom-adapter      | adapter            | prometheus-adapter-deployment.yaml  |
-| metrics-state     | kube-state-metrics | kube-state-metrics-deployment.yaml  |
-| blackbos          | blackbox           | blackbox-exporter-deployment.yaml   |
-
-有两种修改方式：
-
-- 通过节点类型指定，这样可以批量指定
-
-```
-nodeSelector:
-	type: cloud_1080_ti
-```
-
-不同节点的type可以使用`kubectl label`进行指定
-
-- 通过节点名称指定，这样可以更精确指定
-
-```
-nodeName:
-	master
-```
+Prometheus 的安装过程迁移到：
 
 ## 4、缩扩容服务
 
-​	Prometheus在监视服务器，接下来部署Prometheus适配器，它知道如何与Kubernetes和Prometheus通信，适配器能够使用Prometheus收集的指标作出缩放决策。
+Prometheus在监视服务器，接下来部署Prometheus适配器，它知道如何与Kubernetes和Prometheus通信，适配器能够使用Prometheus收集的指标作出缩放决策。
 
 ### 4.1 创建PodMonitor
 

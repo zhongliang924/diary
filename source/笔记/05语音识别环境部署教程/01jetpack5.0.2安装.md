@@ -2,7 +2,7 @@
 
 ## 一、环境准备
 
-​	在Ubuntu系统上，下载NVIDIA SDK Manager，下载版本为Jetpack5.0.2，选择.deb Ubuntu下载方式
+​	在 Ubuntu 系统上，下载 NVIDIA SDK Manager，下载版本为 Jetpack5.0.2，选择 .deb Ubuntu 下载方式
 
 ![](../../figs.assets/image-20230305160208242.png)
 

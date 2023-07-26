@@ -328,3 +328,31 @@ kubectl apply -f calico.yaml
 
 #### 工作节点加入集群
 
+在主节点上获取节点加入的命令：
+
+```
+kubeadm token create --print-join-command
+```
+
+![](../../figs.assets/image-20230726094250040.png)
+
+在工作节点（NX/intretech）上，进行重置
+
+```
+kubeadm reset
+```
+
+工作节点加入 k8s 集群，复制粘贴之前打印的信息：
+
+![](../../figs.assets/image-20230726094821936.png)
+
+发现我们的工作节点已经加入了 k8s 集群
+
+![](../../figs.assets/image-20230726100314114.png)
+
+#### 安装 Prometheus
+
+安装的教程可以参考 [Prometheus 安装教程](https://notebook-lzl.readthedocs.io/zh/latest/%E7%AC%94%E8%AE%B0/02Triton_with_kubernetes/02%E4%BD%BF%E7%94%A8MIG%E5%92%8CKubernetes%E5%A4%A7%E8%A7%84%E6%A8%A1%E9%83%A8%E7%BD%B2NVIDIA%20Triton.html#prometheus)
+
+​                                                                    
+
