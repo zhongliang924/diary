@@ -354,5 +354,133 @@ kubeadm reset
 
 安装的教程可以参考 [Prometheus 安装教程](https://notebook-lzl.readthedocs.io/zh/latest/%E7%AC%94%E8%AE%B0/02Kubernetes/04%E6%95%B0%E6%8D%AE%E5%8F%AF%E8%A7%86%E5%8C%96.html#prometheus)
 
-​                                                                    
+## 部署服务
+
+首先在主节点上检查节点状态，确保所有的节点处于 Ready 状态：
+
+```
+kubectl get nodes
+```
+
+![](../../figs.assets/image-20230802212919782.png)
+
+准备 Triton 镜像，镜像用于把服务部署给工作节点（3090 服务器），3090 服务器的镜像如果本地没有则默认从 docker-hub 上下载，因此需要给镜像打标签，并上传到 docker-hub 仓库中，我的 docker-hub 的账户名为 lizhongliang123，密码为 lizhongliang123。
+
+```
+docker login
+docker tag triton_server:v07.31 lizhongliang123/triton_server:v07.31
+docker push lizhongliang123/triton_server:v07.31
+```
+
+准备部署文件 `speech-replicas2.yml`，可以将我们的服务部署到 3090 服务器上
+
+```
+kubectl apply -f speech-replicas2.yml
+```
+
+使用 `nodeName: intretech` 指定需要部署的节点；`image: lizhongliang123/triton_server:v07.31` 指定需要加载的镜像；添加两个挂载：共享内存挂载和模型文件挂载，文件内容如下：
+
+```
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: intreplus
+  labels:
+    app: intreplus
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: intreplus
+  template:
+    metadata:
+      labels:
+        app: intreplus
+    spec:
+      volumes:
+      - name: dshm
+        emptyDir:
+          medium: Memory
+          sizeLimit: 2048Mi
+      - name: models
+        hostPath:
+          path: /model
+      nodeName: intretech
+      containers:
+        - name: intreplus
+          ports:
+          - containerPort: 8000
+            name: http-triton
+          - containerPort: 8001
+            name: grpc-triton
+          - containerPort: 8002
+            name: metrics-triton
+          image: lizhongliang123/triton_server:v07.31
+          volumeMounts:
+          - mountPath: /model
+            name: models
+          command: ["/bin/bash", "-c"]
+          args: ["cd /workspace/tensorrt_fastertransformer; export PYTHONIOENCODING=utf-8;bash infer.sh;"]
+          volumeMounts:
+            - mountPath: /dev/shm
+              name: dshm
+```
+
+查看服务部署状态：
+
+```
+kubectl get pods -o wide
+```
+
+启动了一个 Pods，服务已成功部署到 3090 节点上：
+
+![](../../figs.assets/image-20230802214119355.png)
+
+接下来需要部署 Service 文件，用于暴露服务端口
+
+```
+kubectl apply -f speech-service.yml
+```
+
+Service 文件内容如下：
+
+```
+apiVersion: v1
+kind: Service
+metadata:
+  name: intreplus
+  labels:
+    app: intreplus
+spec:
+  selector:
+    app: intreplus
+  ports:
+    - protocol: TCP
+      port: 8000
+      name: http
+      targetPort: 8000
+    - protocol: TCP
+      port: 8001
+      name: grpc
+      targetPort: 8001
+    - protocol: TCP
+      port: 8002
+      name: metrics
+      targetPort: 8002
+  type: LoadBalancer
+```
+
+查看 Service 类型的服务部署状态：
+
+```
+kubectl get svc -o wide
+```
+
+服务已经启动了，并将我们的 8001 端口映射到了主机的 32517 端口
+
+![](../../figs.assets/image-20230802214417545.png)
+
+使用 URL `10.130.60.165:32517` 即可对服务进行访问。
+
+使用 `kubectl delete deploy intreplus` 即可退出 Triton 服务，释放内存和显存资源。
 
