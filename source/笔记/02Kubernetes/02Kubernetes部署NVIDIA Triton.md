@@ -14,11 +14,11 @@ k8s版本：1.21.3
 
 ## 1、创建Kubernetes Deployment
 
-​	第一步是为Triton推理服务器创建Kubernetes部署。部署为Pods和ReplicaSet提供声明性更新。Kubernetes中的ReplicaSet同时启动同一Pod的多个实例。
+第一步是为Triton推理服务器创建Kubernetes部署。部署为Pods和ReplicaSet提供声明性更新。Kubernetes中的ReplicaSet同时启动同一Pod的多个实例。
 
-​	以下文件创建了三个replicated Pods，每个Pod运行一个名为speech的容器，该容器运行wenet_server:22.03版本Triton推理服务器镜像，与NVIDIA Triton端口号相同，容器端口8000、8001、8002分别为HTTP、gRPC和NVIDIA Triton metrics
+以下文件创建了三个replicated Pods，每个Pod运行一个名为speech的容器，该容器运行wenet_server:22.03版本Triton推理服务器镜像，与NVIDIA Triton端口号相同，容器端口8000、8001、8002分别为HTTP、gRPC和NVIDIA Triton metrics
 
-​	使用混合策略为一个5G MIG设备分配给每个Pod。如果没有共享文件系统，则必须确保将模型加载到所有工作节点，以便Kubernetes启动的Pods可以访问
+使用混合策略为一个5G MIG设备分配给每个Pod。如果没有共享文件系统，则必须确保将模型加载到所有工作节点，以便Kubernetes启动的Pods可以访问
 
 ```
 apiVersion: apps/v1
@@ -59,7 +59,9 @@ spec:
               name: dshm
 ```
 
-​	使用kuberctl apply创建Kubernetes部署
+为了能够利用计算节点的 GPU，在计算节点上，	
+
+使用kuberctl apply创建Kubernetes部署
 
 ```
 sudo kubectl apply -f speech-replicas2.yml

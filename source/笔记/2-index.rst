@@ -14,3 +14,4 @@ Kubernetes
    02Kubernetes/03Kubernetes创建集群
    02Kubernetes/04数据可视化
    02Kubernetes/05Centos部署指南
+   02Kubernetes/06Kubernetes运维
