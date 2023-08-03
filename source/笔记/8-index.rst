@@ -14,3 +14,4 @@ Android
    08Android/03Android HTTP
    08Android/04Android GRPC
    08Android/05Android语音模块
+   08Android/06Android语音唤醒
