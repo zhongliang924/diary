@@ -10,6 +10,7 @@
    :maxdepth: 1
 
    03模型微调/1-FINE-TUNING OF PRE-TRAINED END-TO-END SPEECH RECOGNITION WITH GENERATIVE ADVERSARIAL NETWORKS
+   03模型微调/2-Pre-train, Prompt, and Predict A Systematic Survey of Prompting Methods in Natural Language Processing
 
 
 

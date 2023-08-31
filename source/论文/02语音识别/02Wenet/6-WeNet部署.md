@@ -1,24 +1,24 @@
 # 6-WeNet部署
 
-​	本文介绍使用Triton Infernecr Server部署WeNet提供语音识别服务的方法
+本文介绍使用Triton Infernecr Server部署WeNet提供语音识别服务的方法
 
 ## 1、非流式部署
 
-**1.1	转换预训练模型为onnx格式**
+**1.1 转换预训练模型为onnx格式**
 
 ```
 # FP16转换，同时保存FP32和FP16模型
 python export_onnx_gpu.py --config=trt_model/train.yaml --checkpoint=trt_model/final.pt --cmvn_file=trt_model/global_cmvn --ctc_weight=0.5 --output_onnx_dir=onnx_trt_model --fp16
 ```
 
-**1.2	tritonserver2.20.0-jetpack5.0启动triton服务（Jetson Xavier NX）**
+**1.2 tritonserver2.20.0-jetpack5.0启动triton服务（Jetson Xavier NX）**
 
 ```
 # wenet模型部署
 /home/lzl/tritonserver2.20.0-jetpack5.0/bin/tritonserver --model-repository=/home/lzl/wenet/runtime/gpu/model_repo/ --backend-directory=/home/lzl/lzl/tritonserver2.20.0-jetpack5.0/backends
 ```
 
-**1.3	客户端识别（Ubuntu 虚拟机）**
+**1.3 客户端识别（Ubuntu 虚拟机）**
 
 ```
 cd clients/wenet/

@@ -18,3 +18,4 @@
    06小工具/07StableDiffusion
    06小工具/8-index
    06小工具/09Nodejs
+   06小工具/10chatgpt-web
