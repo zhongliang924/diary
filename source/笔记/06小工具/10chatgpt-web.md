@@ -10,15 +10,9 @@
 
 - 第一种方式：ChatGPTAPI（收费，可靠，相对较笨）
 
-  使用梯子进入 Openai 官网，进入账户的 API 设置[API keys - OpenAI API](https://platform.openai.com/account/api-keys)，可以查看账户已有的 API，对于 Web Key 的 API，其值为 `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`，如果忘记了新建一个即可
-
-  ![](../../figs.assets/image-20230805171803101.png)
-
-  
+  使用梯子进入 Openai 官网，进入账户的 API 设置[API keys - OpenAI API](https://platform.openai.com/account/api-keys)，可以查看账户已有的 API，对于 Web Key 的 API，如果忘记了新建一个即可
 
   如果使用改方式需要付费，具体的我也没试过了，主要尝试第二种方法
-
-  ![](../../figs.assets/image-20230805171922675.png)
 
 - 第二种方式：ChatGPTUnofficialProxyAPI（免费，相对不可靠，聪明）
 
