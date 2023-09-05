@@ -1,6 +1,6 @@
 # kubernetes安装
 
-​	Kubernetes是由谷歌开发的一个开源系统，用于在集群内运行和管理以容器微服务为基础的应用。使用Kubernetes需要确保可以从Kubernetes集群外部访问在Kubernetes内创建的服务。
+Kubernetes是由谷歌开发的一个开源系统，用于在集群内运行和管理以容器微服务为基础的应用。使用Kubernetes需要确保可以从Kubernetes集群外部访问在Kubernetes内创建的服务。
 
 **1、关闭防火墙**
 
@@ -108,13 +108,21 @@ source <(kubectl completion bash)                               #临时生效
 echo "source <(kubectl completion bash)" >> ~/.bashrc           #永久生效
 ```
 
-**13、查看集群状态**
+**13、安装网络插件**
 
 网络插件calico.yaml的链接：[kubernetes(k8s)网络插件calico.yaml文件](https://blog.csdn.net/moyuanbomo/article/details/123092448)
 
 ```
 # 手动安装网络插件
 kubectl apply -f calico.yaml
+```
+
+安装 flannel 网络插件：[k8s安装网络插件-flannel_k8s安装flannel_匿称s的博客-CSDN博客](https://blog.csdn.net/bh451326803/article/details/125263918)
+
+执行：
+
+```
+kubectl apply -f kube-flannel.yml
 ```
 
 执行

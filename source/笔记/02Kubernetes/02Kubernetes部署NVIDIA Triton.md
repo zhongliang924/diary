@@ -51,15 +51,15 @@ spec:
             name: grpc-triton
           - containerPort: 8002
             name: metrics-triton
-          image: wenet_server:22.03
+          image: 10.24.83.22:8080/triton_server:v08.30
           command: ["/bin/bash", "-c"]
-          args: ["bash /workspace/infer.sh"]
+          args: ["cd /workspace/speech; bash scripts/convert_start_server.sh;"]
           volumeMounts:
             - mountPath: /dev/shm
               name: dshm
 ```
 
-为了能够利用计算节点的 GPU，在计算节点上，	
+为了能够利用计算节点的 GPU，在计算节点上
 
 使用kuberctl apply创建Kubernetes部署
 
@@ -101,7 +101,7 @@ kubectl taint nodes --all node-role.kubernetes.io/master-
 
 **删除Deployment命令**
 
-​	若要重新apply YAML文件，需要删除之间部署的speech
+若要重新apply YAML文件，需要删除之间部署的speech
 
 ```
 kubectl delete deployment speech
@@ -109,7 +109,7 @@ kubectl delete deployment speech
 
 ## 2、创建Kubernetes Service
 
-​	第二步是创建一个Kubernetes服务，将Triton推理服务器作为网络服务公开。创建服务时，使用Type字段选择自动创建外部负载均衡选项，其提供了一个外部可访问的IP地址，用于将流量发送到节点上的正确端口：
+第二步是创建一个Kubernetes服务，将Triton推理服务器作为网络服务公开。创建服务时，使用Type字段选择自动创建外部负载均衡选项，其提供了一个外部可访问的IP地址，用于将流量发送到节点上的正确端口：
 
 speech-service.yml
 

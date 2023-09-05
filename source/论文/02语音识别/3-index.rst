@@ -9,10 +9,7 @@
 .. toctree::
    :maxdepth: 1
 
-   03模型微调/1-FINE-TUNING OF PRE-TRAINED END-TO-END SPEECH RECOGNITION WITH GENERATIVE ADVERSARIAL NETWORKS
-   03模型微调/2-Pre-train, Prompt, and Predict A Systematic Survey of Prompting Methods in Natural Language Processing
-
-
-
-
-
+   03模型微调/1-生成对抗网络微调预训练端到端语音识别模型
+   03模型微调/2-预训练、提示和预测：自然语言处理中提示方法的系统调研
+   03模型微调/3-零样本域敏感语音识别与提示条件微调
+   03模型微调/4-领域提示：朝着存储和计算高效的自适应ASR系统方向前进
