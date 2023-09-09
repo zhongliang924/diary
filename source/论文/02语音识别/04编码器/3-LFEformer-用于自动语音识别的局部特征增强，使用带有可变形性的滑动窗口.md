@@ -1,8 +1,10 @@
-# 3-LFEformer-Local Feature Enhancement Using Sliding Window With Deformability for Automatic Speech Recognition
+# LFEformer-用于自动语音识别的局部特征增强，使用带有可变形性的滑动窗口
+
+英文名：
 
 论文链接：https://ieeexplore.ieee.org/document/10035529
 
-本文提出了一个可变形滑动窗口(Sliding Windows with Deformability)的局部特征增强模块，简称 SWD，采用基于嵌入层深度的可变窗口大小。SWD 模块可以插入到 Transformer 网络中，称为 LFEformer，可用于 ASR。这种网络善于捕捉全局和局部特征，有利于模型改进。局部特征和全局特征分别由 SWD 模块和 Transformer 网络中的注意力机制提取。性能在Aishell-1、HKUST 和 WSJ 上进行测试。可以获得 0.5%、0.8% 和 0.3% WER 改进。
+本文提出了一种使用带变形性的滑动窗口模块，缩写为SWD，用于局部特征增强。具体而言，所提出的SWD模块采用基于嵌入网络层深度的可变大小的窗口。此外，所提出的SWD模块被插入到Transformer网络中，称为LFEformer，用于自动语音识别。这种网络特别擅长捕捉局部和全局特征，对于模型的改进是有益的。值得一提的是，局部特征和全局特征分别由SWD模块和Transformer网络中的注意机制提取。LFEformer的有效性已在三个广泛使用的数据集上进行了验证，这些数据集分别是Aishell-1、HKUST和WSJ（dev93/eval92）。实验结果表明，在相应的数据集中，可以获得0.5％ CER、0.8％ CER和0.7％/0.3％ WER的改进。
 
 ## 一、引言
 

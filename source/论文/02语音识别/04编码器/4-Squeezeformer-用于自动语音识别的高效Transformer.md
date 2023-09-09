@@ -1,10 +1,12 @@
-# 4-Squeezeformer-An Efficient Transformer for Automatic Speech Recognition
+# Squeezeformer-用于自动语音识别的高效Transformer
+
+英文名：Squeezeformer-An Efficient Transformer for Automatic Speech Recognition
 
 论文链接：https://arxiv.org/abs/2206.00888
 
 开源代码：https://github.com/kssteven418/squeezeformer
 
-本文提出了 Squeezeformer 网络架构，在相同的训练方案下优于先进的 ASR 模型。对于宏架构，Squeezeformer 结合了时间 U-Net 架构，降低了长序列多头注意力模块的开销，使用更简单的多头注意力或卷积的块结构，然后是前馈模块，不是 Conformer 提出的 Macaron 结构；对于微架构，Squeezeformer 简化了卷积块中的激活，去除了冗余的层归一化操作，结合有效的深度下采样对输入信号进行子采样。在LibraSpeech 数据集下较相同 FLOP 的 Conformer 模型有更好的结果。
+最近提出的Conformer模型已成为基于其混合注意力-卷积架构的各种下游语音任务的事实标杆模型，该架构捕捉了局部和全局特征。然而，通过一系列系统研究，我们发现Conformer架构的设计选择并不是最佳的。在重新审视Conformer的宏观和微观架构的设计选择后，我们提出了Squeezeformer，在相同的训练方案下持续优于最先进的ASR模型。具体来说，对于宏观架构，Squeezeformer包括（i）Temporal U-Net结构，可以降低多头注意力模块在长序列上的计算成本，以及（ii）一个更简单的块结构，由多头注意力或卷积模块后跟前馈模块组成，而不是Conformer中提出的Macaron结构。此外，对于微观架构，Squeezeformer（i）简化了卷积块中的激活函数，（ii）删除了多余的层归一化操作，（iii）引入了一个高效的深度可分层降采样层，以高效地对输入信号进行下采样。Squeezeformer在没有外部语言模型的情况下，在LibriSpeech测试集上实现了7.5％、6.5％和6.0％的词错误率（WER）的最先进结果，比相同FLOP数量的Conformer-CTC好3.1％、1.4％和0.6％。我们的代码是开源的，可在线获取。
 
 ## 一、引言
 

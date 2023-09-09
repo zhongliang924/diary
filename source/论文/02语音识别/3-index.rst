@@ -3,13 +3,16 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-模型微调
+Wenet
 ======================================
 
 .. toctree::
    :maxdepth: 1
 
-   03模型微调/1-生成对抗网络微调预训练端到端语音识别模型
-   03模型微调/2-预训练、提示和预测：自然语言处理中提示方法的系统调研
-   03模型微调/3-零样本域敏感语音识别与提示条件微调
-   03模型微调/4-领域提示：朝着存储和计算高效的自适应ASR系统方向前进
+   03Wenet/1-WeNet：面向生产的流式和非流式端到端语音识别工具包
+   03Wenet/2-WeNet 2.0：更具生产力的端到端语音识别工具包
+   03Wenet/3-WeNet-LM模型
+   03Wenet/4-WeNet模型结构
+   03Wenet/5-WeNet实验小结
+   03Wenet/6-WeNet部署
+

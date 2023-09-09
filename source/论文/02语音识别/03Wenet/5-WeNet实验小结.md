@@ -38,11 +38,11 @@ tensorboard --logdir=./tensorboard --host=0.0.0.0 --port 2001
 
 Multi_CN-Small 模型：
 
-![](../../../figs.assets/image-20230607095511524.png)
+![](../../../figs.assets/image-20230908194358800.png)
 
-![](../../../figs.assets/image-20230607095522791.png)
+![](../../../figs.assets/image-20230908194410659.png)
 
-![](../../../figs.assets/image-20230607095533549.png)
+![](../../../figs.assets/image-20230908194422088.png)
 
 Multi_CN-Medium 模型：
 
@@ -116,14 +116,16 @@ thchs是带噪的测试语音，所以效果较差，且转录文本字数较多
 
 ### Multi_CN-Small 测试结果
 
-自己的预训练模型结果，模型结构为 Unified Conformer, chunk size为16，找到最好的cv loss的模型，采用20次模型平均可以获得更好的效果，模型大小为  70.874MB，选择的epoch为[119 115 111 117 113 114 118 106 116 108 112 104 105 102 110 109  99 101]，得到平均后的模型avg_20.pt，然后对其在测试集上进行测试：
+自己的预训练模型结果
+
+，模型结构为 Unified Conformer, chunk size为16，找到最好的cv loss的模型，采用20次模型平均可以获得更好的效果，模型大小为  70MB，选择的epoch为[119 111 117 118 115 113 114 110 116 112 104 106 102 103 107 109 108 105 95 101]，得到平均后的模型avg_20.pt，然后对其在测试集上进行测试：
 
 | Dataset    | attention decoder | ctc greedy search | ctc prefix beam search | attention rescoring |
 | ---------- | ----------------- | ----------------- | ---------------------- | ------------------- |
-| Aishell    | 5.36%             | 6.67%             | 6.67%                  | 5.59%               |
-| aidatatang | 5.27%             | 6.57%             | 6.56%                  | 5.62%               |
-| magicdata  | 3.49%             | 4.53%             | 4.50%                  | 3.71%               |
-| thchs      | 13.82%            | 16.08%            | 16.08%                 | 14.76%              |
+| Aishell    | 5.44%             | 6.78%             | 6.78%                  | 5.68%               |
+| aidatatang | 5.30%             | 6.56%             | 6.56%                  | 5.59%               |
+| magicdata  | 3.52%             | 4.50%             | 4.48%                  | 3.69%               |
+| thchs      | 13.64%            | 16.11%            | 16.11%                 | 14.77%              |
 
 ### Multi_CN-Medium 测试结果
 

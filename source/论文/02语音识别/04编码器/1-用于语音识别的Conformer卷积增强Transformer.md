@@ -1,8 +1,10 @@
-# 1-Conformer-Convolution-augmented Transformer for Speech Recognition
+# 用于语音识别的Conformer卷积增强Transformer
+
+英文名：Conformer-Convolution-augmented Transformer for Speech Recognition
 
 论文链接：https://arxiv.org/abs/2005.08100
 
-​	Transformer 模型善于捕捉基于内容文本的全局交互，CNN 可以有效利用局部特征，本文将 CNN 和 Transformer 结合，以 parameter-efficient 的方式对音频序列的局部和全局依赖进行建模。本文提出一种用于语音识别的卷积增强 Transformer，名为 Conformer，效果显著优于基于 Transformer 和 CNN 的模型，实现了最先进的精度。
+最近，基于Transformer和卷积神经网络（CNN）的模型在自动语音识别（ASR）中表现出了有希望的结果，超越了循环神经网络（RNN）。Transformer模型擅长捕捉基于内容的全局交互，而CNN有效地利用局部特征。在这项工作中，我们通过研究如何以参数高效的方式结合卷积神经网络和Transformer来模拟音频序列的局部和全局依赖关系，实现了两者的最佳结合。为此，我们提出了用于语音识别的卷积增强Transformer，名为Conformer。Conformer在性能上显著优于以前的Transformer和CNN模型，实现了最先进的准确性。在广泛使用的LibriSpeech基准测试中，我们的模型在没有使用语言模型的情况下在test/testother上实现了WER为2.1％/4.3％，在使用外部语言模型的情况下为1.9％/3.9％。我们还观察到，仅有10M参数的小型模型也表现出了有竞争力的性能，为2.7％/6.3％。
 
 ## 1、引言
 

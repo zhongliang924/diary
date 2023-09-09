@@ -1,12 +1,10 @@
-# 1-WeNet Production Oriented Streaming and Non-Streaming End-to-End Speech Recognition Toolkit
+# WeNet：面向生产的流式和非流式端到端语音识别工具包
 
-论文链接：https://arxiv.org/pdf/2102.01547.pdf
+英文名：WeNet Production Oriented Streaming and Non-Streaming End-to-End Speech Recognition Toolkit
 
-​	WeNet开源语音工具包实现了一种Unified two-pass方法，命令为U2，使用一个模型实现流式和非流式端到端语音识别。其动机是缩小语音识别模型研究和部署之间的差距。
+论文链接：https://arxiv.org/abs/2102.01547
 
-​	开发了混合CTC和AED架构，使用transformer或conformer作为编码器，采用注意力解码来重评分CTC假设
-
-​	采用dynamic chunk注意力策略，允许自注意力关注随机长度右侧文本
+在本文中，我们提出了一个名为WeNet的开源、面向生产并且生产就绪的语音识别工具包。在WeNet中，我们实现了一种新的两阶段方法，将流式和非流式端到端（E2E）语音识别统一到一个模型中。WeNet的主要动机是要缩小E2E语音识别模型的研究和生产之间的差距。WeNet提供了一种有效的方式来在多种实际场景中运行ASR应用程序，这是与其他开源E2E语音识别工具包的主要区别和优势。在我们的工具包中，我们实施了一种新的两阶段方法。我们的方法提出了一种基于动态块的注意力策略，允许在混合CTC/注意力架构中修改任意右上下文长度。推理延迟可以通过仅更改块大小来轻松控制。然后，通过注意力解码器对CTC假设进行重新评分以获得最终结果。我们在AISHELL-1数据集上使用WeNet进行的实验证明，与标准的非流式Transformer相比，我们的模型在非流式ASR中实现了5.03％的相对字符错误率（CER）降低。在模型量化之后，我们的模型表现出了合理的实时传输率（RTF）和延迟。
 
 ## 1、引言
 

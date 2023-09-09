@@ -1,10 +1,12 @@
-# 2-Paraformer-Fast and Accurate Parallel Transformer for Non-autoregressive
+# Paraformer-用于非自回归的快速而准确的并行Transformer
+
+英文名：Paraformer-Fast and Accurate Parallel Transformer for Non-autoregressive
 
 论文链接：https://arxiv.org/abs/2206.08317
 
 开源代码：https://github.com/alibaba-damo-academy/FunASR
 
-​	Transformer 使用自回归解码器逐个生成 tokens，在计算上是低效的。非自回归(NAR)方法可以提高推理速度。本文提出了一个快速准确的并联 Transformer，称为 Paraformer。首先，基于连续 integrate-andfire 预测器预测 token 的数量并生成隐变量；然后，扫视语言模型(glancing language model, GLM)采样器生成语义嵌入，以增强 NAR 解码器对上下文依赖建模的能力；最后，设计一种生成负样本策略用于最小词错误率训练，以进一步提高性能。实验验证所提出的 Paraformer 可以获得最先进的 AR Transformer 相当的性能，加速超过 10 倍。
+最近，Transformer模型在ASR领域取得了主导地位。尽管能够实现良好的性能，但它们涉及使用自回归（AR）解码器逐个生成标记，这在计算上效率低下。为了加速推理过程，设计了非自回归（NAR）方法，例如单步NAR，以实现并行生成。然而，由于在输出标记之间存在独立性假设，单步NAR的性能较差，特别是在大规模语料库中。提高单步NAR存在两个挑战：首先准确预测输出标记的数量并提取隐藏变量；其次增强输出标记之间的相互依赖建模。为了解决这两个挑战，我们提出了一种快速而准确的并行Transformer，称为Paraformer。这利用了基于连续积分-发射的预测器来预测标记的数量并生成隐藏变量。然后，一个浏览语言模型（GLM）采样器生成语义嵌入，以增强NAR解码器建模上下文相互依赖的能力。最后，我们设计了一种生成最小词错误率训练的负样本的策略，以进一步提高性能。使用公共的AISHELL-1、AISHELL-2基准测试以及一个工业级别的20,000小时任务的实验表明，所提出的Paraformer可以实现与最先进的AR Transformer相当的性能，并且速度提高了10倍以上。
 
 ## 一、引言
 

@@ -1,8 +1,10 @@
-# 2-A Comparative Study On Transformer VS RNN In Speech Applications
+# 语音应用Transformer与RNN的比较研究
+
+英文名：A Comparative Study On Transformer VS RNN In Speech Applications
 
 论文链接：https://arxiv.org/abs/1909.06317
 
-本文介绍了一个新兴的Sequence-to-Sequence模型，名为Transformer。本文在15个ASR、一个多语言ASR、一个语音翻译（ST）和两个文本转语音（TTS）基准对Transformer和RNN进行了实验比较分析，Transformer在每项任务中具有显著的性能优势。
+序列到序列（sequence-to-sequence）模型已广泛用于端到端语音处理，例如自动语音识别（ASR）、语音翻译（ST）和文本到语音合成（TTS）。本文重点关注一种新兴的序列到序列模型称为Transformer，在神经机器翻译和其他自然语言处理应用中取得了最先进的性能。我们进行了深入的研究，在15个ASR、一个多语言ASR、一个ST和两个TTS基准测试中，对Transformer和传统的循环神经网络（RNN）进行了实验比较和分析。我们的实验揭示了在每个任务中使用Transformer所获得的各种训练技巧和显著性能优势，包括与RNN相比，在13/15个ASR基准测试中Transformer的惊人优越性。我们正在准备使用开源和公开可用的数据集，以Kaldi风格的可复制配方来发布所有ASR、ST和TTS任务的配方，以便社区能够继承我们令人兴奋的成果。
 
 ## 一、引言
 

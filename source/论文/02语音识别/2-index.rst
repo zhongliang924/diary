@@ -3,15 +3,11 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Wenet
+语音识别综述
 ======================================
 
 .. toctree::
    :maxdepth: 1
 
-   02Wenet/1-WeNet Production Oriented Streaming and Non-Streaming End-to-End Speech Recognition Toolkit
-   02Wenet/2-WeNet2.0 More Productive End-to-End Speech Recognition Toolkit
-   02Wenet/3-WeNet-LM模型
-   02Wenet/4-WeNet模型结构
-   02Wenet/5-WeNet实验小结
-   02Wenet/6-WeNet部署
+   02语音识别综述/1-端到端自动语音识别的最新进展
+   02语音识别综述/2-语音应用Transformer与RNN的比较研究
