@@ -1,4 +1,4 @@
-# 3-WeNet-LM模型
+# WeNet-LM 模型
 
 链接：https://github.com/wenet-e2e/wenet/blob/main/docs/lm.md
 

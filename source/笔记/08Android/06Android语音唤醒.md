@@ -41,7 +41,7 @@ CMU Sphinx 是一个领先的语音识别工具包，具有用于构建语音应
 
 编写 `WakeWordRecognizer.java` 类用于实现语音唤醒，首先实例化一个语音识别对象，定义初始灵敏度为 80，该灵敏度可通过滑动条进行自主控制，并在 `setup()`进行初始化设置：
 
-```
+```kotlin
 private SpeechRecognizer recognizer;
 private int sensibility = 80;
 
@@ -52,32 +52,32 @@ private int sensibility = 80;
  * addKeyphraseSearch() 方法添加了一个关键词搜索，用于检测用户是否说出了唤醒词
  */
 private void setup() {
-        try {
-            final Assets assets = new Assets(context);
-            final File assetDir = assets.syncAssets();
+    try {
+        final Assets assets = new Assets(context);
+        final File assetDir = assets.syncAssets();
 
-            Log.i(LOG_TAG, "Changing Recognition Threshold to " + sensibility);
-            
-            recognizer = SpeechRecognizerSetup.defaultSetup()
-                    .setAcousticModel(new File(assetDir, "models/zh-cn-ptm"))   // 设置音频模型文件
-                    .setDictionary(new File(assetDir, "models/lm/words.dic"))   // 设置字典文件
-                    .setKeywordThreshold(Float.parseFloat("1.e-" + 4 * sensibility))    // 设置唤醒词灵敏度值
-                    .getRecognizer();   // 获取 SpeechRecognizer 对象的引用
-            recognizer.addKeyphraseSearch(WAKEWORD_SEARCH, context.getString(R.string.wake_word)); // 添加关键词搜索
-            recognizer.addListener(this);
-            recognizer.startListening(WAKEWORD_SEARCH);
+        Log.i(LOG_TAG, "Changing Recognition Threshold to " + sensibility);
 
-            Log.d(LOG_TAG, "... listening");
+        recognizer = SpeechRecognizerSetup.defaultSetup()
+        .setAcousticModel(new File(assetDir, "models/zh-cn-ptm"))   // 设置音频模型文件
+        .setDictionary(new File(assetDir, "models/lm/words.dic"))   // 设置字典文件
+        .setKeywordThreshold(Float.parseFloat("1.e-" + 4 * sensibility))    // 设置唤醒词灵敏度值
+        .getRecognizer();   // 获取 SpeechRecognizer 对象的引用
+        recognizer.addKeyphraseSearch(WAKEWORD_SEARCH, context.getString(R.string.wake_word)); // 添加关键词搜索
+        recognizer.addListener(this);
+        recognizer.startListening(WAKEWORD_SEARCH);
 
-        } catch (IOException e) {
-            Log.e(LOG_TAG, e.toString());
-        }
+        Log.d(LOG_TAG, "... listening");
+
+    } catch (IOException e) {
+        Log.e(LOG_TAG, e.toString());
+    }
 }
 ```
 
 实现 `RecognitionListener` 的接口方法，其中 `onPartialResult()` 为主要需要实现的方法，监听器一直监听录音状态，如果检测到唤醒词则触发设备震动，并且根据当前所处的 Activity 状态执行不同的动作。
 
-```
+```kotlin
 @Override
 public void onPartialResult(Hypothesis hypothesis) {
     if (hypothesis != null) {
@@ -108,13 +108,13 @@ public void onPartialResult(Hypothesis hypothesis) {
 
 `ListeningActivity.java` 类定义了一个 APP 界面，该代码首先实例化 `WakeWordRecognizer` 对象：
 
-```
+```kotlin
 wakeWordRecognizer = new WakeWordRecognizer(this);
 ```
 
 监听唤醒状态并通过滑动条设置唤醒灵敏度，首先为 SeekBar 添加一个进度改变监听器，当拖动 seekBar 时，该监听器可以根据 SeekBar 的进度更新灵敏度的值，同时为 SeekBar 设置了两个触摸事件监听器，但未具体实现，当停止滑动 SeekBar 时，执行 onStopTrackingTouch() 方法，获得 seekBar 最终进度，重新启动语音唤醒监听器，这段代码用于设置语音识别的灵敏度，并允许用户通过 SeekBar 调整，实现了 SeekBar 相关监听器，可以更新语音唤醒相应设置
 
-```
+```kotlin
 seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
         threshold.setText(String.valueOf(progress));
@@ -137,7 +137,7 @@ seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
 
 定义了两个 Override 方法用于重新启动唤醒识别器实现对唤醒生命周期的控制：
 
-```
+```kotlin
 @Override
 protected void onResume() {
     super.onResume();
@@ -157,7 +157,7 @@ protected void onPause() {
 
 重启和停止的具体实现方法在 `WakeWordRecognizer` 类中定义：
 
-```
+```kotlin
 public void onResume() {
     setup(); // 重新启动监听
     Log.d(LOG_TAG, "... listening");
@@ -180,7 +180,7 @@ public void onPause() {
 
   在 `build.gradle (Module: app)` 中添加安卓代码块：
 
-  ```
+  ```groovy
   android { ..
     sourceSets {
           main {
@@ -192,14 +192,14 @@ public void onPause() {
 
   然后在下面添加依赖：
 
-  ```
+  ```groovy
   implementation fileTree(dir: 'libs', include: ['*.?ar'])
   implementation (files("libs/pocketsphinx-android-5prealpha-release.aar"))
   ```
 
   删除掉原文件的内容：
 
-  ```
+  ```groovy
   repositories {
       flatDir {
           dirs 'libs'
@@ -216,7 +216,7 @@ public void onPause() {
 
 1. 确保 `build.gradle (Project: Name)` 中定义了 `maven.google.com`：
 
-   ```
+   ```groovy
    repositories {
    	google()
    }
@@ -224,7 +224,7 @@ public void onPause() {
 
 2. 在 `build.gradle (Module: app)` 中添加共享库文件：
 
-   ```
+   ```groovy
    dependencies {
        implementation "androidx.constraintlayout:constraintlayout:2.1.0"
    }
@@ -232,7 +232,7 @@ public void onPause() {
 
 3. 需要在 `activity_listening.xml` 和 `activity_main.xml` 文件中，将 `android.support.constraint.ConstraintLayout` 替换为 `androidx.constraintlayout.widget.ConstraintLayout`，然后将 `android.support.constraint.Guideline` 替换为 `androidx.constraintlayout.widget.Guideline`，可以解决程序中断的问题。
 
-   ```
+   ```groovy
    <androidx.constraintlayout.widget.ConstraintLayout
    	...
    </androidx.constraintlayout.widget.ConstraintLayout>
@@ -246,7 +246,7 @@ public void onPause() {
 
 这是从 Java 代码转换为 Kotlin 代码时的报错信息，需要在 `build.gradle (Module: app)` 中添加以下代码，操作会将 Java 和 Kotlin 目标版本都设置为 1.8，保证了它们之间的兼容性
 
-```
+```groovy
 compileOptions {
     sourceCompatibility JavaVersion.VERSION_1_8
     targetCompatibility JavaVersion.VERSION_1_8
@@ -260,13 +260,13 @@ kotlinOptions {
 
   为单个文件生成其对应 MD5 文件，以下示例为 `words.dic` 文件生成其 MD5 文件
 
-  ```
+  ```shell
   (Get-FileHash words.dic -Algorithm MD5).Hash | Out-File -Encoding ASCII words.dic.md5
   ```
 
   文件夹内所有文件生成 MD5 文件，文件名为原始文件名 + '.md5'，Windows 实现代码：
 
-  ```
+  ```shell
   cd 文件夹路径
   Get-ChildItem -Path .\* -File | ForEach-Object {
       $filename = $_.Name

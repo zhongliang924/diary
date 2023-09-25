@@ -30,11 +30,13 @@ priority_queue_policy 是一个容器，可以放多个 priority，其中 key: 1
 
 通过 Client API 向 Server 端发起请求，给 Request 设置 Priority
 
-```
+```python
 client.async_infer(
 	priority=priority,
 	timeout=timeout, # Request 在队列存留的最大时长
 	client_timeout=client_timeout # 最大的端到端时长
 )
 ```
+
+
 

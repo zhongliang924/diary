@@ -15,4 +15,4 @@ Wenet
    03Wenet/4-WeNet模型结构
    03Wenet/5-WeNet实验小结
    03Wenet/6-WeNet部署
-
+   03Wenet/7-WeNet语音识别

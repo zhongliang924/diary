@@ -30,7 +30,7 @@ vim /etc/docker/daemon.json
 
 ```
 {
-    "data-root": "/ssd1/docker"
+	"data-root": "/ssd1/docker"
 }
 ```
 

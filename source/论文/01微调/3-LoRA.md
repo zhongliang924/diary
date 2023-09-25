@@ -1,6 +1,8 @@
 # LoRA
 
-论文链接：[https://arxiv.org/pdf/2106.09685.pdf](https://arxiv.org/pdf/2106.09685.pdf)
+英文名：LoRA: Low-Rank Adaptation of Large Language Models
+
+论文链接：https://arxiv.org/abs/2106.09685
 
 源代码： https://github.com/microsoft/LoRA
 

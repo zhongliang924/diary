@@ -32,7 +32,7 @@
 
 UI 设计相关代码如下： 
 
-```
+```kotlin
 class MainActivity : ComponentActivity {
 	...
 	private var audioRecord: AudioRecord? = null
@@ -55,7 +55,7 @@ class MainActivity : ComponentActivity {
 
 定义 `onCreate` 函数，该函数在创建 Activity 时被调用：
 
-```
+```kotlin
 override fun onCreate(savedInstanceState: Bundle?) {
 	super.onCreate(savedInstanceState)	// 调用父类的 onCreate 方法执行一些必要的初始化工作
 	verifyPermissions(this)
@@ -69,7 +69,7 @@ override fun onCreate(savedInstanceState: Bundle?) {
 
 首先对授权函数进行定义，该函数向用户请求录音权限和音频播放的权限
 
-```
+```kotlin
 private fun verifyPermissions(activity: Activity?) {
 	val GET_RECODE_AUDIO = 1
 	val PERMISSION_ALL = arrayOf(
@@ -89,7 +89,7 @@ private fun verifyPermissions(activity: Activity?) {
 
 权限还需要在 `AndroidMainifest.xml` 文件中进行指定，同时需要获取互联网权限以便后续和服务端进行连接
 
-```
+```xml
 <manifest
 	...
 	<!--获取手机录音机使用麦克风的权限 -->
@@ -105,7 +105,7 @@ private fun verifyPermissions(activity: Activity?) {
 
 在初始化函数中主要对安卓的页面布局进行定义，同时定义按钮按下时的操作，对页面布局的定义在 UI 设计中进行了说明，以下主要说明按钮按下时的操作：
 
-```
+```kotlin
 private fun init() {
 	// 开始录音事件触发
 	btnRecord.setOnClickListener {
@@ -129,19 +129,19 @@ private fun init() {
 
 - 播放提示音，提示麦克风打开，录音开始：
 
-  ```
+  ```kotlin
   startPlayer.start()
   ```
 
 - 添加一个 1.5s 的延时，等待提示音播完，如果不加这段代码，则提示音会被录进音频流文件中
 
-  ```
+  ```kotlin
   Thread.sleep(1500)
   ```
 
 - 开始录音，这部分是核心，开启一个线程启动麦克风录制音频流，实现安卓录音，并把录制的音频流通过 WebSocket 协议发送给服务端：
 
-  ```
+  ```kotlin
   private fun startRecord() {
       Log.d(TAG, "StartRecording:")
   
@@ -180,7 +180,7 @@ private fun init() {
 
 - 通过 Websocket 连接服务端
 
-  ```
+  ```kotlin
   private fun connectWebSocket() {
   	val request = Request.Builder().url(WS_URL).build()
   	webSocket = OkHttpClient().newWebSocket(request, object : WebSocketListener() {
@@ -218,7 +218,7 @@ private fun init() {
 
 - 停止录音：这是停止按钮的核心，该方法实现了停止录音并释放了相关资源，首先需要等待读取音频数据的线程完成执行，确保所有数据已经写入完毕，并且被服务端接收，然后停止录音操作，释放 `AudioRecord` 对象所需的内存空间以及底层音频硬件资源
 
-  ```
+  ```kotlin
   private fun stopRecord() {
   	// 等待读取线程完成执行，确保所有数据都已被写入并读取完毕
   	try {
@@ -236,7 +236,7 @@ private fun init() {
 
 - 停止 WebSocket 连接：调用 `webSocket?.cancel()` 停止客户端与服务端的连接
 
-  ```
+  ```kotlin
   private fun disconnectWebSocket() {
   	webSocket?.cancel()
   }
@@ -246,7 +246,7 @@ private fun init() {
 
 - 取消 WebSocket 连接：待连接停止后，播放停止录音的提示音，提示音需要在音频资源被释放后调用，防止这段提示音被录制到音频文件中：
 
-  ```
+  ```kotlin
   stopPlayer.start()
   ```
 
@@ -254,7 +254,7 @@ private fun init() {
 
 服务端代码由 Node.js 编写，需要使用的包在 `packages.json` 体现，在我们的示例中需要用到 `wav`、`webSocket`、`ws` 三个包，它们可以使用 `npm install <包名>` 进行安装。
 
-```
+```json
 {
     "name": "nodejs-console-app1",
     "version": "0.0.0",
@@ -277,7 +277,7 @@ private fun init() {
 
 接下来展示服务端的 JavaScript 代码，该代码实现了 WebSocket 协议来处理音频数据的传输
 
-```
+```js
 const { connect } = require("http2");
 const path = require("path");
 const WebSocket = require("websocket").server;

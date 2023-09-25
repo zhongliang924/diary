@@ -9,9 +9,10 @@ Kubernetes
 .. toctree::
    :maxdepth: 1
 
-   02Kubernetes/01Kubernetes安装
-   02Kubernetes/02Kubernetes部署NVIDIA Triton
-   02Kubernetes/03Kubernetes创建集群
-   02Kubernetes/04数据可视化
+   02Kubernetes/01K8s基础
+   02Kubernetes/02K8s安装
+   02Kubernetes/03K8s部署Triton
+   02Kubernetes/04K8s创建集群
    02Kubernetes/05Centos部署指南
-   02Kubernetes/06Kubernetes运维
+   02Kubernetes/06数据可视化
+   02Kubernetes/07K8s运维

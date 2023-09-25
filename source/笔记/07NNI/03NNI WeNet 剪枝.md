@@ -18,7 +18,7 @@
 
 代码的开头添加：
 
-```
+```python
 import torch.multiprocessing
 torch.multiprocessing.set_sharing_strategy('file_system')
 ```

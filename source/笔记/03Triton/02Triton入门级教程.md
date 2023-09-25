@@ -6,7 +6,7 @@ Triton Inference Server整体架构：
 
 ## 1、准备模型仓库
 
-​	具体到某一个推理的模型目录，模型仓库具有三级结构：
+具体到某一个推理的模型目录，模型仓库具有三级结构：
 
 - 版本目录 -> 模型文件
 - config文件
@@ -31,11 +31,11 @@ Triton Inference Server整体架构：
 
 ### 1.2 配置文件
 
-​	定义模型和服务器的配置参数
+定义模型和服务器的配置参数
 
 ### 1.3 标签文件
 
-​	对于分类模型，label file 自动产生类别名的预测概率，方便我们读取分类模型的输出
+对于分类模型，label file 自动产生类别名的预测概率，方便我们读取分类模型的输出
 
 ## 2、配置一个服务模型
 
@@ -53,7 +53,7 @@ Triton Inference Server整体架构：
 
 绿色的二者选其一，红色是必须指定。
 
-​	max_batch_size & input & output：（-1代表可变长度），max_batch_size=0表示模型的dims必须是真实的dims。
+max_batch_size & input & output：（-1代表可变长度），max_batch_size=0表示模型的dims必须是真实的dims。
 
 ![](../../figs.assets/image-20230107154618573.png)
 
@@ -133,7 +133,7 @@ tritonserver --help：查看tritonserver所有的options
 
 子模块需要准备好，放在model_repository里面，创建ensemble model，在语音识别模型中对应着attention_rescoring
 
-```
+```yaml
 name: "attention_rescoring"
 platform: "ensemble"
 max_batch_size: 64 #MAX_BATCH
@@ -170,7 +170,7 @@ value：input_tensor和output_tensor在ensemble模型里面定义的名字，用
 
 **Feature extractor模块**
 
-```
+```yaml
 ensemble_scheduling {
 step [
 {
@@ -197,7 +197,7 @@ output_map {
 
 **Encoder模块**
 
-```
+```yaml
 {
     model_name: "encoder"
     model_version: -1
@@ -230,7 +230,7 @@ output_map {
 
 **scoring模块**
 
-```
+```yaml
 {
     model_name: "scoring"
     model_version: -1

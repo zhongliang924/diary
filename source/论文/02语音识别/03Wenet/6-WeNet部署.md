@@ -1,4 +1,4 @@
-# 6-WeNet部署
+# WeNet 部署
 
 本文介绍使用Triton Infernecr Server部署WeNet提供语音识别服务的方法
 

@@ -9,7 +9,7 @@ NNI 是一个强大的自动化工作，可以帮助用户自动化部署神经�
 
 安装非常简单：
 
-```
+```shell
 pip install nni
 ```
 
@@ -80,7 +80,7 @@ class Net(nn.Module):
 
 使用 config_list 定义需要剪枝的参数：
 
-```
+```yaml
 config_list = [{
     'sparsity_per_layer': 0.5,
     'op_types': ['Linear', 'Conv2d']
@@ -95,7 +95,7 @@ config_list = [{
 剪枝器的模型结构为：
 
 ```
- Net(
+Net(
   (conv1): PrunerModuleWrapper(
     (module): Conv2d(1, 20, kernel_size=(5, 5), stride=(1, 1))
   )
@@ -116,7 +116,7 @@ config_list = [{
 加速后的模型结构：
 
 ```
- Net(
+Net(
   (conv1): Conv2d(1, 10, kernel_size=(5, 5), stride=(1, 1))
   (conv2): Conv2d(10, 25, kernel_size=(5, 5), stride=(1, 1))
   (fc1): Linear(in_features=400, out_features=250, bias=True)
@@ -157,14 +157,14 @@ config_list = [{
 
 下载 bert-base-uncased，目录位于`./bert-base-uncased`：
 
-```
+```shell
 git lfs install
 git clone https://huggingface.co/bert-base-uncased
 ```
 
 下载 GLUE 数据集，任务名称为 MNLI，目录位于 `/data`
 
-```
+```shell
 git clone https://huggingface.co/datasets/glue
 ```
 
@@ -201,13 +201,13 @@ git clone https://huggingface.co/datasets/glue
 
 加载已有的微调模型：
 
-```
+```python
 finetuned_model.load_state_dict(torch.load(finetuned_model_state_path, map_location='cpu'))
 ```
 
 设置 Movement 剪枝器，对注意力层进行剪枝，剪枝配置器：
 
-```
+```yaml
 config_list = [{
 	'op_types': ['Linear'],
 	'op_partial_names': ['bert.encoder.layer.{}.attention'.format(i) for i in range(layers_num)],
@@ -219,7 +219,7 @@ config_list = [{
 
 如果头部是完全掩蔽的，则进行物理修剪，并为 FFN 创建 config_list
 
-```
+```yaml
 ffn_config_list.append({
 	'op_names': [f'bert.encoder.layer{len(layer_remained_idxs)}.intermediate.dense'],
 	'sparsity': sparsity_per_iter

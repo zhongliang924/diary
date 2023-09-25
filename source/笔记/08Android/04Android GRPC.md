@@ -20,7 +20,7 @@ gRPC 客户端和服务器可以在各种环境中运行并相互通信。例如
 
 gRPC 基于定义服务的思想，指定可以远程调用的方法，默认情况下，gRPC 使用 protocol buffers 作为接口定义语言，来描述服务接口和有效负载消息结构，如果需要可以使用其它替代方案
 
-```
+```protobuf
 service HelloService {
   rpc SayHello (HelloRequest) returns (HelloResponse);
 }
@@ -225,7 +225,7 @@ gRPC 如何处理关闭通道取决于语言，某些语言允许查询通道状
 
 本节中，将通过添加一个额外的服务器方法来更新应用程序。gRPC 服务使用协议缓冲区定义，要了解如何在 .proto 中定义服务，参照 `Basics tutorial`。目前，只需要知道服务器和客户端 stub 都有一个 `SayHello()` 的 RPC 方法，该方法从客户端获取 `HelloRequest` 参数并从服务器返回 `HelloReply`，该方法定义如下，目录位于 `src/main/proto/helloworld.proto`：
 
-```
+```protobuf
 // The greeting service definition.
 service Greeter {
   // Sends a greeting
@@ -247,7 +247,7 @@ message HelloReply {
 
 在目录`src/main/proto/helloworld.proto`下添加一个新的方法`SayHelloAgain()`，该方法同`SayHello()`一样，具有相同的请求和响应类型：
 
-```
+```protobuf
 // The greeting service definition.
 service Greeter {
   // Sends a greeting
@@ -277,57 +277,58 @@ message HelloReply {
 
 在服务端实现以下方法，文件位于`src/main/java/io/grpc/examples/helloworld/HelloWorldServer.java`：
 
-```
-  static class GreeterImpl extends GreeterGrpc.GreeterImplBase {
+```java
+static class GreeterImpl extends GreeterGrpc.GreeterImplBase {
 
     @Override
     public void sayHello(HelloRequest req, StreamObserver<HelloReply> responseObserver) {
-      HelloReply reply = HelloReply.newBuilder().setMessage("Hello " + req.getName()).build();
-      responseObserver.onNext(reply);
-      responseObserver.onCompleted();
+    HelloReply reply = HelloReply.newBuilder().setMessage("Hello " + req.getName()).build();
+    responseObserver.onNext(reply);
+    responseObserver.onCompleted();
     }
-    
+
     @Override
     public void sayHelloAgain(HelloRequest req, StreamObserver<HelloReply> responseObserver){
-      HelloReply reply = HelloReply.newBuilder().setMessage("Hello, again" + req.getName()).build();
-      responseObserver.onNext(reply);
-      responseObserver.onCompleted();
+    HelloReply reply = HelloReply.newBuilder().setMessage("Hello, again" + req.getName()).build();
+    responseObserver.onNext(reply);
+    responseObserver.onCompleted();
     }
-  }
+}
 ```
 
 在客户端实现以下方法，文件位于`src/main/java/io/grpc/examples/helloworld/HelloWorldClinet.java`，调用新的方法：
 
-```
-  public void greet(String name) {
+```java
+public void greet(String name) {
     logger.info("Will try to greet " + name + " ...");
     HelloRequest request = HelloRequest.newBuilder().setName(name).build();
     HelloReply response;
     try {
-      response = blockingStub.sayHello(request);
+        response = blockingStub.sayHello(request);
     } catch (StatusRuntimeException e) {
-      logger.log(Level.WARNING, "RPC failed: {0}", e.getStatus());
-      return;
+        logger.log(Level.WARNING, "RPC failed: {0}", e.getStatus());
+        return;
     }
     logger.info("Greeting: " + response.getMessage());
     try {
-      response = blockingStub.sayHelloAgain(request);
+        response = blockingStub.sayHelloAgain(request);
     } catch (StatusRuntimeException e) {
-      logger.log(Level.WARNING, "RPC failed: {}", e.getStatus());
-      return;
+        logger.log(Level.WARNING, "RPC failed: {}", e.getStatus());
+        return;
     }
-    logger.info("Greeting: " + response.getMessage());
+	logger.info("Greeting: " + response.getMessage());
+}
 ```
 
 两个文件更改完了后重新编译：
 
-```
+```shell
 ./gradlew installDist
 ```
 
 开启服务端：
 
-```
+```shell
 ./build/install/examples/bin/hello-world-server
 ```
 
@@ -339,14 +340,14 @@ message HelloReply {
 
 2. 找到方法调用 `sayHello()`，在 90-91 行将看到下面代码：
 
-   ```
+   ```java
    HelloReply reply = stub.sayHello(request);
    return reply.getMessage();
    ```
 
 3. 在 `return`中添加调用`sayHelloAgain()`：
 
-   ```
+   ```java
    HelloReply reply = stub.sayHello(request);
    HelloReply reply1 = stub.sayHelloAgain(request);
    return reply.getMessage() + '\n' + reply1.getMessage();
@@ -354,7 +355,7 @@ message HelloReply {
 
 构建客户端并添加到设备上：
 
-```
+```shell
 ../../gradlew installDebug
 ```
 
@@ -380,13 +381,13 @@ Android Java 中 gRPC 的基础教程介绍
 
 我们的示例是一个简单的路线映射应用，客户端获取其路线特性的信息，创建路线摘要，并与服务器和其它客户端交换路线信息，如流量更新
 
-在 gRPC 下，我们可以在 .proto 文件中定义我们的服务，并用 gRPC 支持的语言生成客户端和服务器，可以在大型数据中心和个人电脑的各种环境中运行，不同语言和环境之间的通信由 gRPC 处理。拥有协议缓冲的所有优点，包括高效的序列化、简单的 IDL 和易于更新的接口。
+在 gRPC 下，我们可以在 `.proto` 文件中定义我们的服务，并用 gRPC 支持的语言生成客户端和服务器，可以在大型数据中心和个人电脑的各种环境中运行，不同语言和环境之间的通信由 gRPC 处理。拥有协议缓冲的所有优点，包括高效的序列化、简单的 IDL 和易于更新的接口。
 
 ### 代码和设置
 
 我们的教程示例代码在 grpc-java 的 `examples/android` 环境中，克隆仓库以下载代码（之前下载过了就不用下载了）：
 
-```
+```shell
 git clone -b v1.56.0 https://github.com/grpc/grpc-java.git
 ```
 
@@ -398,7 +399,7 @@ git clone -b v1.56.0 https://github.com/grpc/grpc-java.git
 
 在本例中生成 Java 代码时，我们在 `.proto` 中指定了一个 `java_package` 选项：
 
-```
+```protobuf
 option java_package = "io.grpc.routeguideexample";
 ```
 
@@ -406,7 +407,7 @@ option java_package = "io.grpc.routeguideexample";
 
 要定义服务，我们在 `.proto` 文件中命名一个 `service`：
 
-```
+```protobuf
 service RouteGuide {
 	...
 }
@@ -414,43 +415,43 @@ service RouteGuide {
 
 然后，我们在服务定义中定义 `rpc` 方法，指定他们的请求和响应类型。gRPC 允许您定义四种服务方法，所有这些方法都在 `RouteGuide` 服务中使用：
 
-- `simple RPC`：客户端使用 stub 向服务器发送请求，并等待响应返回，就像普通的函数调用一样：
+- **simple RPC**：客户端使用 stub 向服务器发送请求，并等待响应返回，就像普通的函数调用一样：
 
-  ```
+  ```protobuf
   // 获得给定位置的特征
   rpc GetFeature(Point) returns (Feature) {}
   ```
 
   
 
-- `server-side streaming RPC`：客户端向服务器发送一个请求，并获得一个流来读取一系列的消息。客户端从返回的流中提取，直到不再有消息为止。正如我们示例中看到的，可以通过将 `stream` 关键字放在 `response` 之前来指定服务器端流方法
+- **server-side streaming RPC**：客户端向服务器发送一个请求，并获得一个流来读取一系列的消息。客户端从返回的流中提取，直到不再有消息为止。正如我们示例中看到的，可以通过将 `stream` 关键字放在 `response` 之前来指定服务器端流方法
 
-  ```
+  ```protobuf
   // 获得给定矩形内可用功能，结果是流式传输的，而不是一次返回的
   rpc ListFeatures(Rectangle) returns (stream Feature) {}
   ```
 
   
 
-- `client-side streaming RPC`：客户端使用提供的流，写一系列消息并发送到服务器。一旦客户端完成了消息的编写，它会等待服务器读取所有消息并返回响应。可以通过将 `stream` 关键字放在 `request` 类型之前来指定客户端流方法
+- **client-side streaming RPC**：客户端使用提供的流，写一系列消息并发送到服务器。一旦客户端完成了消息的编写，它会等待服务器读取所有消息并返回响应。可以通过将 `stream` 关键字放在 `request` 类型之前来指定客户端流方法
 
-  ```
+  ```protobuf
   // 接受正在穿越路线上的 Points 流，穿越完成后返回一个 RouteSummary
   rpc RecordRoute(stream Point) returns (RouteSummary) {}
   ```
 
   
 
-- `bidirectional streaming RPC`：双方使用读写流发送消息序列。这两个流独立运行，因此客户端和服务器可以按照他们喜好的任何顺序进行读写。例如，服务器可以等待接收客户端消息后再写入响应，或者可以交替读取消息然后写入消息，或者其它读写组合，每个流中消息的顺序会保留下来。可以在请求和响应之前使用 `stream` 关键字指定这种类型方法
+- **bidirectional streaming RPC**：双方使用读写流发送消息序列。这两个流独立运行，因此客户端和服务器可以按照他们喜好的任何顺序进行读写。例如，服务器可以等待接收客户端消息后再写入响应，或者可以交替读取消息然后写入消息，或者其它读写组合，每个流中消息的顺序会保留下来。可以在请求和响应之前使用 `stream` 关键字指定这种类型方法
 
-  ```
+  ```protobuf
   // 当路线经过时接收 RouteNotes 流，同时接收其它的 RouteNotes
   rpc RouteChat(stream RouteNote) returns (stream RouteNote) {}
   ```
 
 我们的 `.proto` 文件中还包含我们的服务方法中使用的所有请求和响应类型的协议缓冲消息类型定义。例如，以下时 `Point` 消息类型：
 
-```
+```protobuf
 message Point {
   int32 latitude = 1;
   int32 longitude = 2;
@@ -470,13 +471,13 @@ message Point {
 
 首先，我们需要为 stub 创建一个 gRPC 通道，指定要连接的服务器地址和端口：使用 `ManagedChannelBuilder` 创建通道：
 
-```
+```protobuf
 channel = ManagedChannelBuilder.forAddress(host, port).usePlaintext().build();
 ```
 
 现在，可以使用我们从 `.proto` 生成的 `RouteGuideGrpc` 类中提供的 `newStub` 和 `newBlockingStub` 方法，使用通道创建 stubs。 
 
-```
+```protobuf
 grpcRunnable.run(RouteGuideGrpc.newBlockingStub(channel), RouteGuideGrpc.newStub(channel));
 ```
 
@@ -488,7 +489,7 @@ grpcRunnable.run(RouteGuideGrpc.newBlockingStub(channel), RouteGuideGrpc.newStub
 
 在阻塞 stub 上调用简单的 RPC `GetFeature`：
 
-```
+```protobuf
 Point request = Point.newBuilder().setLatitude(lat).setLongitude(lon).build();
 Feature feature;
 feature = blockingStub.getFeature(request);
@@ -500,7 +501,7 @@ feature = blockingStub.getFeature(request);
 
 服务器流式调用 `ListFeatures`，它返回一个地理特征流：
 
-```
+```protobuf
 Rectangle request =
 	Rectangle.newBuilder()
 		.setLo(Point.newBuilder().setLatitude(lowLat).setLongitude(lowLon).build())
