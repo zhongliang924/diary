@@ -24,7 +24,6 @@ source_suffix = {
 myst_enable_extensions = [
     "dollarmath",
     "deflist",
-    "dollarmath",
     "fieldlist",
     "linkify",
     "html_image",

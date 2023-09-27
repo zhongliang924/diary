@@ -4,7 +4,7 @@
 
 容器移动主机：10.24.83.22
 
-## 1、镜像生成
+## 镜像生成
 
 对于我们创建的名为"nvidia_cuda"的容器，首先关闭容器
 
@@ -24,7 +24,7 @@ docker commit -m "nvidia_cuda" nvidia_cuda my_container:1.0
 
 ![](../../figs.assets/image-20230525110240432.png)
 
-## 2、离线迁移
+## 离线迁移
 
 镜像文件经常有在服务器之间传输的需求，为此Docker提供了镜像打包和镜像加载的命令，Docker的save命令可将镜像打包成tar文件，使用示例
 
@@ -99,7 +99,7 @@ docker start my_container
 docker update --restart=always my_container
 ```
 
-## 3、Docker Hub
+## Docker Hub
 
 ​	我们可以将自己制作的docker镜像发布至DockerHub公共仓库，除了通过tar包实现镜像备份恢复，还可以将镜像推送至DockerHub仓库方便使用。
 
@@ -139,13 +139,13 @@ docker logout
 
 后续容器的构建可以参考第二节离线迁移后半部分的内容。
 
-## 4、私有镜像仓库
+## 私有镜像仓库
 
 项目链接：https://github.com/Joxit/docker-registry-ui
 
-​	使用DockerCompose部署带有图形界面的DockerRegistry，首先编写credentials.yml
+使用DockerCompose部署带有图形界面的DockerRegistry，首先编写credentials.yml
 
-```
+```shell
 mkdir registry-ui
 cd registry-ui
 vim credentials.yml
