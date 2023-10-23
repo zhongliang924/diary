@@ -1,6 +1,6 @@
 # Triton 队列
 
-## 一、Triton Priority
+## Triton Priority
 
 如果检测到 Modle Instance 处于空闲状态，Schduler 会将请求调度到对应的 Model Instance 上进行推理，推理结果返回给 Client 端。Triton 提供两种优先级机制：
 

@@ -11,8 +11,6 @@ python相关
 
    02python相关/01可变对象和不可变对象
    02python相关/02常用数据类型
-   02python相关/03Python中is和==的区别
-   02python相关/04常见面试题整体-Python概念篇
-   02python相关/05Python面试题
-   02python相关/06flask面试常见问题总结
-   02python相关/07Restful理解
+   02python相关/03Python面试题
+   02python相关/04flask面试常见问题总结
+   02python相关/05Restful理解

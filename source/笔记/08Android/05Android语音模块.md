@@ -89,7 +89,7 @@ private fun verifyPermissions(activity: Activity?) {
 
 权限还需要在 `AndroidMainifest.xml` 文件中进行指定，同时需要获取互联网权限以便后续和服务端进行连接
 
-```xml
+```
 <manifest
 	...
 	<!--获取手机录音机使用麦克风的权限 -->

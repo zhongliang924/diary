@@ -666,28 +666,6 @@ def __init__(self, channels, kernel_size, activation, norm, causal, bias):
     self.norm = nn.LayerNorm(channels)
     self.pointwise_conv2 = nn.Conv1d(channels, channels, kernel_size=1, stride=1, padding=0, bias=bias)
     self.activation = activation
-    
-    
-def forward(self, x, mask_pad, cache)：
-	x = x.transpose(1, 2)
-    if mask_pad.size(2) > 0:  # time > 0
-        x.masked_fill_(~mask_pad, 0.0)
-    new_cache = torch.zeros((0, 0, 0), dtype=x.dtype, device=x.device)
-    # GLU 机制（逐点卷积）
-    x = self.pointwise_conv1(x)
-    x = nn.functional.glu(x, dim=1)
-    # 1D 深度卷积
-    x = self.depthwise_conv(x)
-    # LayerNorm
-    x = x.transpose(1, 2)
-    x = self.activation(self.norm(x))
-    x = x.transpose(1, 2)
-    # 第二次逐点卷积
-    x = self.pointwise_conv2(x)
-    
-    if mask_pad.size(2) > 0:  # time > 0
-        x.masked_fill_(~mask_pad, 0.0)
-    return x.transpose(1, 2), new_cache
 ```
 
 ### 5.6 CMVN

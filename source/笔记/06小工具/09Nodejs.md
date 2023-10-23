@@ -154,7 +154,7 @@ connection.sendUTF(JSON.stringify(message2))
 
 在客户端应用程序中，可以使用 `JSON.parse()` 方法将接收到的字符串转换回对象，并根据需要访问每个字段。例如：
 
-```kotlin
+```
 override fun onMessage(websocket: WebSocket?, message: String?) {
 	Log.d(TAG, "Received message: $message")
 	

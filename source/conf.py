@@ -32,7 +32,6 @@ myst_enable_extensions = [
     "tasklist",
 ]
 
-# extensions = ['recommonmark', 'sphinx_markdown_tables', 'sphinx_copybutton', 'sphinx.ext.mathjax']
 templates_path = ['_templates']
 exclude_patterns = []
 
@@ -42,7 +41,7 @@ language = 'zh_CN'
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
 
 # html_theme = ''
-html_theme = "sphinx_wagtail_theme"
+html_theme = "furo"
 # html_logo = "logo.png"
 html_static_path = ['_static']
 

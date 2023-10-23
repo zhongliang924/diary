@@ -80,14 +80,17 @@ class Net(nn.Module):
 
 使用 config_list 定义需要剪枝的参数：
 
-```yaml
-config_list = [{
+```
+config_list = [
+{
     'sparsity_per_layer': 0.5,
     'op_types': ['Linear', 'Conv2d']
-    }, {
+}, 
+{
     'exclude': True,
     "op_names": ['fc2']
-}]
+}
+]
 ```
 
 该设置表明修剪类型为 Linear 或 Conv2d 的所有层，除了 fc2，该层与模型输出有关，fc2 设置为 exclude，稀释率为 50%。
@@ -207,7 +210,7 @@ finetuned_model.load_state_dict(torch.load(finetuned_model_state_path, map_locat
 
 设置 Movement 剪枝器，对注意力层进行剪枝，剪枝配置器：
 
-```yaml
+```
 config_list = [{
 	'op_types': ['Linear'],
 	'op_partial_names': ['bert.encoder.layer.{}.attention'.format(i) for i in range(layers_num)],
@@ -219,7 +222,7 @@ config_list = [{
 
 如果头部是完全掩蔽的，则进行物理修剪，并为 FFN 创建 config_list
 
-```yaml
+```
 ffn_config_list.append({
 	'op_names': [f'bert.encoder.layer{len(layer_remained_idxs)}.intermediate.dense'],
 	'sparsity': sparsity_per_iter

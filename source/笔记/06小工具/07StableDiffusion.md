@@ -14,7 +14,7 @@
 
 克隆 stable-diffusion-webui 仓库
 
-```g
+```
 git clone https://github.com/AUTOMATIC1111/stable-diffusion-webui.git
 ```
 
