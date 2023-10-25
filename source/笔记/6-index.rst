@@ -19,3 +19,4 @@
    06小工具/8-index
    06小工具/09Nodejs
    06小工具/10chatgpt-web
+   06小工具/11Typora配置图床
