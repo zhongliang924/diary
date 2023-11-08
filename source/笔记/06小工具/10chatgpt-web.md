@@ -32,7 +32,11 @@
 
 5. 把项目发布到公共网络时，你应该设置 `AUTH_SECRET_KEY` 变量添加你的密码访问权限，你也应该修改 `index.html` 中的 `title`，防止被关键词搜索到。
 
-## 安装依赖
+## 单机部署
+
+**！！！如果需要容器化部署在自己的电脑上，可以跳过这一段。**
+
+
 
 Node 的 安装可以参考我之前写的文档：[Node.js 安装](https://notebook-lzl.readthedocs.io/zh/latest/%E7%AC%94%E8%AE%B0/06%E5%B0%8F%E5%B7%A5%E5%85%B7/09Nodejs.html#id2)
 
@@ -74,7 +78,7 @@ pnpm bootstrap
 
 完成初始化工作
 
-## 测试环境运行
+### 测试环境运行
 
 对于**后端服务**，进入文件夹 `/service` 运行以下命令：
 
@@ -90,24 +94,36 @@ pnpm dev
 
 ## Docker 容器化部署
 
-因为我之前的操作都是在 Ubuntu18.04 容器内进行的，首先使用 `docker commit` 将容器打包成基础镜像 `chatgpt-web:08.05`，然后编写 Dockerfile 文件：
+**！！！如果想要部署在自己的电脑上，直接看这里就行**
 
-```
-FROM chatgpt-web:08.05
+
+
+因为我之前的操作都是在 Ubuntu18.04 容器内进行的，首先使用 `docker commit` 将容器打包成基础镜像 `chatgpt-web:08.13`
+
+**基础镜像文件如果需要可以找我要**，总共需要准备两个文件：Dockerfile 和 chat.sh
+
+![](../../figs.assets/image-20231107204344969.png)
+
+首先编写 Dockerfile 文件，其中 `OPENAI_ACCESS_TOKEN` 需要替换为自己的 token（自己的 token 如何查在上面有）。
+
+```dockerfile
+FROM chatgpt-web:08.13
 
 WORKDIR /workspace/chatgpt-web
 
-COPY ./chat.sh ./
+ENV OPENAI_ACCESS_TOKEN="eyJhbGciOiJSUzI1NiI......" 
 
 EXPOSE 1002
 EXPOSE 3002
 
-CMD sh chat.sh
+RUN sed -i "s/\(OPENAI_ACCESS_TOKEN=\)/\1\`$OPENAI_ACCESS_TOKEN\`/" /workspace/chatgpt-web/service/.env 
+RUN chmod +x chat.sh
+CMD ["bash", "chat.sh"]
 ```
 
-上面的命令需要将本地的批处理文件复制到容器内并执行，我们需要在容器内执行两个服务，一个前端服务和一个后端服务，使用脚本文件进行批量执行，`chat.sh` 的内容为：
+其次编写 chat.sh 文件，上面的命令需要将本地的批处理文件复制到容器内并执行，我们需要在容器内执行两个服务，一个前端服务和一个后端服务，使用脚本文件进行批量执行，`chat.sh` 的内容为：
 
-```
+```shell
 #!/bin/bash
 
 pnpm dev &
@@ -118,7 +134,7 @@ pnpm start &
 
 其中 `&` 表示程序在后台运行以便顺利执行下一个程序。
 
-使用 `docker build` 命令构建镜像，在 `Dockerfile` 目录下执行
+在**这两个文件目录下**，使用 `docker build` 命令构建镜像，在 `Dockerfile` 目录下执行
 
 ```
 docker build -t chatgpt-web:v1 .
@@ -138,3 +154,8 @@ docker run -d --restart=always --name chat-web -p 1002:1002 -p 3002:3002 chatgpt
 
 ![](../../figs.assets/image-20230805184140828.png)
 
+> 根据经验，OPENAI_ACCESS_TOKEN 过一段时间会过期，这时候直接再登陆 chatgpt 官网找到新的 OPENAI_ACCESS_TOKEN，把原来的容器删除掉，把镜像 chatgpt-web:v1 删除掉，重新使用
+>
+> `docker build -t chatgpt-web:v1 .` 生成新的镜像即可，这时候对话消息不受影响。
+
+> 有的时候网络不稳定，没有响应结果，这是反向代理的问题，https://status.fakeopen.com/ 这个网站可以查看代理状态

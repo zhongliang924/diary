@@ -7,7 +7,7 @@ Docker 的安装方法可以参考：[02Docker安装](D:\GitHub\diary\source\笔
 接下来需要拉取 NVIDIA CUDA 镜像，在 [nvidia/container-images](https://gitlab.com/nvidia/container-images/cuda/-/blob/master/doc/supported-tags.md) 中查看 CUDA 镜像版本，通过
 
 ```shell
-docker pull 10.24.83.22:8080/nvidia/cuda:11.6.0-devel-ubuntu18.04
+docker pull nvidia/cuda:11.6.0-devel-ubuntu18.04
 ```
 
 拉取镜像。
@@ -26,10 +26,7 @@ docker pull 10.24.83.22:8080/nvidia/cuda:11.6.0-devel-ubuntu18.04
 # --name 字段指定容器名称，-v 字段指定容器挂载主机文件，-p 字段指定容器与主机的端口映射
 # 创建一个普通的运行时环境
 user=user
-docker run -it --gpus all --name ${user} -v /hdd0:/data -p 4000:22 nvidia/cuda:11.6.0-devel-ubuntu18.04 /bin/bash
-
-# 创建 wenet 运行时环境
-docker run --gpus all --name wenet_server -it -p 8000:8000 -p 8001:8001 -p 8002:8002 --shm-size=1g --ulimit memlock=-1  wenet_server:22.03 /bin/bash
+docker run -it --gpus all --name ${user} -v /hdd0:/data -p 4000:22 -p 4001:4001 --shm-size=1g nvidia/cuda:11.6.0-devel-ubuntu18.04 /bin/bash
 ```
 
 这将创建一个名为 `user` 的新容器，并将其映射到主机的端口 4000，映射机械硬盘  /hdd0 到 /data，需要记住映射的端口号，
@@ -41,7 +38,7 @@ docker run --gpus all --name wenet_server -it -p 8000:8000 -p 8001:8001 -p 8002:
 user=user
 chmod 777 /tmp && \
 apt-get update && apt-get upgrade -y && \
-apt-get install -y xauth ssh vim sudo && \
+apt-get install -y openssh-server vim sudo && \
 adduser ${user} --gecos '' --disabled-password && \
 echo "${user}:123456" | chpasswd && \
 usermod -aG sudo ${user}
