@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="a4b31d94-4d65-4c94-8969-f5bab3447ad5" name="xmdx-4090">
+        <fileTransfer rootFolder="/home/lzl" accessType="SFTP" host="10.26.62.200" port="2000" sshConfigId="e5a3a2c5-ab24-455d-b05e-aa9c88d2bc3a" sshConfig="lzl@10.26.62.200:2000 password">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" keepAliveTimeout="0" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>

@@ -129,7 +129,7 @@ CMD ["bash", "chat.sh"]
 pnpm dev &
 
 cd ./service
-pnpm start &
+pnpm start
 ```
 
 其中 `&` 表示程序在后台运行以便顺利执行下一个程序。
